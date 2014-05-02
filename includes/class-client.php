@@ -5,11 +5,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 include_once( dirname( __FILE__ ) . '/class-template.php' );
 
-function my_searchwp_live_search_posts_per_page() {
-	$per_page = absint( apply_filters( 'searchwp_live_search_posts_per_page', 10 ) );
-	return $per_page;
-}
-
 class SearchWP_Live_Search_Client extends SearchWP_Live_Search {
 
 	function setup() {
@@ -29,7 +24,7 @@ class SearchWP_Live_Search_Client extends SearchWP_Live_Search {
 			$searchwp = SearchWP::instance();
 
 			// set up custom posts per page
-			add_filter( 'searchwp_posts_per_page', 'my_searchwp_live_search_posts_per_page' );
+			add_filter( 'searchwp_posts_per_page', array( $this, 'get_posts_per_page' ) );
 
 			// prevent loading Post objects, we only want IDs
 			add_filter( 'searchwp_load_posts', '__return_false' );
@@ -48,7 +43,7 @@ class SearchWP_Live_Search_Client extends SearchWP_Live_Search {
 			// no SearchWP, let's just fall back to a native search
 			$show_results = true;
 			$args = array(
-				'posts_per_page' => absint( apply_filters( 'searchwp_live_search_posts_per_page', 10 ) ),
+				'posts_per_page' => $this->get_posts_per_page(),
 				's' => sanitize_text_field( $_REQUEST['swpquery'] )
 			);
 
@@ -63,6 +58,11 @@ class SearchWP_Live_Search_Client extends SearchWP_Live_Search {
 		}
 
 		die();
+	}
+
+	function get_posts_per_page() {
+		$per_page = absint( apply_filters( 'searchwp_live_search_posts_per_page', 10 ) );
+		return $per_page;
 	}
 
 }
