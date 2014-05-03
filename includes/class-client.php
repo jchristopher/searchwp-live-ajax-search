@@ -32,6 +32,11 @@ class SearchWP_Live_Search_Client extends SearchWP_Live_Search {
 			// grab our post IDs
 			$posts = $searchwp->search( sanitize_text_field( $_REQUEST['swpengine'] ), sanitize_text_field( $_REQUEST['swpquery'] ) );
 
+			// we may need to force zero results
+			if( empty( $posts ) ) {
+				$posts = array( 0 );
+			}
+
 			// set up an environment prepared for a template part
 			$args = array(
 				'post__in' => $posts,

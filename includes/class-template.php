@@ -5,14 +5,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 class SearchWP_Live_Search_Template extends SearchWP_Live_Search {
 
-//	function setup() {
-//		add_action( 'wp_enqueue_scripts', array( $this, 'wp_enqueue_scripts' ) );
-//	}
-//
-//	function wp_enqueue_scripts() {
-//		wp_enqueue_script( 'underscore' );
-//	}
-
 	function get_template_directory() {
 		return trailingslashit( $this->dir ) . 'templates';
 	}
