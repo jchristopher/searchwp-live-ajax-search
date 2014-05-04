@@ -51,7 +51,7 @@ class SearchWP_Live_Search_Form extends SearchWP_Live_Search {
 		add_filter( 'get_search_form', array( $this, 'get_search_form' ) );
 		add_action( 'wp_footer', array( $this, 'base_styles' ) );
 
-		$this->configs = apply_filters( 'searchwp_live_search_default_config', $this->configs );
+		$this->configs = apply_filters( 'searchwp_live_search_configs', $this->configs );
 	}
 
 	function assets() {
