@@ -1,4 +1,4 @@
-=== SearchWP Live Search ===
+=== SearchWP Live Ajax Search ===
 Contributors: jchristopher
 Tags: search, live, ajax
 Requires at least: 3.9
@@ -13,7 +13,7 @@ Enhance your search forms with live search, powered by SearchWP (if installed)
 
 **Does not require SearchWP** but will utilize it if available.
 
-SearchWP Live Search enables AJAX-powered live search for your search forms. Designed to be a developer's best friend, SearchWP Live Search aims to stay out of your way but at the same time allowing you to customize everything about it. The template based approach allows you to seamlessly customize your SearchWP Live Search implementation without messing with dozens of cluttered options.
+SearchWP Live Search enables AJAX powered live search for your search forms. Designed to be a developer's best friend, SearchWP Live Search aims to stay out of your way but at the same time allowing you to customize everything about it. The template based approach allows you to seamlessly customize your SearchWP Live Search implementation without messing with dozens of cluttered options.
 
 == Installation ==
 
@@ -29,7 +29,7 @@ Coming soon
 
 == Screenshots ==
 
-1. SearchWP Live Search Results
+1. SearchWP Live Ajax Search Results
 
 == Changelog ==
 

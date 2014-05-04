@@ -57,9 +57,11 @@ class SearchWP_Live_Search_Client extends SearchWP_Live_Search {
 		if( $show_results && isset( $args ) ) {
 			query_posts( $args );
 
+			$engine = isset( $_REQUEST['swpengine'] ) ? sanitize_text_field( $_REQUEST['swpengine'] ) : '';
+
 			// output the results using the results template
 			$results = new SearchWP_Live_Search_Template();
-			$results->get_template_part( 'search-results' );
+			$results->get_template_part( 'search-results', $engine );
 		}
 
 		die();

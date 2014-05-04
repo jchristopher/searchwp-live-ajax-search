@@ -15,7 +15,7 @@ class SearchWP_Live_Search_Template extends SearchWP_Live_Search {
 
 		$templates = array();
 
-		if ( ! isset( $name ) ) {
+		if ( isset( $name ) ) {
 			$templates[] = $slug . '-' . $name . '.php';
 		}
 		$templates[] = $slug . '.php';
