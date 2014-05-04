@@ -358,16 +358,16 @@
 		this.config = null;
 
 		// internal properties
-		this.input_el = element;		// the input element itself
-		this.results_id = null;			// the id attribute of the results wrapper for this search field
-		this.results_el = null;			// the results wrapper element itself
-		this.results_showing = false;	// whether the results are showing
-		this.form_el = null;			// the search form element itself
-		this.timer = false;				// powers the delay check
-		this.last_string = '';			// the last search string submitted
-		this.spinner = null;			// the spinner
-		this.spinner_showing = false;	// whether the spinner is showing
-		this.has_results = false;		// whether results are showing
+		this.input_el = element;        // the input element itself
+		this.results_id = null;         // the id attribute of the results wrapper for this search field
+		this.results_el = null;         // the results wrapper element itself
+		this.results_showing = false;   // whether the results are showing
+		this.form_el = null;            // the search form element itself
+		this.timer = false;             // powers the delay check
+		this.last_string = '';          // the last search string submitted
+		this.spinner = null;            // the spinner
+		this.spinner_showing = false;   // whether the spinner is showing
+		this.has_results = false;       // whether results are showing
 
 		// kick it off
 		this.init();
