@@ -26,6 +26,9 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 // exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+// Widget
+include_once( dirname( __FILE__ ) . '/includes/class-widget.php' );
+
 class SearchWP_Live_Search {
 
 	public $dir;
@@ -52,8 +55,6 @@ function searchwp_live_search_init() {
 
 		$form = new SearchWP_Live_Search_Form();
 		$form->setup();
-
-		// TODO: Widget class
 	}
 }
 

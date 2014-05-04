@@ -5,26 +5,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 class SearchWP_Live_Search_Form extends SearchWP_Live_Search {
 
-	function setup() {
-		add_action( 'wp_enqueue_scripts', array( $this, 'assets' ) );
-		add_filter( 'get_search_form', array( $this, 'get_search_form' ) );
-		add_action( 'wp_footer', array( $this, 'base_styles' ) );
-	}
-
-	function assets() {
-		// styles
-		wp_enqueue_style( 'searchwp-live-search', $this->url . '/assets/styles/style.css', null, $this->version );
-
-		// scripts
-		wp_enqueue_script( 'jquery' );
-		wp_register_script( 'swp-live-search-client', $this->url . '/assets/javascript/searchwp-live-search.min.js', array( 'jquery' ), $this->version, false );
-
-		// this is the default configuration, devs can add their own using the filter below
-		// by extending this array: the key is the name of the config, and the values should be
-		// duplicated and customized for each configuration set they wish to utilize
-		//
-		// to use: set the data-swpconfig attribute value of the input to the applicable array key
-		$default_config = array(
+	// this is the default configuration, devs can add their own using the filter below
+	// by extending this array: the key is the name of the config, and the values should be
+	// duplicated and customized for each configuration set they wish to utilize
+	//
+	// to use: set the data-swpconfig attribute value of the input to the applicable array key
+	public $configs = array(
 			'default' => array(                         // 'default' config
 				'engine' => 'default',                  // search engine to use (if SearchWP is available)
 				'input' => array(
@@ -60,10 +46,26 @@ class SearchWP_Live_Search_Form extends SearchWP_Live_Search {
 			),
 		);
 
+	function setup() {
+		add_action( 'wp_enqueue_scripts', array( $this, 'assets' ) );
+		add_filter( 'get_search_form', array( $this, 'get_search_form' ) );
+		add_action( 'wp_footer', array( $this, 'base_styles' ) );
+
+		$this->configs = apply_filters( 'searchwp_live_search_default_config', $this->configs );
+	}
+
+	function assets() {
+		// styles
+		wp_enqueue_style( 'searchwp-live-search', $this->url . '/assets/styles/style.css', null, $this->version );
+
+		// scripts
+		wp_enqueue_script( 'jquery' );
+		wp_register_script( 'swp-live-search-client', $this->url . '/assets/javascript/searchwp-live-search.min.js', array( 'jquery' ), $this->version, false );
+
 		// set up our parameters
 		$params = array(
 			'ajaxurl'               => admin_url( 'admin-ajax.php' ),
-			'config'                => apply_filters( 'searchwp_live_search_default_config', $default_config ),
+			'config'                => $this->configs,
 			'msg_no_config_found'   => __( 'No valid SearchWP Live Search configuration found!', 'searchwp' ),
 		);
 
