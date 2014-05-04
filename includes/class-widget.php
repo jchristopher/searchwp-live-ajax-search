@@ -1,9 +1,16 @@
 <?php
 
+/**
+ * Class SearchWP_Live_Search_Widget
+ *
+ * The SearchWP Live Ajax Search Widget
+ *
+ * @since 1.0
+ */
 class SearchWP_Live_Search_Widget extends WP_Widget {
 
 	/**
-	 * Register widget with WordPress.
+	 * Register the Widget with WordPrss
 	 */
 	function __construct() {
 		parent::__construct(

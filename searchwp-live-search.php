@@ -26,9 +26,16 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 // exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-// Widget
+// Widget support
 include_once( dirname( __FILE__ ) . '/includes/class-widget.php' );
 
+/**
+ * Class SearchWP_Live_Search
+ *
+ * The main SearchWP Live Ajax Search Class properly routes searches and all other requests/utilization
+ *
+ * @since 1.0
+ */
 class SearchWP_Live_Search {
 
 	public $dir;
@@ -42,17 +49,23 @@ class SearchWP_Live_Search {
 
 }
 
+/**
+ * Bootloader
+ *
+ * @since 1.0
+ */
 function searchwp_live_search_init() {
-	if ( defined( 'DOING_AJAX' ) ) {
-		// use as few resources as possible, short circuit as soon as possible
-		include_once( dirname( __FILE__ ) . '/includes/class-client.php' );
 
+	// if an AJAX request is taking place, it's potentially a search so we'll want to prepare for that
+	// else we'll prep the environment for the search form itself
+
+	if ( defined( 'DOING_AJAX' ) ) {
+		include_once( dirname( __FILE__ ) . '/includes/class-client.php' );
 		$client = new SearchWP_Live_Search_Client();
 		$client->setup();
 	}
 	else {
 		include_once( dirname( __FILE__ ) . '/includes/class-form.php' );
-
 		$form = new SearchWP_Live_Search_Form();
 		$form->setup();
 	}
