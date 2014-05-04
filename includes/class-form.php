@@ -19,52 +19,61 @@ class SearchWP_Live_Search_Form extends SearchWP_Live_Search {
 		wp_enqueue_script( 'jquery' );
 		wp_register_script( 'swp-live-search-client', $this->url . '/assets/javascript/searchwp-live-search.min.js', array( 'jquery' ), $this->version, false );
 
+		// this is the default configuration, devs can add their own using the filter below
+		// by extending this array: the key is the name of the config, and the values should be
+		// duplicated and customized for each configuration set they wish to utilize
+		//
+		// to use: set the data-swpconfig attribute value of the input to the applicable array key
 		$default_config = array(
-			// default config
-			'default' => array(
-				'engine' => 'default',
+			'default' => array(                         // 'default' config
+				'engine' => 'default',                  // search engine to use (if SearchWP is available)
 				'input' => array(
-					'delay'     => 500,
-					'min_chars' => 3,
+					'delay'     => 500,                 // wait 500ms before triggering a search
+					'min_chars' => 3,                   // wait for at least 3 characters before triggering a search
 				),
 				'results' => array(
-					'position'  => 'bottom',
-					'width'     => 'auto',
+					'position'  => 'bottom',            // where to position the results (bottom|top)
+					'width'     => 'auto',              // whether the width should automatically match the input (auto|css)
 					'offset'    => array(
-						'x' => 0,
-						'y' => 5
+						'x' => 0,                       // x offset (in pixels)
+						'y' => 5                        // y offset (in pixels)
 					)
 				),
-				'spinner' => array(
-					'lines'         => 10,
-					'length'        => 8,
-					'width'         => 4,
-					'radius'        => 8,
-					'corners'       => 1,
-					'rotate'        => 0,
-					'direction'     => 1,
-					'color'         => '#000',
-					'speed'         => 1,
-					'trail'         => 60,
-					'shadow'        => false,
-					'hwaccel'       => false,
-					'className'     => 'spinner',
-					'zIndex'        => 2000000000,
-					'top'           => '50%',
-					'left'          => '50%',
+				'spinner' => array(                     // powered by http://fgnass.github.io/spin.js/
+					'lines'         => 10,              // number of lines in the spinner
+					'length'        => 8,               // length of each line
+					'width'         => 4,               // line thickness
+					'radius'        => 8,               // radius of inner circle
+					'corners'       => 1,               // corner roundness (0..1)
+					'rotate'        => 0,               // rotation offset
+					'direction'     => 1,               // 1: clockwise, -1: counterclockwise
+					'color'         => '#000',          // #rgb or #rrggbb or array of colors
+					'speed'         => 1,               // rounds per second
+					'trail'         => 60,              // afterglow percentage
+					'shadow'        => false,           // whether to render a shadow
+					'hwaccel'       => false,           // whether to use hardware acceleration
+					'className'     => 'spinner',       // CSS class assigned to spinner
+					'zIndex'        => 2000000000,      // z-index of spinner
+					'top'           => '50%',           // top position (relative to parent)
+					'left'          => '50%',           // left position (relative to parent)
 				),
 			),
 		);
 
+		// set up our parameters
 		$params = array(
-			'ajaxurl' => admin_url( 'admin-ajax.php' ),
-			'config' => apply_filters( 'searchwp_live_search_default_config', $default_config ),
-			'msg_no_config_found' => __( 'No valid SearchWP Live Search configuration found!', 'searchwp' ),
+			'ajaxurl'               => admin_url( 'admin-ajax.php' ),
+			'config'                => apply_filters( 'searchwp_live_search_default_config', $default_config ),
+			'msg_no_config_found'   => __( 'No valid SearchWP Live Search configuration found!', 'searchwp' ),
 		);
-		$reshuffled_data = array(
+
+		// we need to JSON encode the configs
+		$encoded_data = array(
 			'l10n_print_after' => 'searchwp_live_search_params = ' . json_encode( $params ) . ';'
 		);
-		wp_localize_script( 'swp-live-search-client', 'searchwp_live_search_params', $reshuffled_data );
+
+		// localize and enqueue the script with all of the variable goodness
+		wp_localize_script( 'swp-live-search-client', 'searchwp_live_search_params', $encoded_data );
 		wp_enqueue_script( 'swp-live-search-client' );
 	}
 
