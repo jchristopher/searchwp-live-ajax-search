@@ -355,40 +355,7 @@
 	var plugin_name = "searchwp_live_search";
 
 	function SearchwpLiveSearch( element ) {
-		// this config may be overwritten via data attribute on the element to match a global variable with the same structure
-		this.config = {
-			engine: 'default',			// SearchWP Engine to use (if applicable)
-			input: {
-				delay: 500,				// wait 500ms before performing search
-				min_chars: 3 			// wait for at least 3 characters before performing search
-			},
-			results: {
-				position: 'bottom',		// position (bottom|top)
-				width: 'auto', 			// match the width of the search field (auto|css)
-				offset: {				// results wrapper offset
-					x: 0,
-					y: 5
-				}
-			},
-			spinner: {					// uses http://fgnass.github.io/spin.js/
-				lines: 10, 				// number of lines to draw
-				length: 8,  			// length of each line
-				width: 4,   			// line thickness
-				radius: 8,      		// radius of the inner circle
-				corners: 1, 			// corner roundness (0..1)
-				rotate: 0, 				// rotation offset
-				direction: 1, 			// 1: clockwise, -1: counterclockwise
-				color: '#000', 			// #rgb or #rrggbb or array of colors
-				speed: 1, 				// rounds per second
-				trail: 60, 				// afterglow percentage
-				shadow: false, 			// whether to render a shadow
-				hwaccel: false, 		// whether to use hardware acceleration
-				className: 'spinner', 	// CSS class to assign to the spinner
-				zIndex: 2e9, 			// z-index (defaults to 2000000000)
-				top: '50%', 			// top position relative to parent
-				left: '50%'  			// left position relative to parent
-			}
-		};
+		this.config = null;
 
 		// internal properties
 		this.input_el = element;		// the input element itself
@@ -415,67 +382,81 @@
 				$input = this.input_el;
 			this.form_el = $input.parents('form:eq(0)');
 
-			// our results wrapper needs an ID since we're appending it to the <body> so as to avoid
-			// potential z-index or overflow:hidden issues, making sure it's visible
-			this.results_id = this.uniqid('swplive');
-
-			// allow developers to override the config based on the value of the swplive data attribute
-			// that kicked everything off, the value of that attribute must match a global var and
-			// it is the responsibility of the developer to ensure all properties are in place
+			// establish our config (e.g. allow developers to override the config based on the value of the swpconfig data attribute)
+			var valid_config = false;
 			var config_template = $input.data('swpconfig');
-			if('default' !== config_template && typeof config_template !== 'undefined') {
-				this.config = window[config_template];
+			if(config_template && typeof config_template !== 'undefined') {
+				// loop through all available configs
+				for (var config_key in searchwp_live_search_params.config) {
+					if( config_template === config_key ) {
+						valid_config = true;
+						this.config = searchwp_live_search_params.config[config_key];
+					}
+				}
+			}else{
+				// use the default
+				for (var default_key in searchwp_live_search_params.config) {
+					if( 'default' === default_key ) {
+						valid_config = true;
+						this.config = searchwp_live_search_params.config[default_key];
+					}
+				}
 			}
 
-			// allow the swpengine data attribute to override the engine being used
-			var engine = $input.data('swpengine');
-			if( engine ) {
-				this.config.engine = engine;
-			}
+			// if there wasn't a valid config found, alert() it because everything will break
+			if(!valid_config){
+				alert(searchwp_live_search_params.msg_no_config_found);
+			}else{
+				// allow the swpengine data attribute to override the engine set in the config (prevents new configs just to change engine)
+				var engine = $input.data('swpengine');
+				if( engine ) {
+					this.config.engine = engine;
+				}
 
-			// prevent autocomplete
-			$input.attr('autocomplete','off');
+				// prevent autocomplete
+				$input.attr('autocomplete','off');
 
-			// set up and position the results container
-			$('body').append($('<div class="searchwp-live-search-results" id="' + this.results_id + '"></div>'));
-			this.results_el = $('#'+this.results_id);
-			this.position_results();
-			$(window).resize(function(){
-				self.position_results();
-			});
-
-			// prep the spinner
-			if(this.config.spinner){
-				this.spinner = new Spinner(this.config.spinner);
-			}
-
-			// bind to keyup
-			$input.keyup(function(){
-				// if the user typed, show the results wrapper and spinner
-				if(self.input_el.val().length&&!self.results_showing){
+				// set up and position the results container
+				$('body').append($('<div class="searchwp-live-search-results" id="' + this.results_id + '"></div>'));
+				this.results_el = $('#'+this.results_id);
+				this.position_results();
+				$(window).resize(function(){
 					self.position_results();
-					self.results_el.addClass('searchwp-live-search-results-showing');
-					self.show_spinner();
-					self.results_showing = true;
-				}
-				// if there are already results on display and the user is changing the search string
-				// remove the existing results and show the spinner
-				if(self.has_results && !self.spinner_showing && self.last_string !== $.trim(self.input_el.val())){
-					self.results_el.empty();
-					self.show_spinner();
-				}
-			}).keyup($.proxy(this.maybe_search, this));
+				});
 
-			// destroy the results when input focus is lost
-			$('html').click(function(){
-				self.destroy_results();
-			});
-			$input.click(function(e){
-				e.stopPropagation();
-			});
-			this.results_el.click(function(e){
-				e.stopPropagation();
-			});
+				// prep the spinner
+				if(this.config.spinner){
+					this.spinner = new Spinner(this.config.spinner);
+				}
+
+				// bind to keyup
+				$input.keyup(function(){
+					// if the user typed, show the results wrapper and spinner
+					if(self.input_el.val().length&&!self.results_showing){
+						self.position_results();
+						self.results_el.addClass('searchwp-live-search-results-showing');
+						self.show_spinner();
+						self.results_showing = true;
+					}
+					// if there are already results on display and the user is changing the search string
+					// remove the existing results and show the spinner
+					if(self.has_results && !self.spinner_showing && self.last_string !== $.trim(self.input_el.val())){
+						self.results_el.empty();
+						self.show_spinner();
+					}
+				}).keyup($.proxy(this.maybe_search, this));
+
+				// destroy the results when input focus is lost
+				$('html').click(function(){
+					self.destroy_results();
+				});
+				$input.click(function(e){
+					e.stopPropagation();
+				});
+				this.results_el.click(function(e){
+					e.stopPropagation();
+				});
+			}
 		},
 
 		position_results: function(){
@@ -645,7 +626,7 @@
 
 // find all applicable SearchWP Live Search inputs and bind them
 jQuery(document).ready(function($){
-	$('input[data-swplive]').searchwp_live_search();
+	$('input[data-swplive="true"]').searchwp_live_search();
 });
 
 })( jQuery, window, document );

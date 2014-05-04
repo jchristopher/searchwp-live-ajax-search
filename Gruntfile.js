@@ -24,7 +24,8 @@ module.exports = function(grunt) {
 				"globals": {
 					"jQuery": true,
 					"Spinner": true,
-					"searchwp_live_search_params": true
+					"searchwp_live_search_params": true,
+					"alert": true
 				}
 			},
 			all: [

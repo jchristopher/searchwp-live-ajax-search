@@ -18,10 +18,53 @@ class SearchWP_Live_Search_Form extends SearchWP_Live_Search {
 		// scripts
 		wp_enqueue_script( 'jquery' );
 		wp_register_script( 'swp-live-search-client', $this->url . '/assets/javascript/searchwp-live-search.min.js', array( 'jquery' ), $this->version, false );
+
+		$default_config = array(
+			// default config
+			'default' => array(
+				'engine' => 'default',
+				'input' => array(
+					'delay'     => 500,
+					'min_chars' => 3,
+				),
+				'results' => array(
+					'position'  => 'bottom',
+					'width'     => 'auto',
+					'offset'    => array(
+						'x' => 0,
+						'y' => 5
+					)
+				),
+				'spinner' => array(
+					'lines'         => 10,
+					'length'        => 8,
+					'width'         => 4,
+					'radius'        => 8,
+					'corners'       => 1,
+					'rotate'        => 0,
+					'direction'     => 1,
+					'color'         => '#000',
+					'speed'         => 1,
+					'trail'         => 60,
+					'shadow'        => false,
+					'hwaccel'       => false,
+					'className'     => 'spinner',
+					'zIndex'        => 2000000000,
+					'top'           => '50%',
+					'left'          => '50%',
+				),
+			),
+		);
+
 		$params = array(
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
+			'config' => apply_filters( 'searchwp_live_search_default_config', $default_config ),
+			'msg_no_config_found' => __( 'No valid SearchWP Live Search configuration found!', 'searchwp' ),
 		);
-		wp_localize_script( 'swp-live-search-client', 'searchwp_live_search_params', $params );
+		$reshuffled_data = array(
+			'l10n_print_after' => 'searchwp_live_search_params = ' . json_encode( $params ) . ';'
+		);
+		wp_localize_script( 'swp-live-search-client', 'searchwp_live_search_params', $reshuffled_data );
 		wp_enqueue_script( 'swp-live-search-client' );
 	}
 
