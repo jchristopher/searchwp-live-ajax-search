@@ -7,7 +7,7 @@ Stable tag: 1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Enhance your search forms with live search, powered by SearchWP (if installed)
+Enhance your search forms with live search (utilizes SearchWP if installed)
 
 == Description ==
 
