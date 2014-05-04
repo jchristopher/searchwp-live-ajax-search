@@ -422,9 +422,15 @@
 			// allow developers to override the config based on the value of the swplive data attribute
 			// that kicked everything off, the value of that attribute must match a global var and
 			// it is the responsibility of the developer to ensure all properties are in place
-			var config_template = $input.data('swplive');
+			var config_template = $input.data('swpconfig');
 			if('default' !== config_template && typeof config_template !== 'undefined') {
 				this.config = window[config_template];
+			}
+
+			// allow the swpengine data attribute to override the engine being used
+			var engine = $input.data('swpengine');
+			if( engine ) {
+				this.config.engine = engine;
 			}
 
 			// prevent autocomplete
