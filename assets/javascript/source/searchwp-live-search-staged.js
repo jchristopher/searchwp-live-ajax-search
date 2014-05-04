@@ -355,25 +355,26 @@
 	var plugin_name = "searchwp_live_search";
 
 	function SearchwpLiveSearch( element ) {
-		// this config may be overwritten by the data attribute on the element
+		// this config may be overwritten via data attribute on the element to match a global variable with the same structure
 		this.config = {
 			engine: 'default',			// SearchWP Engine to use (if applicable)
 			input: {
-				delay: 300,				// wait 300ms before performing search
+				delay: 500,				// wait 500ms before performing search
 				min_chars: 3 			// wait for at least 3 characters before performing search
 			},
 			results: {
 				position: 'bottom',		// position (bottom|top)
+				width: 'auto', 			// match the width of the search field (auto|css)
 				offset: {				// results wrapper offset
 					x: 0,
-					y: 0
+					y: 5
 				}
 			},
 			spinner: {					// uses http://fgnass.github.io/spin.js/
-				lines: 9,  				// number of lines to draw
-				length: 3,  			// length of each line
-				width: 2,   			// line thickness
-				radius: 3,      		// radius of the inner circle
+				lines: 10, 				// number of lines to draw
+				length: 8,  			// length of each line
+				width: 4,   			// line thickness
+				radius: 8,      		// radius of the inner circle
 				corners: 1, 			// corner roundness (0..1)
 				rotate: 0, 				// rotation offset
 				direction: 1, 			// 1: clockwise, -1: counterclockwise
@@ -390,12 +391,16 @@
 		};
 
 		// internal properties
-		this.input_el = element;
-		this.results_id = null;
-		this.results_el = null;
-		this.form_el = null;
-		this.timer = false;
-		this.last_string = '';
+		this.input_el = element;		// the input element itself
+		this.results_id = null;			// the id attribute of the results wrapper for this search field
+		this.results_el = null;			// the results wrapper element itself
+		this.results_showing = false;	// whether the results are showing
+		this.form_el = null;			// the search form element itself
+		this.timer = false;				// powers the delay check
+		this.last_string = '';			// the last search string submitted
+		this.spinner = null;			// the spinner
+		this.spinner_showing = false;	// whether the spinner is showing
+		this.has_results = false;		// whether results are showing
 
 		// kick it off
 		this.init();
@@ -433,8 +438,27 @@
 				self.position_results();
 			});
 
+			// prep the spinner
+			if(this.config.spinner){
+				this.spinner = new Spinner(this.config.spinner);
+			}
+
 			// bind to keyup
-			$input.keyup($.proxy(this.maybe_search, this));
+			$input.keyup(function(){
+				// if the user typed, show the results wrapper and spinner
+				if(self.input_el.val().length&&!self.results_showing){
+					self.position_results();
+					self.results_el.addClass('searchwp-live-search-results-showing');
+					self.show_spinner();
+					self.results_showing = true;
+				}
+				// if there are already results on display and the user is changing the search string
+				// remove the existing results and show the spinner
+				if(self.has_results && !self.spinner_showing && self.last_string !== $.trim(self.input_el.val())){
+					self.results_el.empty();
+					self.show_spinner();
+				}
+			}).keyup($.proxy(this.maybe_search, this));
 
 			// destroy the results when input focus is lost
 			$('html').click(function(){
@@ -443,9 +467,12 @@
 			$input.click(function(e){
 				e.stopPropagation();
 			});
+			this.results_el.click(function(e){
+				e.stopPropagation();
+			});
 		},
 
-		position_results: function(el){
+		position_results: function(){
 			var $input = this.input_el,
 				input_offset = $input.offset(),
 				$results = this.results_el,
@@ -467,11 +494,17 @@
 			// apply the offset and finalize the position
 			$results.css('left',input_offset.left);
 			$results.css('top', ( input_offset.top + results_top_offset ) + 'px');
+			if('auto'===this.config.results.width){
+				$results.width($input.outerWidth()-parseInt($results.css('paddingRight').replace('px',''),10)-parseInt($results.css('paddingLeft').replace('px',''),10));
+			}
 		},
 
 		destroy_results: function(e){
 			this.input_el.val('');
+			this.spinner.stop();
 			this.results_el.empty().removeClass('searchwp-live-search-results-showing');
+			this.results_showing = false;
+			this.has_results = false;
 		},
 
 		// if the search value changed, we've waited long enough, and we have at least the minimum characters: search!
@@ -486,13 +519,17 @@
 		},
 
 		show_spinner: function(){
-			// TODO: show spinner
-			console.log('show spinner');
+			if(this.config.spinner&&!this.spinner_showing){
+				this.spinner.spin(document.getElementById(this.results_id));
+				this.spinner_showing = true;
+			}
 		},
 
-		destroy_spinner: function(){
-			// TODO: destroy spinner
-			console.log('destroy spinner');
+		hide_spinner: function(){
+			if(this.config.spinner){
+				this.spinner.stop();
+				this.spinner_showing = false;
+			}
 		},
 
 		// perform the search
@@ -519,24 +556,23 @@
 			}
 
 			this.last_string = $input.val();
+			this.has_results = true;
 
 			$.ajax({
 				url: searchwp_live_search_params.ajaxurl,
 				type: "POST",
 				data: values,
-				beforeSend: function(){
-					self.show_spinner();
+				complete: function(){
+					self.spinner_showing = false;
+					self.hide_spinner();
 				},
 				success: function(response){
 					if(response === 0){
 						response = "";
 					}
 					self.position_results();
-					$results.html(response).addClass('searchwp-live-search-results-showing');
+					$results.html(response);
 
-				},
-				complete: function(){
-					self.destroy_spinner();
 				}
 			});
 		},

@@ -23,6 +23,7 @@ module.exports = function(grunt) {
 				"undef": true,
 				"globals": {
 					"jQuery": true,
+					"Spinner": true,
 					"searchwp_live_search_params": true
 				}
 			},

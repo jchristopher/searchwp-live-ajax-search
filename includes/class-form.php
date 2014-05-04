@@ -46,15 +46,18 @@ class SearchWP_Live_Search_Form extends SearchWP_Live_Search {
 						overflow:hidden;
 						z-index:9999;
 						position:absolute;
+						display:none;
 					}
 
 					.searchwp-live-search-results-showing {
+						display:block;
 						opacity:1;
 						height:auto;
+						overflow:auto;
 					}
 
 					.searchwp-live-search-no-results {
-						padding:2em;
+						padding:3em 2em 0;
 						text-align:center;
 					}
 				</style>
