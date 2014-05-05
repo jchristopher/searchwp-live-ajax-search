@@ -59,7 +59,7 @@ function searchwp_live_search_init() {
 	// if an AJAX request is taking place, it's potentially a search so we'll want to prepare for that
 	// else we'll prep the environment for the search form itself
 
-	if ( defined( 'DOING_AJAX' ) ) {
+	if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 		include_once( dirname( __FILE__ ) . '/includes/class-client.php' );
 		$client = new SearchWP_Live_Search_Client();
 		$client->setup();
