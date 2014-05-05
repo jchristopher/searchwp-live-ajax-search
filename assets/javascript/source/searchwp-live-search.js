@@ -183,12 +183,6 @@
 				values += '&' + action[1];
 			}
 
-			// return if there were no results
-			// TODO: figure out how to make this work
-			if( $results.find('.searchwp-live-search-not-found').length && $input.val().indexOf(this.last_string) !== -1 ) {
-				return;
-			}
-
 			this.last_string = $input.val();
 			this.has_results = true;
 
