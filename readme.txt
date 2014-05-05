@@ -7,29 +7,41 @@ Stable tag: 1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Enhance your search forms with live search (utilizes SearchWP if installed)
+Template powered live search for any WordPress theme.
 
 == Description ==
 
-**Does not require** [SearchWP](https://searchwp.com/) but will utilize it if available.
+**Does not require** [SearchWP](https://searchwp.com/) but will utilize it if available. [Full documentation](https://searchwp.com/docs/extensions/live-search/) is available at searchwp.com.
 
-SearchWP Live Ajax Search enables AJAX powered live search for your search forms. Designed to be a developer's best friend, SearchWP Live Ajax Search aims to stay out of your way but at the same time allowing you to customize everything about it. The template based approach allows you to seamlessly customize your SearchWP Live Search implementation without messing with dozens of cluttered options.
+SearchWP Live Ajax Search enables AJAX powered live search for your search forms. Designed to be a developer's best friend, SearchWP Live Ajax Search aims to stay out of your way but at the same time allowing you to customize everything about it. It's set up to work with any WordPress theme and uses a template loader to display results. The template based approach allows you to seamlessly customize your SearchWP Live Search implementation without messing with dozens of cluttered options.
+
+= Works best with SearchWP (but SearchWP is not necessary) =
 
 SearchWP Live Ajax Search *is best utilized* in conjunction with [SearchWP](https://searchwp.com/), but **it is not required**. If SearchWP is installed and activated, SearchWP Live Ajax Search can be customized to use any of your search engines *per search form*.
 
+= Customization =
+
 You can customize the implementation of SearchWP Live Ajax Search to a great degree, including any number of developer-defined configurations. The results are based on a template loader, allowing SearchWP Live Ajax Search to stay out of your way and letting you write the results template as you would any other WordPress theme file.
 
-*Everything* is powered by adding a single HTML5 data attribute (`data-swplive="true"`) to the input field of your search form. This happens automagically out of the box for any search forms generated from `get_search_form()`.
+*Everything* is powered by adding a single HTML5 data attribute (<code>data-swplive="true"</code>) to the input field of your search form. This happens automagically out of the box for any search forms generated from `get_search_form()`.
+
+= Widget support =
+
+SearchWP Live Ajax Search ships with a Widget allowing you to insert live search forms wherever you'd like.
 
 == Installation ==
 
 1. Download the plugin and extract the files
 1. Upload `searchwp-live-search` to your `~/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
-1. Optionally customize the configuration
-1. Optionally customize the results template
+1. Optionally customize the configuration [full documentation](https://searchwp.com/docs/extensions/live-search/)
+1. Optionally customize the results template [full documentation](https://searchwp.com/docs/extensions/live-search/)
 
 == Frequently Asked Questions ==
+
+= Documentation? =
+
+Of course! [Full documentation](https://searchwp.com/docs/extensions/live-search/)
 
 = How do I add live search to my search form? =
 
@@ -37,7 +49,7 @@ SearchWP Live Ajax Search will **automatically** enable itself on any search for
 
 `add_filter( 'searchwp_live_search_hijack_get_search_form', '__return_false' );`
 
-If you would like to manually enable SearchWP Live Ajax Search on a custom search form, simply add the following data attribute to the `input` you want to hook: `data-swplive="true"`
+If you would like to manually enable SearchWP Live Ajax Search on a custom search form, simply add the following data attribute to the `input` you want to hook: <code>data-swplive="true"</code>
 
 = How are search results generated? =
 
@@ -47,9 +59,11 @@ By default, SearchWP Live Ajax Search uses the default SearchWP Search Engine if
 
 SearchWP Live Ajax Search uses a template loader. In the plugin folder you will find a `templates` folder which includes `search-results.php` — that is what's used out of the box to output search results. To customize that output, simply create a folder called `searchwp-live-search` **in your theme directory** and copy `search-results.php` into that folder. SearchWP Live Ajax Search will then *use that file* instead of the one that shipped with the plugin, and you can customize it as you would other theme template files.
 
+SearchWP Live Ajax Search also outputs two sets of styles. The primary set of styles simply preps the results wrapper to be positioned properly. The second set of styles controls the visual appearance. This abstraction was made to ensure customization is as straighforward as possible. You can disable the default 'theme' by dequeueing the applicable stylesheet, and you can also disable the foundational CSS as well. More information available in [the documentation](https://searchwp.com/docs/extensions/live-search/#customizing-results).
+
 = How do I customize the spinner =
 
-SearchWP Live Ajax Search uses a filter — `searchwp_live_search_configs` — that allows you to fully customize the configuration used. Simply add a new key to the array passed through that filter, customizing the `default` values to whatever you want.
+SearchWP Live Ajax Search uses a filter — <a href="https://searchwp.com/docs/extensions/live-search/#searchwp_live_search_configs"><code>searchwp_live_search_configs</code></a> — that allows you to fully customize the configuration used. Simply add a new key to the array passed through that filter, customizing the `default` values to whatever you want.
 
 == Screenshots ==
 

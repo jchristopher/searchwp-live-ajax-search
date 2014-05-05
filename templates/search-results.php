@@ -23,10 +23,9 @@
 	<?php while ( have_posts() ) : the_post(); ?>
 		<?php $post_type = get_post_type_object( get_post_type( get_the_ID() ) ); ?>
 		<div class="searchwp-live-search-result">
-			<dl class="searchwp-live-search-result-<?php echo $post_type->labels->name; ?>">
-				<dt><a href="<?php echo get_permalink(); ?>"><?php the_title(); ?></a> &raquo;</dt>
-				<dd><?php echo $post_type->labels->singular_name; ?></dd>
-			</dl>
+			<p><a href="<?php echo get_permalink(); ?>">
+				<?php the_title(); ?> (<?php echo $post_type->labels->singular_name; ?>) &raquo;
+			</a></p>
 		</div>
 	<?php endwhile; ?>
 <?php else : ?>

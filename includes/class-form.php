@@ -134,7 +134,7 @@ class SearchWP_Live_Search_Form extends SearchWP_Live_Search {
 	function get_search_form( $html ) {
 		if ( apply_filters( 'searchwp_live_search_hijack_get_search_form', true ) ) {
 			$engine = apply_filters( 'searchwp_live_search_get_search_form_engine', 'default' );
-			$config = apply_filters( 'searchwp_live_search_get_search_form_template', 'default' );
+			$config = apply_filters( 'searchwp_live_search_get_search_form_config', 'default' );
 			// we're going to use 'name="s"' as our anchor
 			$html = str_replace( 'name="s"', 'name="s" data-swplive="true" data-swpengine="' . esc_attr( $engine ) . '" data-swpconfig="' . esc_attr( $config ) . '"', $html );
 		}
