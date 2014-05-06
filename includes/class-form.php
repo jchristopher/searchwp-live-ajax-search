@@ -72,7 +72,7 @@ class SearchWP_Live_Search_Form extends SearchWP_Live_Search {
 	 */
 	function setup() {
 		add_action( 'wp_enqueue_scripts', array( $this, 'assets' ) );
-		add_filter( 'get_search_form', array( $this, 'get_search_form' ) );
+		add_filter( 'get_search_form', array( $this, 'get_search_form' ), 999, 1 );
 		add_action( 'wp_footer', array( $this, 'base_styles' ) );
 
 		// the configs store all of the various configuration arrays that can be used at runtime
