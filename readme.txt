@@ -75,6 +75,7 @@ SearchWP Live Ajax Search uses a filter — <a href="https://searchwp.com/docs/
 == Changelog ==
 
 = 1.0.2 =
+* Resolved an issue where hitting Enter/Return prevented the search query from being passed to the results page
 * Fixed potential false positive for DOING_AJAX (props justinsainton)
 * Removed unnecessary call to get_the_ID() in the default results template (props justinsainton)
 * Added escaping to permalink and post type name in the default results template (props justinsainton)

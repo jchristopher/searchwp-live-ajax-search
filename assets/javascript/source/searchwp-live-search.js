@@ -134,7 +134,6 @@
 		},
 
 		destroy_results: function(e){
-			this.input_el.val('');
 			this.spinner.stop();
 			this.results_el.empty().removeClass('searchwp-live-search-results-showing');
 			this.results_showing = false;
