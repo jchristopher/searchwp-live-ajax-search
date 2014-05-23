@@ -3,7 +3,7 @@ Contributors: jchristopher
 Tags: search, live, ajax
 Requires at least: 3.9
 Tested up to: 3.9
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -11,13 +11,13 @@ Template powered live search for any WordPress theme. Does not require SearchWP,
 
 == Description ==
 
-**Does not require** [SearchWP](https://searchwp.com/), but will utilize it if available. [Full documentation](https://searchwp.com/docs/extensions/live-search/) is available at searchwp.com.
+**Does not require** [SearchWP](https://searchwp.com/?utm_source=wordpressorg&utm_medium=link&utm_content=readme&utm_campaign=liveajaxsearch), but will utilize it if available. [Full documentation](https://searchwp.com/docs/extensions/live-search/) is available at searchwp.com.
 
 SearchWP Live Ajax Search enables AJAX powered live search for your search forms. Designed to be a developer's best friend, SearchWP Live Ajax Search aims to stay out of your way but at the same time allowing you to customize everything about it. It's set up to work with any WordPress theme and uses a template loader to display results. The template based approach allows you to seamlessly customize your SearchWP Live Search implementation without messing with dozens of cluttered options.
 
 = Works best with SearchWP (but SearchWP is not necessary) =
 
-SearchWP Live Ajax Search *is best utilized* in conjunction with [SearchWP](https://searchwp.com/), but **it is not required**. If SearchWP is installed and activated, SearchWP Live Ajax Search can be customized to use any of your search engines *per search form*.
+SearchWP Live Ajax Search *is best utilized* in conjunction with [SearchWP](https://searchwp.com/?utm_source=wordpressorg&utm_medium=link&utm_content=readme&utm_campaign=liveajaxsearch), but **it is not required**. If SearchWP is installed and activated, SearchWP Live Ajax Search can be customized to use any of your search engines *per search form*.
 
 = Customization =
 
@@ -73,6 +73,9 @@ SearchWP Live Ajax Search uses a filter — <a href="https://searchwp.com/docs/
 4. SearchWP Live Ajax Search Widget Advanced
 
 == Changelog ==
+
+= 1.0.3 =
+* Fixed an issue where a false set of no results would be returned (props Lennard Voogdt)
 
 = 1.0.2 =
 * Resolved an issue where hitting Enter/Return prevented the search query from being passed to the results page
