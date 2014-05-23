@@ -431,8 +431,11 @@
 
 				// bind to keyup
 				$input.keyup(function(){
+					if(!$.trim(self.input_el.val()).length) {
+						self.destroy_results();
+					}
 					// if the user typed, show the results wrapper and spinner
-					if(self.input_el.val().length&&!self.results_showing){
+					else if(!self.results_showing){
 						self.position_results();
 						self.results_el.addClass('searchwp-live-search-results-showing');
 						self.show_spinner();
@@ -487,7 +490,7 @@
 		},
 
 		destroy_results: function(e){
-			this.spinner.stop();
+			this.hide_spinner();
 			this.results_el.empty().removeClass('searchwp-live-search-results-showing');
 			this.results_showing = false;
 			this.has_results = false;
