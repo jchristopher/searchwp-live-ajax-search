@@ -41,17 +41,19 @@ class SearchWP_Live_Search_Client extends SearchWP_Live_Search {
 				// SearchWP powered search
 				$posts = $this->searchwp( $query );
 				$args = array(
-					'post_type' => 'any',
-					'post__in'  => $posts,
-					'orderby'   => 'post__in',
+					'post_type'     => 'any',           // we're limiting to a pre-set array of post IDs
+					'post_status'   => 'any',           // we're limiting to a pre-set array of post IDs
+					'post__in'      => $posts,
+					'orderby'       => 'post__in',
 				);
 			} else {
 				// native WordPress search
 				$args = array(
-					'posts_per_page'    => $this->get_posts_per_page(),
-					's'                 => $query
+					's' => $query
 				);
 			}
+			$args['posts_per_page'] = $this->get_posts_per_page();
+			$args['suppress_filters'] = true;
 			$this->show_results( $args );
 		}
 		die(); // short circuit to keep the overhead of an admin-ajax.php call to a minimum
