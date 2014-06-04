@@ -70,7 +70,7 @@ class SearchWP_Live_Search_Template extends SearchWP_Live_Search {
 		// default to not found
 		$located = false;
 
-		$template_dir = apply_filters( 'searchwp_live_search_template_dir', 'searchwp-live-search' );
+		$template_dir = apply_filters( 'searchwp_live_search_template_dir', 'searchwp-live-ajax-search' );
 
 		// try to find the template file
 		foreach ( (array) $template_names as $template_name ) {
