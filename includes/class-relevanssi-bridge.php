@@ -6,13 +6,12 @@
 class SearchWP_Live_Search_Relevanssi_Bridge {
 
 	function __construct() {
-		add_action( 'searchwp_live_search_alter_results', array( 'SearchWP_Live_Search_Relevanssi_Bridge', 'alter_results' ), 10, 3 );
+		add_action( 'searchwp_live_search_alter_results', array( 'SearchWP_Live_Search_Relevanssi_Bridge', 'alter_results' ) );
 	}
 
-	static function alter_results( $wpQueryResults, $maxResults, $results ) {
+	static function alter_results() {
 		global $wp_query;
 		relevanssi_do_query( $wp_query );
-		$results->relevanssi = true;
 	}
 
 }
