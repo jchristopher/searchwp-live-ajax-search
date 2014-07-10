@@ -115,6 +115,8 @@ class SearchWP_Live_Search_Client extends SearchWP_Live_Search {
 		// normally would in a theme template (and reducing support requests)
 		query_posts( $args );
 
+		do_action( 'searchwp_live_search_alter_results' );
+
 		// optionally pass along the SearchWP engine if applicable
 		$engine = isset( $_REQUEST['swpengine'] ) ? sanitize_text_field( $_REQUEST['swpengine'] ) : '';
 
