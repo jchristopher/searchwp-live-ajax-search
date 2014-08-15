@@ -49,11 +49,17 @@ class SearchWP_Live_Search_Client extends SearchWP_Live_Search {
 			} else {
 				// native WordPress search
 				$args = array(
-					's' => $query
+					's'             => $query,
+					'post_status'   => 'publish',
+					'post_type'     => get_post_types( array(
+							'public'   => true,
+							'_builtin' => true,
+							'exclude_from_search' => false
+						) ),
 				);
 			}
 			$args['posts_per_page'] = $this->get_posts_per_page();
-			$args['suppress_filters'] = true;
+			$args = apply_filters( 'searchwp_live_search_query_args', $args );
 			$this->show_results( $args );
 		}
 		die(); // short circuit to keep the overhead of an admin-ajax.php call to a minimum

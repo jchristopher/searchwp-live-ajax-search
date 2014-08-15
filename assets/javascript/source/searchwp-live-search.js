@@ -122,7 +122,7 @@
 			// position the results container
 			switch(this.config.results.position){
 				case 'top':
-					results_top_offset = $results.height();
+					results_top_offset = 0 - $results.height();
 					break;
 				default:
 					results_top_offset = $input.outerHeight();

@@ -3,7 +3,7 @@ Contributors: jchristopher
 Tags: search, live, ajax
 Requires at least: 3.9
 Tested up to: 3.9.1
-Stable tag: 1.0.6
+Stable tag: 1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -75,6 +75,11 @@ SearchWP Live Ajax Search uses a filter — <a href="https://searchwp.com/docs/
 4. SearchWP Live Ajax Search Widget Advanced
 
 == Changelog ==
+
+= 1.1 =
+* Define default post statuses when using WordPress native search
+* New filter `searchwp_live_search_query_args` to manipulate query args before searches
+* Fixed an offset when positioning results on top of the search field
 
 = 1.0.6 =
 * PHP Warning cleanup
