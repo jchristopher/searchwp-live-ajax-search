@@ -116,7 +116,8 @@
 				$results = this.results_el,
 				results_top_offset = 0;
 
-            if ($input.is(':hidden') || $results.is(":hidden")) {
+            // don't try to position a results element when the input field is hidden
+            if ($input.is(":hidden")) {
                 return;
             }
 
