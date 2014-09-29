@@ -28,6 +28,7 @@
 			var self = this,
 				$input = this.input_el;
 			this.form_el = $input.parents('form:eq(0)');
+            this.results_id = this.uniqid('searchwp_live_search_results_');
 
 			// establish our config (e.g. allow developers to override the config based on the value of the swpconfig data attribute)
 			var valid_config = false;
