@@ -468,6 +468,10 @@
 				$results = this.results_el,
 				results_top_offset = 0;
 
+            if ($input.is(':hidden') || $results.is(":hidden")) {
+                return;
+            }
+
 			// check for an offset
 			input_offset.left += parseInt(this.config.results.offset.x,10);
 			input_offset.top += parseInt(this.config.results.offset.y,10);
