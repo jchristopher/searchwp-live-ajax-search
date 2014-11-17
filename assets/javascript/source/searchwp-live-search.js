@@ -102,6 +102,10 @@
 
 				// bind to keyup
 				$input.keyup(function(){
+					// is there already a request active?
+					if( self.current_request ){
+						self.current_request.abort();
+					}					
 					if(!$.trim(self.input_el.val()).length) {
 						self.destroy_results();
 					}
@@ -216,9 +220,7 @@
 
 			this.last_string = $input.val();
 			this.has_results = true;
-			if( this.current_request ){
-				this.current_request.abort();
-			}
+			// put the request into the current_request var
 			this.current_request = $.ajax({
 				url: searchwp_live_search_params.ajaxurl,
 				type: "POST",
