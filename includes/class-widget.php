@@ -15,8 +15,8 @@ class SearchWP_Live_Search_Widget extends WP_Widget {
 	function __construct() {
 		parent::__construct(
 		      'searchwp_live_search',
-			      __( 'SearchWP Live Search', 'searchwp'),
-			      array( 'description' => __( 'SearchWP Live Search', 'searchwp' ), )
+			      __( 'SearchWP Live Search', 'swplas'),
+			      array( 'description' => __( 'SearchWP Live Search', 'swplas' ), )
 		);
 	}
 
@@ -45,10 +45,10 @@ class SearchWP_Live_Search_Widget extends WP_Widget {
 		?>
 			<form role="search" method="get" class="searchwp-live-search-widget-search-form" action="<?php echo $destination; ?>">
 				<label>
-					<span class="screen-reader-text"><?php _e( 'Search for:', 'searchwp' ); ?></span>
+					<span class="screen-reader-text"><?php _e( 'Search for:', 'swplas' ); ?></span>
 					<input type="search" class="search-field" placeholder="<?php echo $placeholder; ?>" value="" name="swpquery" data-swplive="true" data-swpengine="<?php echo $engine; ?>" data-swpconfig="<?php echo $config; ?>" title="<?php echo $placeholder; ?>" autocomplete="off">
 				</label>
-				<input type="submit" class="search-submit" value="<?php _e( 'Search', 'searchwp' ); ?>">
+				<input type="submit" class="search-submit" value="<?php _e( 'Search', 'swplas' ); ?>">
 			</form>
 		<?php
 
@@ -66,8 +66,8 @@ class SearchWP_Live_Search_Widget extends WP_Widget {
 	 */
 	public function form( $instance ) {
 
-		$widget_title       = isset( $instance[ 'title' ] ) ? $instance[ 'title' ] : __( 'Search', 'searchwp' );
-		$widget_placeholder = isset( $instance[ 'placeholder' ] ) ? $instance[ 'placeholder' ] : __( 'Search for...', 'searchwp' );
+		$widget_title       = isset( $instance[ 'title' ] ) ? $instance[ 'title' ] : __( 'Search', 'swplas' );
+		$widget_placeholder = isset( $instance[ 'placeholder' ] ) ? $instance[ 'placeholder' ] : __( 'Search for...', 'swplas' );
 		$widget_destination = isset( $instance[ 'destination' ] ) ? $instance[ 'destination' ] : '';
 
 		// we'll piggyback SearchWP itself to pull a list of search engines

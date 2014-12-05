@@ -1,0 +1,68 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: SearchWP Live Ajax Search\n"
+"POT-Creation-Date: 2014-12-05 12:03-0500\n"
+"PO-Revision-Date: 2014-12-05 12:03-0500\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: includes/class-form.php:107
+msgid "No valid SearchWP Live Search configuration found!"
+msgstr ""
+
+#: includes/class-widget.php:18 includes/class-widget.php:19
+msgid "SearchWP Live Search"
+msgstr ""
+
+#: includes/class-widget.php:35 includes/class-widget.php:70
+msgid "Search for..."
+msgstr ""
+
+#: includes/class-widget.php:48
+msgid "Search for:"
+msgstr ""
+
+#: includes/class-widget.php:51 includes/class-widget.php:69
+msgid "Search"
+msgstr ""
+
+#: includes/class-widget.php:97
+msgid "Title:"
+msgstr ""
+
+#: includes/class-widget.php:102
+msgid "SearchWP Engine:"
+msgstr ""
+
+#: includes/class-widget.php:111
+msgid "Configuration:"
+msgstr ""
+
+#: includes/class-widget.php:119
+msgid "Advanced"
+msgstr ""
+
+#: includes/class-widget.php:122
+msgid "Placholder:"
+msgstr ""
+
+#: includes/class-widget.php:126
+msgid "Destination fallback URL (optional):"
+msgstr ""
+
+#: templates/search-results.php:33
+msgctxt "swplas"
+msgid "No results found."
+msgstr ""

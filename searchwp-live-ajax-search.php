@@ -6,6 +6,7 @@ Description: Enhance your search forms with live search, powered by SearchWP (if
 Version: 1.1
 Author: Jonathan Christopher
 Author URI: https://searchwp.com/
+Text Domain: swplas
 
 Copyright 2014 Jonathan Christopher
 
@@ -24,7 +25,9 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.
 */
 
 // exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 // Widget support
 include_once( dirname( __FILE__ ) . '/includes/class-widget.php' );
