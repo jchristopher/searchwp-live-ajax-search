@@ -16,7 +16,7 @@
 		this.spinner = null;            // the spinner
 		this.spinner_showing = false;   // whether the spinner is showing
 		this.has_results = false;       // whether results are showing
-
+		this.current_request = false;	// the current request in progress
 		// kick it off
 		this.init();
 	}
@@ -102,6 +102,10 @@
 
 				// bind to keyup
 				$input.keyup(function(){
+					// is there already a request active?
+					if( self.current_request ){
+						self.current_request.abort();
+					}					
 					if(!$.trim(self.input_el.val()).length) {
 						self.destroy_results();
 					}
@@ -216,14 +220,15 @@
 
 			this.last_string = $input.val();
 			this.has_results = true;
-
-			$.ajax({
+			// put the request into the current_request var
+			this.current_request = $.ajax({
 				url: searchwp_live_search_params.ajaxurl,
 				type: "POST",
 				data: values,
 				complete: function(){
 					self.spinner_showing = false;
 					self.hide_spinner();
+					this.current_request = false;
 				},
 				success: function(response){
 					if(response === 0){
@@ -231,7 +236,6 @@
 					}
 					self.position_results();
 					$results.html(response);
-
 				}
 			});
 		},
