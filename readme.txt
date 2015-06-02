@@ -104,6 +104,9 @@ SearchWP Live Ajax Search uses a filter — <a href="https://searchwp.com/docs/
 * Utilize a WordPress core translated string instead of a custom one (props justinsainton)
 * Increase the priority for the get_search_form filter so as to accommodate existing filters
 
+= 1.0.2 =
+* Added Serbo-Croatian translation (props Andrijana Nikolic)
+
 = 1.0.1 =
 * Fixed a directory URL issue
 * Fixed an indexOf JavaScript error
