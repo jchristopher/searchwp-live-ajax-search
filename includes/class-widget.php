@@ -77,9 +77,9 @@ class SearchWP_Live_Search_Widget extends WP_Widget {
 			$engines['default'] = 'Default';
 			$searchwp = SearchWP::instance();
 			$searchwp_engines = $searchwp->settings['engines'];
-			foreach( $searchwp_engines as $engine => $engine_settings ) {
-				if( isset( $engine_settings['label'] ) ) {
-					$engines[ $engine ] = $engine_settings['label'];
+			foreach ( $searchwp_engines as $engine => $engine_settings ) {
+				if ( isset( $engine_settings['searchwp_engine_label'] ) ) {
+					$engines[ $engine ] = $engine_settings['searchwp_engine_label'];
 				}
 			}
 		}
