@@ -14,9 +14,9 @@ class SearchWP_Live_Search_Widget extends WP_Widget {
 	 */
 	function __construct() {
 		parent::__construct(
-		      'searchwp_live_search',
-			      __( 'SearchWP Live Search', 'swplas'),
-			      array( 'description' => __( 'SearchWP Live Search', 'swplas' ), )
+			'searchwp_live_search',
+			__( 'SearchWP Live Search', 'swplas' ),
+			array( 'description' => __( 'SearchWP Live Search', 'swplas' ), )
 		);
 	}
 
@@ -66,12 +66,12 @@ class SearchWP_Live_Search_Widget extends WP_Widget {
 	 */
 	public function form( $instance ) {
 
-		$widget_title       = isset( $instance[ 'title' ] ) ? $instance[ 'title' ] : __( 'Search', 'swplas' );
-		$widget_placeholder = isset( $instance[ 'placeholder' ] ) ? $instance[ 'placeholder' ] : __( 'Search for...', 'swplas' );
-		$widget_destination = isset( $instance[ 'destination' ] ) ? $instance[ 'destination' ] : '';
+		$widget_title       = isset( $instance['title'] ) ? $instance['title'] : __( 'Search', 'swplas' );
+		$widget_placeholder = isset( $instance['placeholder'] ) ? $instance['placeholder'] : __( 'Search for...', 'swplas' );
+		$widget_destination = isset( $instance['destination'] ) ? $instance['destination'] : '';
 
 		// we'll piggyback SearchWP itself to pull a list of search engines
-		$widget_engine = isset( $instance[ 'engine' ] ) ? $instance[ 'engine' ] : 'default';
+		$widget_engine = isset( $instance['engine'] ) ? $instance['engine'] : 'default';
 		$engines = array();
 		if ( class_exists( 'SearchWP' ) ) {
 			$engines['default'] = 'Default';
@@ -85,8 +85,8 @@ class SearchWP_Live_Search_Widget extends WP_Widget {
 		}
 
 		// we're going to utilize SearchWP_Live_Search_Form to populate the config dropdown
-		$widget_config = isset( $instance[ 'config' ] ) ? $instance[ 'config' ] : 'default';
-		if( ! class_exists( 'SearchWP_Live_Search_Form' ) ) {
+		$widget_config = isset( $instance['config'] ) ? $instance['config'] : 'default';
+		if ( ! class_exists( 'SearchWP_Live_Search_Form' ) ) {
 			include_once( dirname( __FILE__ ) . '/class-form.php' );
 		}
 		$form = new SearchWP_Live_Search_Form();
@@ -97,11 +97,11 @@ class SearchWP_Live_Search_Widget extends WP_Widget {
 			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $widget_title ); ?>">
 		</p>
-		<?php if( ! empty( $engines ) ) : ?>
+		<?php if ( ! empty( $engines ) ) : ?>
 		<p>
 			<label for="<?php echo $this->get_field_id( 'engine' ); ?>"><?php _e( 'SearchWP Engine:' ); ?></label>
 			<select name="<?php echo $this->get_field_name( 'engine' ); ?>" id="<?php echo $this->get_field_id( 'engine' ); ?>">
-				<?php foreach( $engines as $engine_name => $engine_label ) : ?>
+				<?php foreach ( $engines as $engine_name => $engine_label ) : ?>
 					<option value="<?php echo esc_attr( $engine_name ); ?>" <?php selected( $widget_engine, $engine_name ); ?>><?php echo esc_html( $engine_label ); ?></option>
 				<?php endforeach; ?>
 			</select>
@@ -110,7 +110,7 @@ class SearchWP_Live_Search_Widget extends WP_Widget {
 		<p>
 			<label for="<?php echo $this->get_field_id( 'config' ); ?>"><?php _e( 'Configuration:' ); ?></label>
 			<select name="<?php echo $this->get_field_name( 'config' ); ?>" id="<?php echo $this->get_field_id( 'config' ); ?>">
-				<?php foreach( $form->configs as $config => $val ) : ?>
+				<?php foreach ( $form->configs as $config => $val ) : ?>
 					<option value="<?php echo esc_attr( $config ); ?>" <?php selected( $widget_config, $config ); ?>><?php echo esc_html( $config ); ?></option>
 				<?php endforeach; ?>
 			</select>
