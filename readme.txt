@@ -2,8 +2,8 @@
 Contributors: jchristopher
 Tags: search, live, ajax
 Requires at least: 3.9
-Tested up to: 4.2.2
-Stable tag: 1.1.1
+Tested up to: 4.2.3
+Stable tag: 1.1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -75,6 +75,9 @@ SearchWP Live Ajax Search uses a filter — <a href="https://searchwp.com/docs/
 4. SearchWP Live Ajax Search Widget Advanced
 
 == Changelog ==
+
+= 1.1.2 =
+* Added <code>results_destroy_on_blur</code> config option to prevent automatic removal of results window when clicking outside results pane
 
 = 1.1.1 =
 * Fixed an issue that prevented SearchWP Supplemental engines from showing up in the Widget config
