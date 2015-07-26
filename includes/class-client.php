@@ -55,8 +55,8 @@ class SearchWP_Live_Search_Client extends SearchWP_Live_Search {
 					'post_status'   => 'publish',
 					'post_type'     => get_post_types( array(
 							'public'   => true,
-							'_builtin' => true,
-							'exclude_from_search' => false
+							// '_builtin' => true,
+							'exclude_from_search' => false,
 						) ),
 				);
 			}
