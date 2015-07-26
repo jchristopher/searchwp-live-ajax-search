@@ -358,17 +358,19 @@
 		this.config = null;
 
 		// internal properties
-		this.input_el = element;        // the input element itself
-		this.results_id = null;         // the id attribute of the results wrapper for this search field
-		this.results_el = null;         // the results wrapper element itself
-        this.parent_el = null;          // allows results wrapper element to be injected into a custom parent element
-		this.results_showing = false;   // whether the results are showing
-		this.form_el = null;            // the search form element itself
-		this.timer = false;             // powers the delay check
-		this.last_string = '';          // the last search string submitted
-		this.spinner = null;            // the spinner
-		this.spinner_showing = false;   // whether the spinner is showing
-		this.has_results = false;       // whether results are showing
+		this.input_el = element;        		// the input element itself
+		this.results_id = null;         		// the id attribute of the results wrapper for this search field
+		this.results_el = null;         		// the results wrapper element itself
+        this.parent_el = null;          		// allows results wrapper element to be injected into a custom parent element
+		this.results_showing = false;   		// whether the results are showing
+		this.form_el = null;            		// the search form element itself
+		this.timer = false;             		// powers the delay check
+		this.last_string = '';          		// the last search string submitted
+		this.spinner = null;            		// the spinner
+		this.spinner_showing = false;   		// whether the spinner is showing
+		this.has_results = false;       		// whether results are showing
+		this.current_request = false;	     	// the current request in progress
+		this.results_destroy_on_blur = true;	// destroy the results
 
 		// kick it off
 		this.init();
@@ -424,22 +426,17 @@
                 // if parent_el was specified, inject the results el into it instead of appending it to the body
                 var swpparentel = $input.data('swpparentel');
                 if (swpparentel) {
-
                     // specified as a data property on the html input.
                     this.parent_el = $(swpparentel);
                     this.parent_el.html(results_el_html);
-
                 } else if (this.config.parent_el) {
-
                     // specified by the config set in php
                     this.parent_el = $(this.config.parent_el);
                     this.parent_el.html(results_el_html);
 
                 } else {
-
                     // no parent, just append to the body
                     $('body').append($(results_el_html));
-
                 }
 
 				this.results_el = $('#'+this.results_id);
@@ -455,6 +452,10 @@
 
 				// bind to keyup
 				$input.keyup(function(){
+					// is there already a request active?
+					if( self.current_request ){
+						self.current_request.abort();
+					}					
 					if(!$.trim(self.input_el.val()).length) {
 						self.destroy_results();
 					}
@@ -474,9 +475,11 @@
 				}).keyup($.proxy(this.maybe_search, this));
 
 				// destroy the results when input focus is lost
-				$('html').click(function(){
-					self.destroy_results();
-				});
+				if(this.config.results_destroy_on_blur){
+					$('html').click(function(){
+						self.destroy_results();
+					});
+				}
 				$input.click(function(e){
 					e.stopPropagation();
 				});
@@ -569,14 +572,15 @@
 
 			this.last_string = $input.val();
 			this.has_results = true;
-
-			$.ajax({
+			// put the request into the current_request var
+			this.current_request = $.ajax({
 				url: searchwp_live_search_params.ajaxurl,
 				type: "POST",
 				data: values,
 				complete: function(){
 					self.spinner_showing = false;
 					self.hide_spinner();
+					this.current_request = false;
 				},
 				success: function(response){
 					if(response === 0){
@@ -584,7 +588,6 @@
 					}
 					self.position_results();
 					$results.html(response);
-
 				}
 			});
 		},
