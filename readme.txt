@@ -76,6 +76,9 @@ SearchWP Live Ajax Search uses a filter — <a href="https://searchwp.com/docs/
 
 == Changelog ==
 
+= 1.1.3 =
+* Fixed an issue with the build process which introduced an outdated version of the plugin JavaScript assets
+
 = 1.1.2 =
 * No longer limit results to built in post types
 * Added <code>results_destroy_on_blur</code> config option to prevent automatic removal of results window when clicking outside results pane
