@@ -37,9 +37,9 @@ class SearchWP_Live_Search_Client extends SearchWP_Live_Search {
 	 * @uses SearchWP_Live_Search_Client::get_posts_per_page() to retrieve the number of results to return
 	 */
 	function search() {
-		if( isset( $_REQUEST['swpquery'] ) && ! empty( $_REQUEST['swpquery'] ) ) {
+		if ( isset( $_REQUEST['swpquery'] ) && ! empty( $_REQUEST['swpquery'] ) ) {
 			$query = sanitize_text_field( $_REQUEST['swpquery'] );
-			if( class_exists( 'SearchWP' ) ) {
+			if ( class_exists( 'SearchWP' ) ) {
 				// SearchWP powered search
 				$posts = $this->searchwp( $query );
 				$args = array(
@@ -83,7 +83,7 @@ class SearchWP_Live_Search_Client extends SearchWP_Live_Search {
 	 */
 	function searchwp( $query = '' ) {
 		$posts = array( 0 );
-		if( class_exists( 'SearchWP' ) ) {
+		if ( class_exists( 'SearchWP' ) ) {
 			$searchwp = SearchWP::instance();
 
 			// set up custom posts per page
@@ -98,7 +98,7 @@ class SearchWP_Live_Search_Client extends SearchWP_Live_Search {
 			$results = $searchwp->search( $engine, $query );
 
 			// if no results were found we need to force our impossible array
-			if( ! empty( $results ) ) {
+			if ( ! empty( $results ) ) {
 				$posts = $results;
 			}
 		}
