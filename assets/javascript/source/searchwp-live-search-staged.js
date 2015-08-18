@@ -519,6 +519,8 @@
 			if('auto'===this.config.results.width){
 				$results.width($input.outerWidth()-parseInt($results.css('paddingRight').replace('px',''),10)-parseInt($results.css('paddingLeft').replace('px',''),10));
 			}
+
+			$(document).trigger( "searchwp_live_position_results", [ $results.css('left'), $results.css('top'), $results.width() ] );
 		},
 
 		destroy_results: function(e){
@@ -526,6 +528,8 @@
 			this.results_el.empty().removeClass('searchwp-live-search-results-showing');
 			this.results_showing = false;
 			this.has_results = false;
+
+			$(document).trigger( "searchwp_live_destroy_results" );
 		},
 
 		// if the search value changed, we've waited long enough, and we have at least the minimum characters: search!
@@ -543,6 +547,7 @@
 			if(this.config.spinner&&!this.spinner_showing){
 				this.spinner.spin(document.getElementById(this.results_id));
 				this.spinner_showing = true;
+				$(document).trigger( "searchwp_live_show_spinner" );
 			}
 		},
 
@@ -550,6 +555,7 @@
 			if(this.config.spinner){
 				this.spinner.stop();
 				this.spinner_showing = false;
+				$(document).trigger( "searchwp_live_hide_spinner" );
 			}
 		},
 
@@ -561,6 +567,8 @@
 				action = $form.attr('action'),
 				$input = this.input_el,
 				$results = this.results_el;
+
+			$(document).trigger( "searchwp_live_search_start", [ $input, $results, $form, action, values ] );
 
 			// append our action, engine, and (redundant) query (so as to save the trouble of finding it again server side)
 			values += '&action=searchwp_live_search&swpengine=' + this.config.engine + '&swpquery=' + $input.val();
@@ -578,6 +586,7 @@
 				type: "POST",
 				data: values,
 				complete: function(){
+					$(document).trigger( "searchwp_live_search_complete", [ $input, $results, $form, action, values ] );
 					self.spinner_showing = false;
 					self.hide_spinner();
 					this.current_request = false;
@@ -586,6 +595,7 @@
 					if(response === 0){
 						response = "";
 					}
+					$(document).trigger( "searchwp_live_search_success", [ $input, $results, $form, action, values ] );
 					self.position_results();
 					$results.html(response);
 				}
