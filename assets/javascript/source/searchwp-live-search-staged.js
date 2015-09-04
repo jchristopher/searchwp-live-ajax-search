@@ -475,7 +475,7 @@
 				}).keyup($.proxy(this.maybe_search, this));
 
 				// destroy the results when input focus is lost
-				if(this.config.results_destroy_on_blur){
+				if(this.config.results_destroy_on_blur||typeof this.config.results_destroy_on_blur === 'undefined'){
 					$('html').click(function(){
 						self.destroy_results();
 					});
