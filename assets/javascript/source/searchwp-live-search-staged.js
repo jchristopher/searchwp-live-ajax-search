@@ -455,12 +455,12 @@
 					// is there already a request active?
 					if( self.current_request ){
 						self.current_request.abort();
-					}					
-					if(!$.trim(self.input_el.val()).length) {
+					}
+					if($.trim(self.input_el.val()).length < self.config.input.min_chars) {
 						self.destroy_results();
 					}
 					// if the user typed, show the results wrapper and spinner
-					else if(!self.results_showing){
+					else if(!self.results_showing && $.trim(self.input_el.val()).length >= self.config.input.min_chars){
 						self.position_results();
 						self.results_el.addClass('searchwp-live-search-results-showing');
 						self.show_spinner();
@@ -468,7 +468,7 @@
 					}
 					// if there are already results on display and the user is changing the search string
 					// remove the existing results and show the spinner
-					if(self.has_results && !self.spinner_showing && self.last_string !== $.trim(self.input_el.val())){
+					if(self.has_results && !self.spinner_showing && self.last_string !== $.trim(self.input_el.val()) && $.trim(self.input_el.val()).length >= self.config.input.min_chars){
 						self.results_el.empty();
 						self.show_spinner();
 					}
