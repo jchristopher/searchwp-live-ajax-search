@@ -3,7 +3,7 @@ Contributors: jchristopher
 Tags: search, live, ajax
 Requires at least: 3.9
 Tested up to: 4.3
-Stable tag: 1.1.5
+Stable tag: 1.1.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -75,6 +75,9 @@ SearchWP Live Ajax Search uses a filter — <a href="https://searchwp.com/docs/
 4. SearchWP Live Ajax Search Widget Advanced
 
 == Changelog ==
+
+= 1.1.6 =
+* Fixed an issue that prevented multiple live search instances on a single page from using different engines
 
 = 1.1.5 =
 * Fixed an issue where <code>results_destroy_on_blur</code> was not properly applied if a custom configuration was used but that property was not defined in the custom configuration

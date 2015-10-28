@@ -62,6 +62,7 @@
 				var engine = $input.data('swpengine');
 				if( engine ) {
 					this.config.engine = engine;
+                    $input.data('swpengine',engine);
 				}
 
 				// prevent autocomplete
@@ -218,7 +219,7 @@
 			$(document).trigger( "searchwp_live_search_start", [ $input, $results, $form, action, values ] );
 
 			// append our action, engine, and (redundant) query (so as to save the trouble of finding it again server side)
-			values += '&action=searchwp_live_search&swpengine=' + this.config.engine + '&swpquery=' + $input.val();
+            values += '&action=searchwp_live_search&swpengine=' + $input.data('swpengine') + '&swpquery=' + $input.val();
 
 			if(action.indexOf('?') !== -1){
 				action = action.split('?');
