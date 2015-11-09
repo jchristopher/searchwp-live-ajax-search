@@ -62,8 +62,9 @@
 				var engine = $input.data('swpengine');
 				if( engine ) {
 					this.config.engine = engine;
-                    $input.data('swpengine',engine);
 				}
+
+				$input.data('swpengine',this.config.engine);
 
 				// prevent autocomplete
 				$input.attr('autocomplete','off');
@@ -103,7 +104,7 @@
 					// is there already a request active?
 					if( self.current_request ){
 						self.current_request.abort();
-					}					
+					}
 					if(!$.trim(self.input_el.val()).length) {
 						self.destroy_results();
 					}

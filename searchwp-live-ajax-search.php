@@ -3,7 +3,7 @@
 Plugin Name: SearchWP Live Ajax Search
 Plugin URI: https://searchwp.com/
 Description: Enhance your search forms with live search, powered by SearchWP (if installed)
-Version: 1.1.6
+Version: 1.1.7
 Author: Jonathan Christopher
 Author URI: https://searchwp.com/
 Text Domain: swplas
@@ -43,7 +43,7 @@ class SearchWP_Live_Search {
 
 	public $dir;
 	public $url;
-	public $version = '1.1.6';
+	public $version = '1.1.7';
 
 	function __construct() {
 		$this->dir = dirname( __FILE__ );
@@ -68,8 +68,7 @@ function searchwp_live_search_init() {
 
 		$client = new SearchWP_Live_Search_Client();
 		$client->setup();
-	}
-	else {
+	} else {
 		include_once( dirname( __FILE__ ) . '/includes/class-form.php' );
 		$form = new SearchWP_Live_Search_Form();
 		$form->setup();
