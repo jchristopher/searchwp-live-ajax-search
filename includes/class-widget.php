@@ -43,13 +43,18 @@ class SearchWP_Live_Search_Widget extends WP_Widget {
 		}
 
 		?>
+			<?php do_action( 'searchwp_live_search_widget_before_form' ); ?>
 			<form role="search" method="get" class="searchwp-live-search-widget-search-form" action="<?php echo $destination; ?>">
+				<?php do_action( 'searchwp_live_search_widget_before_field' ); ?>
 				<label>
 					<span class="screen-reader-text"><?php _e( 'Search for:', 'swplas' ); ?></span>
 					<input type="search" class="search-field" placeholder="<?php echo $placeholder; ?>" value="" name="swpquery" data-swplive="true" data-swpengine="<?php echo $engine; ?>" data-swpconfig="<?php echo $config; ?>" title="<?php echo $placeholder; ?>" autocomplete="off">
 				</label>
+				<?php do_action( 'searchwp_live_search_widget_after_field' ); ?>
 				<input type="submit" class="search-submit" value="<?php _e( 'Search', 'swplas' ); ?>">
+				<?php do_action( 'searchwp_live_search_widget_after_submit' ); ?>
 			</form>
+			<?php do_action( 'searchwp_live_search_widget_after_form' ); ?>
 		<?php
 
 		echo $args['after_widget'];
