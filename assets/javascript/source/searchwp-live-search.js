@@ -99,10 +99,14 @@
 					this.spinner = new Spinner(this.config.spinner);
 				}
 
+				if(typeof this.config.abort_on_enter === 'undefined'){
+					this.config.abort_on_enter = true;
+				}
+
 				// bind to keyup
-				$input.keyup(function(){
+				$input.keyup(function(e){
 					// is there already a request active?
-					if( self.current_request ){
+					if( self.current_request && ( self.config.abort_on_enter && e.keyCode === 13 ) ){
 						self.current_request.abort();
 					}
 					if(!$.trim(self.input_el.val()).length) {
