@@ -96,6 +96,7 @@ class SearchWP_Live_Search_Client extends SearchWP_Live_Search {
 
 			// grab our post IDs
 			$results = $searchwp->search( $engine, $query );
+			$this->results = $results;
 
 			// if no results were found we need to force our impossible array
 			if ( ! empty( $results ) ) {
@@ -118,10 +119,17 @@ class SearchWP_Live_Search_Client extends SearchWP_Live_Search {
 	 * @uses SearchWP_Live_Search_Template::get_template_part() to load the proper results template
 	 */
 	function show_results( $args = array() ) {
+		global $wp_query;
+
 		// we're using query_posts() here because we want to prep the entire environment
 		// for our template loader, allowing the developer to utilize everything they
 		// normally would in a theme template (and reducing support requests)
 		query_posts( $args );
+
+		// ensure a proper found_posts count for $wp_query
+		if ( class_exists( 'SearchWP' ) && ! empty( $this->results ) ) {
+			$wp_query->found_posts = count( $this->results );
+		}
 
 		do_action( 'searchwp_live_search_alter_results' );
 

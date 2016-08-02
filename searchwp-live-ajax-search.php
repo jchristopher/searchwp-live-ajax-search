@@ -44,6 +44,7 @@ class SearchWP_Live_Search {
 	public $dir;
 	public $url;
 	public $version = '1.1.8';
+	public $results = array();
 
 	function __construct() {
 		$this->dir = dirname( __FILE__ );
