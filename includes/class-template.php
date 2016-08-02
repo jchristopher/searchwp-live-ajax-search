@@ -105,6 +105,8 @@ class SearchWP_Live_Search_Template extends SearchWP_Live_Search {
 			}
 		}
 
+		$located = apply_filters( 'searchwp_live_search_results_template', $located );
+		
 		if ( ( true == $load ) && ! empty( $located ) ) {
 			load_template( $located, $require_once );
 		}
