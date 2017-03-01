@@ -217,7 +217,7 @@
 			var self = this,
 				$form = this.form_el,
 				values = $form.serialize(),
-				action = $form.attr('action'),
+				action = $form.attr('action') ? $form.attr('action') : '',
 				$input = this.input_el,
 				$results = this.results_el;
 

@@ -97,8 +97,21 @@ class SearchWP_Live_Search_Form extends SearchWP_Live_Search {
 		wp_enqueue_style( 'searchwp-live-search', $this->url . '/assets/styles/style.css', null, $this->version );
 
 		// scripts
-		wp_enqueue_script( 'jquery' );
-		wp_register_script( 'swp-live-search-client', $this->url . '/assets/javascript/searchwp-live-search.min.js', array( 'jquery' ), $this->version, false );
+        wp_enqueue_script( 'jquery' );
+
+		/**
+		 * If WP is in script debug, or we pass ?script_debug in a URL - set debug to true.
+		 */
+		$debug = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG == true ) || ( isset( $_GET['script_debug'] ) ) ? true : false;
+
+		/**
+		 * Should we load minified files?
+		 */
+		if ($debug){
+			wp_register_script( 'swp-live-search-client', $this->url . '/assets/javascript/source/searchwp-live-search-staged.js', array( 'jquery' ), $this->version, false );
+        } else {
+			wp_register_script( 'swp-live-search-client', $this->url . '/assets/javascript/searchwp-live-search.min.js', array( 'jquery' ), $this->version, false );
+        }
 
 		// set up our parameters
 		$params = array(
