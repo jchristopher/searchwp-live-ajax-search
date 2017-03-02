@@ -21,6 +21,7 @@ module.exports = function(grunt) {
 				"strict": false,
 				"trailing": false,
 				"undef": true,
+                reporterOutput: '',
 				"globals": {
 					"jQuery": true,
 					"Spinner": true,
@@ -33,23 +34,38 @@ module.exports = function(grunt) {
 			]
 		},
 
+        bower_concat: {
+            all: {
+                dest: 'assets/javascript/source/bower.js',
+                cssDest: 'assets/styles/bower.css',
+                exclude: [
+                    'jquery'
+                ],
+                include: [
+                    'spin.js'
+                ]
+            }
+        },
+
+        concat: {
+            options: {
+                separator: ''
+            },
+            dist: {
+                src: [
+                	'assets/javascript/source/bower.js',
+                    'assets/javascript/source/searchwp-live-search.js'
+				],
+                dest: 'assets/javascript/build/searchwp-live-search.js'
+            }
+        },
+
 		uglify: {
 			dist: {
 				files: {
-					'assets/javascript/searchwp-live-search.min.js': [
-						'assets/javascript/source/searchwp-live-search-staged.js'
-					]
+					'assets/javascript/build/searchwp-live-search.min.js': 'assets/javascript/build/searchwp-live-search.js'
 				}
 			}
-		},
-
-		import: {
-			options: {},
-			dist: {
-				src: 'assets/javascript/source/wrapper.js',
-				dest: 'assets/javascript/source/searchwp-live-search-staged.js'
-			},
-			tasks: ['jshint','uglify']
 		},
 
 		watch: {
@@ -57,7 +73,7 @@ module.exports = function(grunt) {
 				files: [
 					'<%= jshint.all %>'
 				],
-				tasks: ['import','jshint','uglify']
+				tasks: [ 'jshint', 'bower_concat', 'concat', 'uglify' ]
 			}
 		}
 	});
@@ -65,13 +81,16 @@ module.exports = function(grunt) {
 	// Load tasks
 	grunt.loadNpmTasks('grunt-import');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-bower-concat');
+    grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 
 	// Register tasks
 	grunt.registerTask('default', [
-		'import',
 		'jshint',
+		'bower_concat',
+		'concat',
 		'uglify',
 		'watch'
 	]);
