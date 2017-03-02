@@ -2,8 +2,8 @@
 Contributors: jchristopher
 Tags: search, live, ajax
 Requires at least: 3.9
-Tested up to: 4.6
-Stable tag: 1.1.8
+Tested up to: 4.7.2
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -69,12 +69,18 @@ SearchWP Live Ajax Search uses a filter — <a href="https://searchwp.com/docs/
 
 == Screenshots ==
 
-1. SearchWP Live Ajax Search automagically working in Twenty Fourteen instantly after activating
+1. SearchWP Live Ajax Search automatically working in Twenty Fourteen instantly after activating
 2. Search results with default 'theme' (can be completely (completely) customized)
 3. SearchWP Live Ajax Search Widget
 4. SearchWP Live Ajax Search Widget Advanced
 
 == Changelog ==
+
+= 1.2.0 =
+* Reworked build process to be more straightforward
+* Support script debugging (props mgratch)
+* Remove form action requirement to better integrate with other code (props mgratch)
+* Fixed an issue that prevented search from firing when re-entered too fast (props pierrestoffe)
 
 = 1.1.8 =
 * Added configuration option to prevent AJAX cancellation when Enter key is pressed
