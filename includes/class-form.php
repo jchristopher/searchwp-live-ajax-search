@@ -108,9 +108,21 @@ class SearchWP_Live_Search_Form extends SearchWP_Live_Search {
 		 * Should we load minified files?
 		 */
 		if ($debug){
-			wp_register_script( 'swp-live-search-client', $this->url . '/assets/javascript/source/searchwp-live-search-staged.js', array( 'jquery' ), $this->version, false );
+			wp_register_script(
+                'swp-live-search-client',
+                $this->url . '/assets/javascript/build/searchwp-live-search.js',
+                array( 'jquery' ),
+                $this->version,
+                true
+            );
         } else {
-			wp_register_script( 'swp-live-search-client', $this->url . '/assets/javascript/searchwp-live-search.min.js', array( 'jquery' ), $this->version, false );
+			wp_register_script(
+                'swp-live-search-client',
+                $this->url . '/assets/javascript/build/searchwp-live-search.min.js',
+                array( 'jquery' ),
+                $this->version,
+                true
+            );
         }
 
 		// set up our parameters

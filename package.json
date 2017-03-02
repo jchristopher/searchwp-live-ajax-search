@@ -1,7 +1,7 @@
 {
   "name": "searchwp_live_search",
-  "version": "1.0.0",
-  "description": "SearchWP Live Search",
+  "version": "1.2.0",
+  "description": "SearchWP Live Ajax Search",
   "main": "Gruntfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,13 +12,12 @@
   },
   "dependencies": {
     "grunt": "~0.4.0",
-    "grunt-contrib-compass": "~0.7.2",
     "grunt-contrib-jshint": "~0.10.0",
     "grunt-contrib-uglify": "~0.4.0",
     "grunt-contrib-watch": "~0.6.1"
   },
   "devDependencies": {
-    "grunt-import": "^0.1.7",
-    "grunt-includes": "^0.4.4"
+    "grunt-bower-concat": "^1.0.0",
+    "grunt-contrib-concat": "^1.0.0"
   }
 }

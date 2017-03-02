@@ -1,0 +1,21 @@
+{
+  "name": "SearchWP Live Ajax Search",
+  "version": "1.2.0",
+  "authors": [
+    "SearchWP, LLC <info@searchwp.com>"
+  ],
+  "description": "SearchWP Live Ajax Search assets",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "spin.js": "*"
+  },
+  "resolutions": {
+    "jquery": ">=1.10"
+  }
+}
