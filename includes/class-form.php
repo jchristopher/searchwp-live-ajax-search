@@ -118,7 +118,7 @@ class SearchWP_Live_Search_Form extends SearchWP_Live_Search {
         } else {
 			wp_register_script(
                 'swp-live-search-client',
-                $this->url . '/assets/javascript/searchwp-live-search.min.js',
+                $this->url . '/assets/javascript/build/searchwp-live-search.min.js',
                 array( 'jquery' ),
                 $this->version,
                 true
