@@ -446,8 +446,15 @@
 				// prevent autocomplete
 				$input.attr('autocomplete','off');
 
+				// #a11y: ARIA attributes
+				$input.attr( 'aria-describedby', this.results_id  + '-instructions' );
+				$input.attr( 'aria-owns', this.results_id );
+				$input.attr( 'aria-expanded', 'false' );
+				$input.attr( 'aria-autocomplete', 'both' );
+				$input.attr( 'aria-activedescendant', '' );
+
 				// set up and position the results container
-                var results_el_html = '<div class="searchwp-live-search-results" id="' + this.results_id + '"></div>';
+                var results_el_html = '<div class="searchwp-live-search-results" id="' + this.results_id + '" role="listbox" tabindex="0"></div>';
 
                 // if parent_el was specified, inject the results el into it instead of appending it to the body
                 var swpparentel = $input.data('swpparentel');
