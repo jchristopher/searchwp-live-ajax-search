@@ -526,6 +526,38 @@
 			}
 		},
 
+		keyboard_navigation: function(){
+			var self     = this,
+				$input   = this.input_el,
+				$results = this.results_el;
+
+			$(document).on('keyup.searchwp_a11y', function(e){
+
+				// If results are not displayed, don't bind keypress.
+				if ( ! $results.hasClass('searchwp-live-search-results-showing') ) {
+					$(document).off('keyup.searchwp_a11y');
+					return;
+				}
+				
+				// On `esc` keypress (only when input search is not focused).
+				if ( e.keyCode == 27 && ! $input.is(':focus') ) {
+					e.preventDefault();
+
+					self.destroy_results();
+
+					// Unbind keypress
+					$(document).off('keyup.searchwp_a11y');
+
+					// Get back the focus on input search.
+					$input.focus();
+
+					$(document).trigger("searchwp_live_escape_results");
+				}
+			});
+
+			$(document).trigger( "searchwp_live_keyboad_navigation" );
+		},
+
 		position_results: function(){
 			var $input = this.input_el,
 				input_offset = $input.offset(),
@@ -635,6 +667,7 @@
 					$(document).trigger( "searchwp_live_search_success", [ $input, $results, $form, action, values ] );
 					self.position_results();
 					$results.html(response);
+                    self.keyboard_navigation();
 				}
 			});
 		},
