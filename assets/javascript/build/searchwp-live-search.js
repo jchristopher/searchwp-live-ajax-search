@@ -395,6 +395,7 @@
 		this.has_results = false;       		// whether results are showing
 		this.current_request = false;	     	// the current request in progress
 		this.results_destroy_on_blur = true;	// destroy the results
+		this.a11y_keys = [ 27, 40, 13, 38, 9 ]; // list of keyCode used for a11y
 
 		// kick it off
 		this.init();
@@ -489,6 +490,9 @@
 
 				// bind to keyup
 				$input.keyup(function(e){
+					if ( $.inArray( e.keyCode, self.a11y_keys ) === 1 ) {
+						return;
+					}
 					// is there already a request active?
 					if( self.current_request && ( self.config.abort_on_enter && e.keyCode === 13 ) ){
 						self.current_request.abort();
@@ -529,16 +533,24 @@
 		keyboard_navigation: function(){
 			var self     = this,
 				$input   = this.input_el,
-				$results = this.results_el;
+				$results = this.results_el,
+				focused_class = 'searchwp-live-search-result--focused',
+				item_class = '.searchwp-live-search-result',
+				a11y_keys = this.a11y_keys;
 
-			$(document).on('keyup.searchwp_a11y', function(e){
+			$(document).one('keyup.searchwp_a11y', function(e){
 
 				// If results are not displayed, don't bind keypress.
 				if ( ! $results.hasClass('searchwp-live-search-results-showing') ) {
 					$(document).off('keyup.searchwp_a11y');
 					return;
 				}
-				
+
+				// If key pressed doesn't match our a11y keys list do nothing.
+				if ( $.inArray( e.keyCode, a11y_keys ) !== 1 ) {
+					return;
+				}
+
 				// On `esc` keypress (only when input search is not focused).
 				if ( e.keyCode == 27 && ! $input.is(':focus') ) {
 					e.preventDefault();
@@ -552,6 +564,39 @@
 					$input.focus();
 
 					$(document).trigger("searchwp_live_escape_results");
+
+					return;
+				}
+
+				// On `down` arrow keypress
+				if ( e.keyCode == 40 ) {
+					var $current = $( $results[0] ).addClass( 'lolilol' );
+					console.log( $current );
+					if ( $current.length === 1 ) {
+						console.log('next');
+						$current.removeClass( focused_class )
+								.next().addClass( focused_class )
+								.find( 'a' ).focus();
+					} else {
+						console.log('first');
+						$results.find( item_class + ':first' ).addClass( focused_class )
+								.find( 'a' ).focus();
+					}
+				}
+
+				// On `up` arrow keypress
+				if ( e.keyCode == 38 ) {
+					
+				}
+
+				// On 'tab' keypress
+				if ( e.keyCode == 9 ) {
+					
+				}
+
+				// On 'enter' keypress
+				if ( e.keyCode == 13 ) {
+					
 				}
 			});
 
