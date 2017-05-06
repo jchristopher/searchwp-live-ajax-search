@@ -570,16 +570,14 @@
 
 				// On `down` arrow keypress
 				if ( e.keyCode == 40 ) {
-					var $current = $( $results[0] ).addClass( 'lolilol' );
-					console.log( $current );
-					if ( $current.length === 1 ) {
-						console.log('next');
-						$current.removeClass( focused_class )
-								.next().addClass( focused_class )
+					var $current = $( $results[0] ).find( '.' + focused_class );
+					if ( $current.length === 1 && $current.next().length === 1 ) {
+						$current.removeClass( focused_class ).attr('aria-selected', 'false')
+								.next().addClass( focused_class ).attr('aria-selected', 'true')
 								.find( 'a' ).focus();
 					} else {
-						console.log('first');
-						$results.find( item_class + ':first' ).addClass( focused_class )
+						$current.removeClass( focused_class ).attr('aria-selected', 'false');
+						$results.find( item_class + ':first' ).addClass( focused_class ).attr('aria-selected', 'true')
 								.find( 'a' ).focus();
 					}
 				}
