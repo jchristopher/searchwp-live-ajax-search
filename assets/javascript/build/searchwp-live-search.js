@@ -658,6 +658,11 @@
 
 		// if the search value changed, we've waited long enough, and we have at least the minimum characters: search!
 		maybe_search: function(e){
+			// If key pressed doesn't match our a11y keys list do nothing.
+			if ( $.inArray( e.keyCode, this.a11y_keys ) > -1 ) {
+				return;
+			}
+
 			clearTimeout(this.timer);
 			if(e.currentTarget.value.length >= this.config.input.min_chars){
 				this.timer = setTimeout(
