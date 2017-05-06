@@ -538,7 +538,7 @@
 				item_class = '.searchwp-live-search-result',
 				a11y_keys = this.a11y_keys;
 
-			$(document).one('keyup.searchwp_a11y', function(e){
+			$(document).off('keyup.searchwp_a11y').on('keyup.searchwp_a11y', function(e){
 
 				// If results are not displayed, don't bind keypress.
 				if ( ! $results.hasClass('searchwp-live-search-results-showing') ) {
