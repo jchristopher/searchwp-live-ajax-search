@@ -490,7 +490,7 @@
 
 				// bind to keyup
 				$input.keyup(function(e){
-					if ( $.inArray( e.keyCode, self.a11y_keys ) === 1 ) {
+					if ( $.inArray( e.keyCode, self.a11y_keys ) > -1 ) {
 						return;
 					}
 					// is there already a request active?
@@ -547,7 +547,7 @@
 				}
 
 				// If key pressed doesn't match our a11y keys list do nothing.
-				if ( $.inArray( e.keyCode, a11y_keys ) !== 1 ) {
+				if ( $.inArray( e.keyCode, a11y_keys ) === -1 ) {
 					return;
 				}
 
