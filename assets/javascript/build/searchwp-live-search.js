@@ -585,6 +585,16 @@
 				// On `up` arrow keypress
 				if ( e.keyCode == 38 ) {
 					
+					var $current = $( $results[0] ).find( '.' + focused_class );
+					if ( $current.length === 1 && $current.prev().length === 1 ) {
+						$current.removeClass( focused_class ).attr('aria-selected', 'false')
+								.prev().addClass( focused_class ).attr('aria-selected', 'true')
+								.find( 'a' ).focus();
+					} else {
+						$current.removeClass( focused_class ).attr('aria-selected', 'false');
+						$results.find( item_class + ':last' ).addClass( focused_class ).attr('aria-selected', 'true')
+								.find( 'a' ).focus();
+					}	
 				}
 
 				// On 'tab' keypress
