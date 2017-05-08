@@ -575,10 +575,16 @@
 						$current.removeClass( focused_class ).attr('aria-selected', 'false')
 								.next().addClass( focused_class ).attr('aria-selected', 'true')
 								.find( 'a' ).focus();
+						self.aria_activedescendant( true );
 					} else {
 						$current.removeClass( focused_class ).attr('aria-selected', 'false');
 						$results.find( item_class + ':first' ).addClass( focused_class ).attr('aria-selected', 'true')
 								.find( 'a' ).focus();
+						if ( $results.find( item_class + ':first' ).length > 0 ) {
+							self.aria_activedescendant( true );
+						} else {
+							self.aria_activedescendant( false );
+						}
 					}
 					$(document).trigger( "searchwp_live_key_arrowdown_pressed" );
 				}
@@ -590,10 +596,16 @@
 						$current.removeClass( focused_class ).attr('aria-selected', 'false')
 								.prev().addClass( focused_class ).attr('aria-selected', 'true')
 								.find( 'a' ).focus();
+						self.aria_activedescendant( true );
 					} else {
 						$current.removeClass( focused_class ).attr('aria-selected', 'false');
 						$results.find( item_class + ':last' ).addClass( focused_class ).attr('aria-selected', 'true')
 								.find( 'a' ).focus();
+						if ( $results.find( item_class + ':last' ).length > 0 ) {
+							self.aria_activedescendant( true );
+						} else {
+							self.aria_activedescendant( false );
+						}
 					}
 					$(document).trigger( "searchwp_live_key_arrowup_pressed" );
 				}
@@ -611,6 +623,31 @@
 			});
 
 			$(document).trigger( "searchwp_live_keyboad_navigation" );
+		},
+
+		aria_expanded: function( is_expanded ) {
+			var $input = this.input_el;
+
+			if ( is_expanded ) {
+				$input.attr('aria-expanded', 'true');
+			} else {
+				$input.attr('aria-expanded', 'false');
+				this.aria_activedescendant( false );
+			}
+
+			$(document).trigger( "searchwp_live_aria_expanded" );
+		},
+
+		aria_activedescendant: function( is_selected ) {
+			var $input = this.input_el;
+
+			if ( is_selected ) {
+				$input.attr('aria-activedescendant', 'selectedOption');
+			} else {
+				$input.attr('aria-activedescendant', '');
+			}
+
+			$(document).trigger( "searchwp_live_aria_activedescendant" );
 		},
 
 		position_results: function(){
@@ -649,6 +686,7 @@
 
 		destroy_results: function(e){
 			this.hide_spinner();
+			this.aria_expanded( false );
 			this.results_el.empty().removeClass('searchwp-live-search-results-showing');
 			this.results_showing = false;
 			this.has_results = false;
@@ -699,6 +737,8 @@
 
 			$(document).trigger( "searchwp_live_search_start", [ $input, $results, $form, action, values ] );
 
+			this.aria_expanded( false );
+
 			// append our action, engine, and (redundant) query (so as to save the trouble of finding it again server side)
             values += '&action=searchwp_live_search&swpengine=' + $input.data('swpengine') + '&swpquery=' + $input.val();
 
@@ -727,7 +767,8 @@
 					$(document).trigger( "searchwp_live_search_success", [ $input, $results, $form, action, values ] );
 					self.position_results();
 					$results.html(response);
-                    self.keyboard_navigation();
+					self.aria_expanded( true );
+					self.keyboard_navigation();
 				}
 			});
 		},
