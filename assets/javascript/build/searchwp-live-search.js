@@ -448,11 +448,14 @@
 				$input.attr('autocomplete','off');
 
 				// #a11y: ARIA attributes
-				$input.attr( 'aria-describedby', this.results_id  + '-instructions' );
+				var instruction_id = this.results_id  + '_instructions';
+				$input.attr( 'aria-describedby', instruction_id );
 				$input.attr( 'aria-owns', this.results_id );
 				$input.attr( 'aria-expanded', 'false' );
 				$input.attr( 'aria-autocomplete', 'both' );
 				$input.attr( 'aria-activedescendant', '' );
+
+				$input.after( '<p class="searchwp-live-search-instructions screen-reader-text" id="' + instruction_id + '">' + searchwp_live_search_params.aria_instructions + '</p>' );
 
 				// set up and position the results container
                 var results_el_html = '<div class="searchwp-live-search-results" id="' + this.results_id + '" role="listbox" tabindex="0"></div>';
