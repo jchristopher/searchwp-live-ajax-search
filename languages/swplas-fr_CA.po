@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SearchWP Live Ajax Search\n"
-"POT-Creation-Date: 2015-07-16 09:10-0400\n"
-"PO-Revision-Date: 2015-07-16 09:11-0400\n"
-"Last-Translator: \n"
+"POT-Creation-Date: 2017-08-28 08:28+0200\n"
+"PO-Revision-Date: 2017-08-28 08:28+0200\n"
+"Last-Translator: Stefan Meier <hello@stefanmeier.net>\n"
 "Language-Team: \n"
 "Language: fr_CA\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.2\n"
+"X-Generator: Poedit 2.0.3\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: includes/class-form.php:107
+#: includes/class-form.php:132
 msgid "No valid SearchWP Live Search configuration found!"
 msgstr "Aucun fichier de configuration valide pour SearchWP!"
 
@@ -26,39 +26,39 @@ msgstr "Aucun fichier de configuration valide pour SearchWP!"
 msgid "SearchWP Live Search"
 msgstr "SearchWP Live Search"
 
-#: includes/class-widget.php:35 includes/class-widget.php:70
+#: includes/class-widget.php:35 includes/class-widget.php:75
 msgid "Search for..."
 msgstr "Recherche…"
 
-#: includes/class-widget.php:48
+#: includes/class-widget.php:50
 msgid "Search for:"
 msgstr "Rechercher:"
 
-#: includes/class-widget.php:51 includes/class-widget.php:69
+#: includes/class-widget.php:54 includes/class-widget.php:74
 msgid "Search"
 msgstr "Rechercher"
 
-#: includes/class-widget.php:97
+#: includes/class-widget.php:102
 msgid "Title:"
 msgstr "Titre:"
 
-#: includes/class-widget.php:102
+#: includes/class-widget.php:107
 msgid "SearchWP Engine:"
 msgstr "Moteur de recherche SearchWP:"
 
-#: includes/class-widget.php:111
+#: includes/class-widget.php:116
 msgid "Configuration:"
 msgstr "Configuration:"
 
-#: includes/class-widget.php:119
+#: includes/class-widget.php:124
 msgid "Advanced"
 msgstr "Avancé"
 
-#: includes/class-widget.php:122
-msgid "Placholder:"
+#: includes/class-widget.php:127
+msgid "Placeholder:"
 msgstr "Espace réservé:"
 
-#: includes/class-widget.php:126
+#: includes/class-widget.php:131
 msgid "Destination fallback URL (optional):"
 msgstr "URL de destination par défaut (optionel):"
 
@@ -66,3 +66,6 @@ msgstr "URL de destination par défaut (optionel):"
 msgctxt "swplas"
 msgid "No results found."
 msgstr "Pas de résultats."
+
+#~ msgid "Placholder:"
+#~ msgstr "Espace réservé:"
