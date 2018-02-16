@@ -458,23 +458,22 @@
 				$input.after( '<p class="searchwp-live-search-instructions screen-reader-text" id="' + instruction_id + '">' + searchwp_live_search_params.aria_instructions + '</p>' );
 
 				// set up and position the results container
-                var results_el_html = '<div class="searchwp-live-search-results" id="' + this.results_id + '" role="listbox" tabindex="0"></div>';
+				var results_el_html = '<div class="searchwp-live-search-results" id="' + this.results_id + '" role="listbox" tabindex="0"></div>';
 
-                // if parent_el was specified, inject the results el into it instead of appending it to the body
-                var swpparentel = $input.data('swpparentel');
-                if (swpparentel) {
-                    // specified as a data property on the html input.
-                    this.parent_el = $(swpparentel);
-                    this.parent_el.html(results_el_html);
-                } else if (this.config.parent_el) {
-                    // specified by the config set in php
-                    this.parent_el = $(this.config.parent_el);
-                    this.parent_el.html(results_el_html);
-
-                } else {
-                    // no parent, just append to the body
-                    $('body').append($(results_el_html));
-                }
+				// if parent_el was specified, inject the results el into it instead of appending it to the body
+				var swpparentel = $input.data('swpparentel');
+				if (swpparentel) {
+					// specified as a data property on the html input.
+					this.parent_el = $(swpparentel);
+					this.parent_el.html(results_el_html);
+				} else if (this.config.parent_el) {
+					// specified by the config set in php
+					this.parent_el = $(this.config.parent_el);
+					this.parent_el.html(results_el_html);
+				} else {
+					// no parent, just append to the body
+					$('body').append($(results_el_html));
+				}
 
 				this.results_el = $('#'+this.results_id);
 				this.position_results();
@@ -554,9 +553,10 @@
 					return;
 				}
 
+				e.preventDefault();
+
 				// On `esc` keypress (only when input search is not focused).
 				if ( e.keyCode === 27 && ! $input.is(':focus') ) {
-					e.preventDefault();
 
 					self.destroy_results();
 
@@ -573,6 +573,7 @@
 
 				// On `down` arrow keypress
 				if ( e.keyCode === 40 ) {
+					console.log('down!');
 					var $current = $( $results[0] ).find( '.' + focused_class );
 					if ( $current.length === 1 && $current.next().length === 1 ) {
 						$current.removeClass( focused_class ).attr('aria-selected', 'false')
@@ -659,10 +660,10 @@
 				$results = this.results_el,
 				results_top_offset = 0;
 
-            // don't try to position a results element when the input field is hidden
-            if ($input.is(":hidden")) {
-                return;
-            }
+			// don't try to position a results element when the input field is hidden
+			if ($input.is(":hidden")) {
+				return;
+			}
 
 			// check for an offset
 			input_offset.left += parseInt(this.config.results.offset.x,10);
@@ -743,7 +744,7 @@
 			this.aria_expanded( false );
 
 			// append our action, engine, and (redundant) query (so as to save the trouble of finding it again server side)
-            values += '&action=searchwp_live_search&swpengine=' + $input.data('swpengine') + '&swpquery=' + $input.val();
+			values += '&action=searchwp_live_search&swpengine=' + $input.data('swpengine') + '&swpquery=' + $input.val();
 
 			if(action.indexOf('?') !== -1){
 				action = action.split('?');
