@@ -82,6 +82,7 @@ SearchWP Live Ajax Search uses a filter — <a href="https://searchwp.com/docs/
 * Added German translation (props @stefan-meier)
 * Added Polish translation (props @boguslawski-piotr)
 * Added Dutch translation (props Stefan G.)
+* Updated translation source
 
 = 1.2.0 =
 * Reworked build process to be more straightforward
