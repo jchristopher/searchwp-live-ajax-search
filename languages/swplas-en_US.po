@@ -1,25 +1,37 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SearchWP Live Ajax Search\n"
-"POT-Creation-Date: 2017-08-28 08:28+0200\n"
-"PO-Revision-Date: 2017-08-28 08:28+0200\n"
+"POT-Creation-Date: 2018-02-16 10:45-0500\n"
+"PO-Revision-Date: 2018-02-16 10:45-0500\n"
 "Last-Translator: Stefan Meier <hello@stefanmeier.net>\n"
 "Language-Team: \n"
 "Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.3\n"
+"X-Generator: Poedit 2.0.6\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
-"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;"
-"_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: node_modules\n"
 
 #: includes/class-form.php:132
 msgid "No valid SearchWP Live Search configuration found!"
+msgstr ""
+
+#: includes/class-form.php:133
+msgid ""
+"When autocomplete results are available use up and down arrows to review and "
+"enter to go to the desired page. Touch device users, explore by touch or "
+"with swipe gestures."
+msgstr ""
+
+#: includes/class-form.php:208
+msgid "Continue typing"
 msgstr ""
 
 #: includes/class-widget.php:18 includes/class-widget.php:19
@@ -60,9 +72,4 @@ msgstr ""
 
 #: includes/class-widget.php:131
 msgid "Destination fallback URL (optional):"
-msgstr ""
-
-#: templates/search-results.php:33
-msgctxt "swplas"
-msgid "No results found."
 msgstr ""
