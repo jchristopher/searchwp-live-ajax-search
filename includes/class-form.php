@@ -28,40 +28,40 @@ class SearchWP_Live_Search_Form extends SearchWP_Live_Search {
 	 * @var array All configurations available for use at runtime
 	 */
 	public $configs = array(
-			'default' => array(                         // 'default' config
-				'engine' => 'default',                  // search engine to use (if SearchWP is available)
-				'input' => array(
-					'delay'     => 500,                 // wait 500ms before triggering a search
-					'min_chars' => 3,                   // wait for at least 3 characters before triggering a search
-				),
-				'results' => array(
-					'position'  => 'bottom',            // where to position the results (bottom|top)
-					'width'     => 'auto',              // whether the width should automatically match the input (auto|css)
-					'offset'    => array(
-						'x' => 0,                       // x offset (in pixels)
-						'y' => 5                        // y offset (in pixels)
-					),
-				),
-				'spinner' => array(                     // powered by http://fgnass.github.io/spin.js/
-					'lines'         => 10,              // number of lines in the spinner
-					'length'        => 8,               // length of each line
-					'width'         => 4,               // line thickness
-					'radius'        => 8,               // radius of inner circle
-					'corners'       => 1,               // corner roundness (0..1)
-					'rotate'        => 0,               // rotation offset
-					'direction'     => 1,               // 1: clockwise, -1: counterclockwise
-					'color'         => '#000',          // #rgb or #rrggbb or array of colors
-					'speed'         => 1,               // rounds per second
-					'trail'         => 60,              // afterglow percentage
-					'shadow'        => false,           // whether to render a shadow
-					'hwaccel'       => false,           // whether to use hardware acceleration
-					'className'     => 'spinner',       // CSS class assigned to spinner
-					'zIndex'        => 2000000000,      // z-index of spinner
-					'top'           => '50%',           // top position (relative to parent)
-					'left'          => '50%',           // left position (relative to parent)
+		'default' => array(                         // 'default' config
+			'engine' => 'default',                  // search engine to use (if SearchWP is available)
+			'input' => array(
+				'delay'     => 500,                 // wait 500ms before triggering a search
+				'min_chars' => 3,                   // wait for at least 3 characters before triggering a search
+			),
+			'results' => array(
+				'position'  => 'bottom',            // where to position the results (bottom|top)
+				'width'     => 'auto',              // whether the width should automatically match the input (auto|css)
+				'offset'    => array(
+					'x' => 0,                       // x offset (in pixels)
+					'y' => 5,                       // y offset (in pixels)
 				),
 			),
-		);
+			'spinner' => array(                     // powered by http://fgnass.github.io/spin.js/
+				'lines'         => 10,              // number of lines in the spinner
+				'length'        => 8,               // length of each line
+				'width'         => 4,               // line thickness
+				'radius'        => 8,               // radius of inner circle
+				'corners'       => 1,               // corner roundness (0..1)
+				'rotate'        => 0,               // rotation offset
+				'direction'     => 1,               // 1: clockwise, -1: counterclockwise
+				'color'         => '#000',          // #rgb or #rrggbb or array of colors
+				'speed'         => 1,               // rounds per second
+				'trail'         => 60,              // afterglow percentage
+				'shadow'        => false,           // whether to render a shadow
+				'hwaccel'       => false,           // whether to use hardware acceleration
+				'className'     => 'spinner',       // CSS class assigned to spinner
+				'zIndex'        => 2000000000,      // z-index of spinner
+				'top'           => '50%',           // top position (relative to parent)
+				'left'          => '50%',           // left position (relative to parent)
+			),
+		),
+	);
 
 	/**
 	 * Equivalent of __construct() — implement our hooks
@@ -97,33 +97,33 @@ class SearchWP_Live_Search_Form extends SearchWP_Live_Search {
 		wp_enqueue_style( 'searchwp-live-search', $this->url . '/assets/styles/style.css', null, $this->version );
 
 		// scripts
-        wp_enqueue_script( 'jquery' );
+		wp_enqueue_script( 'jquery' );
 
 		/**
 		 * If WP is in script debug, or we pass ?script_debug in a URL - set debug to true.
 		 */
-		$debug = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG == true ) || ( isset( $_GET['script_debug'] ) ) ? true : false;
+		$debug = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true ) || ( isset( $_GET['script_debug'] ) ) ? true : false;
 
 		/**
 		 * Should we load minified files?
 		 */
-		if ( $debug ){
+		if ( $debug ) {
 			wp_register_script(
-                'swp-live-search-client',
-                $this->url . '/assets/javascript/build/searchwp-live-search.js',
-                array( 'jquery' ),
-                $this->version,
-                true
-            );
-        } else {
+				'swp-live-search-client',
+				$this->url . '/assets/javascript/build/searchwp-live-search.js',
+				array( 'jquery' ),
+				$this->version,
+				true
+			);
+		} else {
 			wp_register_script(
-                'swp-live-search-client',
-                $this->url . '/assets/javascript/build/searchwp-live-search.min.js',
-                array( 'jquery' ),
-                $this->version,
-                true
-            );
-        }
+				'swp-live-search-client',
+				$this->url . '/assets/javascript/build/searchwp-live-search.min.js',
+				array( 'jquery' ),
+				$this->version,
+				true
+			);
+		}
 
 		// set up our parameters
 		$params = array(
@@ -135,7 +135,7 @@ class SearchWP_Live_Search_Form extends SearchWP_Live_Search {
 
 		// we need to JSON encode the configs
 		$encoded_data = array(
-			'l10n_print_after' => 'searchwp_live_search_params = ' . json_encode( $params ) . ';'
+			'l10n_print_after' => 'searchwp_live_search_params = ' . json_encode( $params ) . ';',
 		);
 
 		// localize and enqueue the script with all of the variable goodness

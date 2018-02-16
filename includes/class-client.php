@@ -54,10 +54,10 @@ class SearchWP_Live_Search_Client extends SearchWP_Live_Search {
 					's'             => $query,
 					'post_status'   => 'publish',
 					'post_type'     => get_post_types( array(
-							'public'   => true,
-							// '_builtin' => true,
-							'exclude_from_search' => false,
-						) ),
+						'public'   => true,
+						// '_builtin' => true,
+						'exclude_from_search' => false,
+					) ),
 				);
 			}
 			$args['posts_per_page'] = $this->get_posts_per_page();
