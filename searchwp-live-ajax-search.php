@@ -59,6 +59,8 @@ class SearchWP_Live_Search {
  * @since 1.0
  */
 function searchwp_live_search_init() {
+	load_plugin_textdomain( 'swplas', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+
 	// if an AJAX request is taking place, it's potentially a search so we'll want to prepare for that
 	// else we'll prep the environment for the search form itself
 	if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
