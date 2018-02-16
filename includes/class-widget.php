@@ -124,7 +124,7 @@ class SearchWP_Live_Search_Widget extends WP_Widget {
 		<p><a href="#" class="button searchwp-widget-<?php echo $swpuniqid; ?>"><?php _e( 'Advanced', 'searchwp' ); ?></a></p>
 		<div class="searchwp-live-search-widget-advanced" style="display:none;">
 			<p>
-				<label for="<?php echo $this->get_field_id( 'placeholder' ); ?>"><?php _e( 'Placholder:' ); ?></label>
+				<label for="<?php echo $this->get_field_id( 'placeholder' ); ?>"><?php _e( 'Placeholder:' ); ?></label>
 				<input class="widefat" id="<?php echo $this->get_field_id( 'placeholder' ); ?>" name="<?php echo $this->get_field_name( 'placeholder' ); ?>" type="placeholder" value="<?php echo esc_attr( $widget_placeholder ); ?>">
 			</p>
 			<p>
