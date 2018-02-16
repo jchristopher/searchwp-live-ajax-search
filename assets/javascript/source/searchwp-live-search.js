@@ -138,6 +138,13 @@
 						self.results_el.empty();
 						self.show_spinner();
 					}
+
+					// Capture whether minimum characters have been entered
+					if(e.currentTarget.value.length >= self.config.input.min_chars){
+						self.results_el.removeClass('searchwp-live-search-no-min-chars');
+					} else {
+						self.results_el.addClass('searchwp-live-search-no-min-chars');
+					}
 				}).keyup($.proxy(this.maybe_search, this));
 
 				// destroy the results when input focus is lost
