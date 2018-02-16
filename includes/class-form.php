@@ -181,27 +181,34 @@ class SearchWP_Live_Search_Form extends SearchWP_Live_Search {
 			?>
 				<style type="text/css">
 					.searchwp-live-search-results {
-						opacity:0;
-						transition:opacity .25s ease-in-out;
-						-moz-transition:opacity .25s ease-in-out;
-						-webkit-transition:opacity .25s ease-in-out;
-						height:0;
-						overflow:hidden;
-						z-index:9999;
-						position:absolute;
-						display:none;
+						opacity: 0;
+						transition: opacity .25s ease-in-out;
+						-moz-transition: opacity .25s ease-in-out;
+						-webkit-transition: opacity .25s ease-in-out;
+						height: 0;
+						overflow: hidden;
+						z-index: 9999;
+						position: absolute;
+						display: none;
 					}
 
 					.searchwp-live-search-results-showing {
-						display:block;
-						opacity:1;
-						height:auto;
-						overflow:auto;
+						display: block;
+						opacity: 1;
+						height: auto;
+						overflow: auto;
 					}
 
 					.searchwp-live-search-no-results {
-						padding:3em 2em 0;
-						text-align:center;
+						padding: 3em 2em 0;
+						text-align: center;
+					}
+
+					.searchwp-live-search-no-min-chars:after {
+						content: "<?php echo esc_attr_e( 'Continue typing', 'swplas' ); ?>";
+						display: block;
+						text-align: center;
+						padding: 2em 2em 0;
 					}
 				</style>
 			<?php

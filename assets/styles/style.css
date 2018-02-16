@@ -4,25 +4,32 @@
 
 /* visual styles */
 .searchwp-live-search-results {
-	box-sizing:border-box;
-	-moz-box-sizing:border-box;
-	background:#fff;
-	-webkit-box-shadow:0 0 2px 0 rgba(30,30,30,0.4);
-	box-shadow:0 0 2px 0 rgba(30,30,30,0.4);
-	border-radius:3px;
-	width:315px;
-	min-height:175px;
-	max-height:300px;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	background: #fff;
+	-webkit-box-shadow: 0 0 2px 0 rgba(30,30,30,0.4);
+	box-shadow: 0 0 2px 0 rgba(30,30,30,0.4);
+	border-radius: 3px;
+	width: 315px;
+	min-height: 175px;
+	max-height: 300px;
 }
+
+.searchwp-live-search-no-min-chars .spinner {
+	opacity: 0.3;
+}
+
 .searchwp-live-search-result p {
 	font-size:0.9em;
 	padding:1em;
 	margin:0;
 	border-bottom:1px solid rgba(30,30,30,0.1);
 }
+
 .searchwp-live-search-result--focused {
 	background: #DDD;
 }
+
 .searchwp-live-search-result--focused a {
 	color: #000;
 }
@@ -32,10 +39,10 @@
 }
 
 .searchwp-live-search-result a {
-	display:block;
-	white-space:nowrap;
-	overflow:hidden;
-	text-overflow:ellipsis;
+	display: block;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 /* Bullet proof Screen Reader Only text */
