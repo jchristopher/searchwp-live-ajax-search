@@ -555,7 +555,7 @@
 				}
 
 				// On `esc` keypress (only when input search is not focused).
-				if ( e.keyCode == 27 && ! $input.is(':focus') ) {
+				if ( e.keyCode === 27 && ! $input.is(':focus') ) {
 					e.preventDefault();
 
 					self.destroy_results();
@@ -572,7 +572,7 @@
 				}
 
 				// On `down` arrow keypress
-				if ( e.keyCode == 40 ) {
+				if ( e.keyCode === 40 ) {
 					var $current = $( $results[0] ).find( '.' + focused_class );
 					if ( $current.length === 1 && $current.next().length === 1 ) {
 						$current.removeClass( focused_class ).attr('aria-selected', 'false')
@@ -593,15 +593,15 @@
 				}
 
 				// On `up` arrow keypress
-				if ( e.keyCode == 38 ) {
-					var $current = $( $results[0] ).find( '.' + focused_class );
-					if ( $current.length === 1 && $current.prev().length === 1 ) {
-						$current.removeClass( focused_class ).attr('aria-selected', 'false')
+				if ( e.keyCode === 38 ) {
+					var $currentItem = $( $results[0] ).find( '.' + focused_class );
+					if ( $currentItem.length === 1 && $currentItem.prev().length === 1 ) {
+						$currentItem.removeClass( focused_class ).attr('aria-selected', 'false')
 								.prev().addClass( focused_class ).attr('aria-selected', 'true')
 								.find( 'a' ).focus();
 						self.aria_activedescendant( true );
 					} else {
-						$current.removeClass( focused_class ).attr('aria-selected', 'false');
+						$currentItem.removeClass( focused_class ).attr('aria-selected', 'false');
 						$results.find( item_class + ':last' ).addClass( focused_class ).attr('aria-selected', 'true')
 								.find( 'a' ).focus();
 						if ( $results.find( item_class + ':last' ).length > 0 ) {
@@ -614,12 +614,12 @@
 				}
 
 				// On 'enter' keypress
-				if ( e.keyCode == 13 ) {
+				if ( e.keyCode === 13 ) {
 					$(document).trigger( "searchwp_live_key_enter_pressed" );
 				}
 
 				// On 'tab' keypress
-				if ( e.keyCode == 9 ) {
+				if ( e.keyCode === 9 ) {
 					$(document).trigger( "searchwp_live_key_tab_pressed" );
 				}
 
