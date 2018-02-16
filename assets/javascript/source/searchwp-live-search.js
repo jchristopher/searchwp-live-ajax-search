@@ -8,7 +8,7 @@
 		this.input_el = element;        		// the input element itself
 		this.results_id = null;         		// the id attribute of the results wrapper for this search field
 		this.results_el = null;         		// the results wrapper element itself
-        this.parent_el = null;          		// allows results wrapper element to be injected into a custom parent element
+		this.parent_el = null;          		// allows results wrapper element to be injected into a custom parent element
 		this.results_showing = false;   		// whether the results are showing
 		this.form_el = null;            		// the search form element itself
 		this.timer = false;             		// powers the delay check
@@ -32,7 +32,7 @@
 			var self = this,
 				$input = this.input_el;
 			this.form_el = $input.parents('form:eq(0)');
-            this.results_id = this.uniqid('searchwp_live_search_results_');
+			this.results_id = this.uniqid('searchwp_live_search_results_');
 
 			// establish our config (e.g. allow developers to override the config based on the value of the swpconfig data attribute)
 			var valid_config = false;
