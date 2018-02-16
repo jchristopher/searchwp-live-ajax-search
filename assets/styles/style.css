@@ -20,6 +20,12 @@
 	margin:0;
 	border-bottom:1px solid rgba(30,30,30,0.1);
 }
+.searchwp-live-search-result--focused {
+	background: #DDD;
+}
+.searchwp-live-search-result--focused a {
+	color: #000;
+}
 
 .searchwp-live-search-result:last-of-type p {
 	border-bottom:0;
@@ -30,4 +36,18 @@
 	white-space:nowrap;
 	overflow:hidden;
 	text-overflow:ellipsis;
+}
+
+/* Bullet proof Screen Reader Only text */
+.searchwp-live-search-instructions {
+	border: 0 !important;
+	clip: rect(1px, 1px, 1px, 1px) !important;
+	-webkit-clip-path: inset(50%) !important;
+		clip-path: inset(50%) !important;
+	height: 1px !important;
+	overflow: hidden !important;
+	padding: 0 !important;
+	position: absolute !important;
+	width: 1px !important;
+	white-space: nowrap !important;
 }

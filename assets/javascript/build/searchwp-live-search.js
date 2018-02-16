@@ -395,6 +395,7 @@
 		this.has_results = false;       		// whether results are showing
 		this.current_request = false;	     	// the current request in progress
 		this.results_destroy_on_blur = true;	// destroy the results
+		this.a11y_keys = [ 27, 40, 13, 38, 9 ]; // list of keyCode used for a11y
 
 		// kick it off
 		this.init();
@@ -446,8 +447,18 @@
 				// prevent autocomplete
 				$input.attr('autocomplete','off');
 
+				// #a11y: ARIA attributes
+				var instruction_id = this.results_id  + '_instructions';
+				$input.attr( 'aria-describedby', instruction_id );
+				$input.attr( 'aria-owns', this.results_id );
+				$input.attr( 'aria-expanded', 'false' );
+				$input.attr( 'aria-autocomplete', 'both' );
+				$input.attr( 'aria-activedescendant', '' );
+
+				$input.after( '<p class="searchwp-live-search-instructions screen-reader-text" id="' + instruction_id + '">' + searchwp_live_search_params.aria_instructions + '</p>' );
+
 				// set up and position the results container
-                var results_el_html = '<div class="searchwp-live-search-results" id="' + this.results_id + '"></div>';
+                var results_el_html = '<div class="searchwp-live-search-results" id="' + this.results_id + '" role="listbox" tabindex="0"></div>';
 
                 // if parent_el was specified, inject the results el into it instead of appending it to the body
                 var swpparentel = $input.data('swpparentel');
@@ -482,6 +493,9 @@
 
 				// bind to keyup
 				$input.keyup(function(e){
+					if ( $.inArray( e.keyCode, self.a11y_keys ) > -1 ) {
+						return;
+					}
 					// is there already a request active?
 					if( self.current_request && ( self.config.abort_on_enter && e.keyCode === 13 ) ){
 						self.current_request.abort();
@@ -517,6 +531,126 @@
 					e.stopPropagation();
 				});
 			}
+		},
+
+		keyboard_navigation: function(){
+			var self     = this,
+				$input   = this.input_el,
+				$results = this.results_el,
+				focused_class = 'searchwp-live-search-result--focused',
+				item_class = '.searchwp-live-search-result',
+				a11y_keys = this.a11y_keys;
+
+			$(document).off('keyup.searchwp_a11y').on('keyup.searchwp_a11y', function(e){
+
+				// If results are not displayed, don't bind keypress.
+				if ( ! $results.hasClass('searchwp-live-search-results-showing') ) {
+					$(document).off('keyup.searchwp_a11y');
+					return;
+				}
+
+				// If key pressed doesn't match our a11y keys list do nothing.
+				if ( $.inArray( e.keyCode, a11y_keys ) === -1 ) {
+					return;
+				}
+
+				// On `esc` keypress (only when input search is not focused).
+				if ( e.keyCode == 27 && ! $input.is(':focus') ) {
+					e.preventDefault();
+
+					self.destroy_results();
+
+					// Unbind keypress
+					$(document).off('keyup.searchwp_a11y');
+
+					// Get back the focus on input search.
+					$input.focus();
+
+					$(document).trigger("searchwp_live_escape_results");
+
+					return;
+				}
+
+				// On `down` arrow keypress
+				if ( e.keyCode == 40 ) {
+					var $current = $( $results[0] ).find( '.' + focused_class );
+					if ( $current.length === 1 && $current.next().length === 1 ) {
+						$current.removeClass( focused_class ).attr('aria-selected', 'false')
+								.next().addClass( focused_class ).attr('aria-selected', 'true')
+								.find( 'a' ).focus();
+						self.aria_activedescendant( true );
+					} else {
+						$current.removeClass( focused_class ).attr('aria-selected', 'false');
+						$results.find( item_class + ':first' ).addClass( focused_class ).attr('aria-selected', 'true')
+								.find( 'a' ).focus();
+						if ( $results.find( item_class + ':first' ).length > 0 ) {
+							self.aria_activedescendant( true );
+						} else {
+							self.aria_activedescendant( false );
+						}
+					}
+					$(document).trigger( "searchwp_live_key_arrowdown_pressed" );
+				}
+
+				// On `up` arrow keypress
+				if ( e.keyCode == 38 ) {
+					var $current = $( $results[0] ).find( '.' + focused_class );
+					if ( $current.length === 1 && $current.prev().length === 1 ) {
+						$current.removeClass( focused_class ).attr('aria-selected', 'false')
+								.prev().addClass( focused_class ).attr('aria-selected', 'true')
+								.find( 'a' ).focus();
+						self.aria_activedescendant( true );
+					} else {
+						$current.removeClass( focused_class ).attr('aria-selected', 'false');
+						$results.find( item_class + ':last' ).addClass( focused_class ).attr('aria-selected', 'true')
+								.find( 'a' ).focus();
+						if ( $results.find( item_class + ':last' ).length > 0 ) {
+							self.aria_activedescendant( true );
+						} else {
+							self.aria_activedescendant( false );
+						}
+					}
+					$(document).trigger( "searchwp_live_key_arrowup_pressed" );
+				}
+
+				// On 'enter' keypress
+				if ( e.keyCode == 13 ) {
+					$(document).trigger( "searchwp_live_key_enter_pressed" );
+				}
+
+				// On 'tab' keypress
+				if ( e.keyCode == 9 ) {
+					$(document).trigger( "searchwp_live_key_tab_pressed" );
+				}
+
+			});
+
+			$(document).trigger( "searchwp_live_keyboad_navigation" );
+		},
+
+		aria_expanded: function( is_expanded ) {
+			var $input = this.input_el;
+
+			if ( is_expanded ) {
+				$input.attr('aria-expanded', 'true');
+			} else {
+				$input.attr('aria-expanded', 'false');
+				this.aria_activedescendant( false );
+			}
+
+			$(document).trigger( "searchwp_live_aria_expanded" );
+		},
+
+		aria_activedescendant: function( is_selected ) {
+			var $input = this.input_el;
+
+			if ( is_selected ) {
+				$input.attr('aria-activedescendant', 'selectedOption');
+			} else {
+				$input.attr('aria-activedescendant', '');
+			}
+
+			$(document).trigger( "searchwp_live_aria_activedescendant" );
 		},
 
 		position_results: function(){
@@ -555,6 +689,7 @@
 
 		destroy_results: function(e){
 			this.hide_spinner();
+			this.aria_expanded( false );
 			this.results_el.empty().removeClass('searchwp-live-search-results-showing');
 			this.results_showing = false;
 			this.has_results = false;
@@ -564,6 +699,11 @@
 
 		// if the search value changed, we've waited long enough, and we have at least the minimum characters: search!
 		maybe_search: function(e){
+			// If key pressed doesn't match our a11y keys list do nothing.
+			if ( $.inArray( e.keyCode, this.a11y_keys ) > -1 ) {
+				return;
+			}
+
 			clearTimeout(this.timer);
 			if(e.currentTarget.value.length >= this.config.input.min_chars){
 				this.timer = setTimeout(
@@ -600,6 +740,8 @@
 
 			$(document).trigger( "searchwp_live_search_start", [ $input, $results, $form, action, values ] );
 
+			this.aria_expanded( false );
+
 			// append our action, engine, and (redundant) query (so as to save the trouble of finding it again server side)
             values += '&action=searchwp_live_search&swpengine=' + $input.data('swpengine') + '&swpquery=' + $input.val();
 
@@ -628,6 +770,8 @@
 					$(document).trigger( "searchwp_live_search_success", [ $input, $results, $form, action, values ] );
 					self.position_results();
 					$results.html(response);
+					self.aria_expanded( true );
+					self.keyboard_navigation();
 				}
 			});
 		},

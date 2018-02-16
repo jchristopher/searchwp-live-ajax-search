@@ -107,7 +107,7 @@ class SearchWP_Live_Search_Form extends SearchWP_Live_Search {
 		/**
 		 * Should we load minified files?
 		 */
-		if ($debug){
+		if ( $debug ){
 			wp_register_script(
                 'swp-live-search-client',
                 $this->url . '/assets/javascript/build/searchwp-live-search.js',
@@ -130,6 +130,7 @@ class SearchWP_Live_Search_Form extends SearchWP_Live_Search {
 			'ajaxurl'               => admin_url( 'admin-ajax.php' ),
 			'config'                => $this->configs,
 			'msg_no_config_found'   => __( 'No valid SearchWP Live Search configuration found!', 'searchwp' ),
+			'aria_instructions'     => __( 'When autocomplete results are available use up and down arrows to review and enter to go to the desired page. Touch device users, explore by touch or with swipe gestures.' , 'searchwp' ),
 		);
 
 		// we need to JSON encode the configs
