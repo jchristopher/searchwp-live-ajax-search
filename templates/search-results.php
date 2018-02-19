@@ -30,6 +30,6 @@
 	<?php endwhile; ?>
 <?php else : ?>
 	<p class="searchwp-live-search-no-results" role="option">
-		<em><?php esc_html_ex( 'No results found.', 'swplas' ); ?></em>
+		<em><?php esc_html_x( 'No results found.', 'swplas' ); ?></em>
 	</p>
 <?php endif; ?>
