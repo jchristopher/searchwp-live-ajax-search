@@ -751,7 +751,7 @@
 			this.aria_expanded( false );
 
 			// append our action, engine, and (redundant) query (so as to save the trouble of finding it again server side)
-			values += '&action=searchwp_live_search&swpengine=' + $input.data('swpengine') + '&swpquery=' + $input.val();
+			values += '&action=searchwp_live_search&swpengine=' + $input.data('swpengine') + '&swpquery=' + encodeURIComponent($input.val());
 
 			if(action.indexOf('?') !== -1){
 				action = action.split('?');
