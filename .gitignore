@@ -2,3 +2,4 @@ node_modules
 tasks
 /bower_components
 /assets/javascript/.DS_Store
+.DS_Store
