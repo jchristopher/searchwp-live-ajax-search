@@ -76,12 +76,11 @@ import {Spinner} from 'spin.js';
 				$input.attr( 'aria-describedby', instruction_id );
 				$input.attr( 'aria-owns', this.results_id );
 				$input.attr( 'aria-autocomplete', 'both' );
-				$input.attr( 'aria-activedescendant', '' );
 
 				$input.after( '<p class="searchwp-live-search-instructions screen-reader-text" id="' + instruction_id + '">' + searchwp_live_search_params.aria_instructions + '</p>' );
 
 				// set up and position the results container
-				var results_el_html = '<div aria-expanded="false" aria-activedescendant="" class="searchwp-live-search-results" id="' + this.results_id + '" role="listbox" tabindex="0"></div>';
+				var results_el_html = '<div aria-expanded="false" class="searchwp-live-search-results" id="' + this.results_id + '" role="listbox" tabindex="0"></div>';
 
 				// if parent_el was specified, inject the results el into it instead of appending it to the body
 				var swpparentel = $input.data('swpparentel');
@@ -208,16 +207,10 @@ import {Spinner} from 'spin.js';
 						$current.removeClass( focused_class ).attr('aria-selected', 'false')
 								.next().addClass( focused_class ).attr('aria-selected', 'true')
 								.find( 'a' ).focus();
-						self.aria_activedescendant( true );
 					} else {
 						$current.removeClass( focused_class ).attr('aria-selected', 'false');
 						$results.find( item_class + ':first' ).addClass( focused_class ).attr('aria-selected', 'true')
 								.find( 'a' ).focus();
-						if ( $results.find( item_class + ':first' ).length > 0 ) {
-							self.aria_activedescendant( true );
-						} else {
-							self.aria_activedescendant( false );
-						}
 					}
 					jQuery(document).trigger( "searchwp_live_key_arrowdown_pressed" );
 				}
@@ -229,16 +222,10 @@ import {Spinner} from 'spin.js';
 						$currentItem.removeClass( focused_class ).attr('aria-selected', 'false')
 								.prev().addClass( focused_class ).attr('aria-selected', 'true')
 								.find( 'a' ).focus();
-						self.aria_activedescendant( true );
 					} else {
 						$currentItem.removeClass( focused_class ).attr('aria-selected', 'false');
 						$results.find( item_class + ':last' ).addClass( focused_class ).attr('aria-selected', 'true')
 								.find( 'a' ).focus();
-						if ( $results.find( item_class + ':last' ).length > 0 ) {
-							self.aria_activedescendant( true );
-						} else {
-							self.aria_activedescendant( false );
-						}
 					}
 					jQuery(document).trigger( "searchwp_live_key_arrowup_pressed" );
 				}
@@ -265,22 +252,9 @@ import {Spinner} from 'spin.js';
 				$resultsEl.attr('aria-expanded', 'true');
 			} else {
 				$resultsEl.attr('aria-expanded', 'false');
-				this.aria_activedescendant( false );
 			}
 
 			jQuery(document).trigger( "searchwp_live_aria_expanded" );
-		},
-
-		aria_activedescendant: function( is_selected ) {
-			var $resultsEl = this.results_el;
-
-			if ( is_selected ) {
-				$input.attr('aria-activedescendant', 'selectedOption');
-			} else {
-				$input.attr('aria-activedescendant', '');
-			}
-
-			jQuery(document).trigger( "searchwp_live_aria_activedescendant" );
 		},
 
 		position_results: function(){
