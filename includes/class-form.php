@@ -113,6 +113,7 @@ class SearchWP_Live_Search_Form extends SearchWP_Live_Search {
 		// set up our parameters
 		$params = array(
 			'ajaxurl'             => admin_url( 'admin-ajax.php' ),
+			'post_id'             => get_queried_object_id(),
 			'config'              => $this->configs,
 			'msg_no_config_found' => __( 'No valid SearchWP Live Search configuration found!', 'swplas' ),
 			'aria_instructions'   => __( 'When autocomplete results are available use up and down arrows to review and enter to go to the desired page. Touch device users, explore by touch or with swipe gestures.' , 'swplas' ),
