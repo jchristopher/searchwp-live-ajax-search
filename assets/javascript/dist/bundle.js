@@ -685,6 +685,10 @@ var _spin = require("spin.js");
       clearTimeout(this.timer);
 
       if (e.currentTarget.value.length >= this.config.input.min_chars) {
+        if (this.current_request) {
+          this.current_request.abort();
+        }
+
         this.timer = setTimeout(jQuery.proxy(this.search, this, e), this.config.input.delay);
       }
     },
