@@ -75,14 +75,12 @@ import {Spinner} from 'spin.js';
 				var instruction_id = this.results_id  + '_instructions';
 				$input.attr( 'aria-describedby', instruction_id );
 				$input.attr( 'aria-owns', this.results_id );
-				$input.attr( 'aria-expanded', 'false' );
 				$input.attr( 'aria-autocomplete', 'both' );
-				$input.attr( 'aria-activedescendant', '' );
 
 				$input.after( '<p class="searchwp-live-search-instructions screen-reader-text" id="' + instruction_id + '">' + searchwp_live_search_params.aria_instructions + '</p>' );
 
 				// set up and position the results container
-				var results_el_html = '<div class="searchwp-live-search-results" id="' + this.results_id + '" role="listbox" tabindex="0"></div>';
+				var results_el_html = '<div aria-expanded="false" class="searchwp-live-search-results" id="' + this.results_id + '" role="listbox" tabindex="0"></div>';
 
 				// if parent_el was specified, inject the results el into it instead of appending it to the body
 				var swpparentel = $input.data('swpparentel');
@@ -209,16 +207,10 @@ import {Spinner} from 'spin.js';
 						$current.removeClass( focused_class ).attr('aria-selected', 'false')
 								.next().addClass( focused_class ).attr('aria-selected', 'true')
 								.find( 'a' ).focus();
-						self.aria_activedescendant( true );
 					} else {
 						$current.removeClass( focused_class ).attr('aria-selected', 'false');
 						$results.find( item_class + ':first' ).addClass( focused_class ).attr('aria-selected', 'true')
 								.find( 'a' ).focus();
-						if ( $results.find( item_class + ':first' ).length > 0 ) {
-							self.aria_activedescendant( true );
-						} else {
-							self.aria_activedescendant( false );
-						}
 					}
 					jQuery(document).trigger( "searchwp_live_key_arrowdown_pressed" );
 				}
@@ -230,16 +222,10 @@ import {Spinner} from 'spin.js';
 						$currentItem.removeClass( focused_class ).attr('aria-selected', 'false')
 								.prev().addClass( focused_class ).attr('aria-selected', 'true')
 								.find( 'a' ).focus();
-						self.aria_activedescendant( true );
 					} else {
 						$currentItem.removeClass( focused_class ).attr('aria-selected', 'false');
 						$results.find( item_class + ':last' ).addClass( focused_class ).attr('aria-selected', 'true')
 								.find( 'a' ).focus();
-						if ( $results.find( item_class + ':last' ).length > 0 ) {
-							self.aria_activedescendant( true );
-						} else {
-							self.aria_activedescendant( false );
-						}
 					}
 					jQuery(document).trigger( "searchwp_live_key_arrowup_pressed" );
 				}
@@ -260,28 +246,15 @@ import {Spinner} from 'spin.js';
 		},
 
 		aria_expanded: function( is_expanded ) {
-			var $input = this.input_el;
+			var $resultsEl = this.results_el;
 
 			if ( is_expanded ) {
-				$input.attr('aria-expanded', 'true');
+				$resultsEl.attr('aria-expanded', 'true');
 			} else {
-				$input.attr('aria-expanded', 'false');
-				this.aria_activedescendant( false );
+				$resultsEl.attr('aria-expanded', 'false');
 			}
 
 			jQuery(document).trigger( "searchwp_live_aria_expanded" );
-		},
-
-		aria_activedescendant: function( is_selected ) {
-			var $input = this.input_el;
-
-			if ( is_selected ) {
-				$input.attr('aria-activedescendant', 'selectedOption');
-			} else {
-				$input.attr('aria-activedescendant', '');
-			}
-
-			jQuery(document).trigger( "searchwp_live_aria_activedescendant" );
 		},
 
 		position_results: function(){
@@ -320,7 +293,7 @@ import {Spinner} from 'spin.js';
 
 		destroy_results: function(e){
 			this.hide_spinner();
-			this.aria_expanded( false );
+			this.aria_expanded(false);
 			this.results_el.empty().removeClass('searchwp-live-search-results-showing');
 			this.results_showing = false;
 			this.has_results = false;
@@ -375,7 +348,7 @@ import {Spinner} from 'spin.js';
 
 			jQuery(document).trigger( "searchwp_live_search_start", [ $input, $results, $form, action, values ] );
 
-			this.aria_expanded( false );
+			this.aria_expanded(false);
 
 			// append our action, engine, and (redundant) query (so as to save the trouble of finding it again server side)
 			values += '&action=searchwp_live_search&swpengine=' + $input.data('swpengine') + '&swpquery=' + encodeURIComponent($input.val()) + '&origin_id=' + parseInt(searchwp_live_search_params.post_id,10);
@@ -406,7 +379,7 @@ import {Spinner} from 'spin.js';
 					jQuery(document).trigger( "searchwp_live_search_success", [ $input, $results, $form, action, values ] );
 					self.position_results();
 					$results.html(response);
-					self.aria_expanded( true );
+					self.aria_expanded(true);
 					self.keyboard_navigation();
 					jQuery(document).trigger( "searchwp_live_search_shutdown", [ $input, $results, $form, action, values ] );
 				}
