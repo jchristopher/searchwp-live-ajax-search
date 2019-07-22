@@ -10,7 +10,7 @@
 class SearchWP_Live_Search_Widget extends WP_Widget {
 
 	/**
-	 * Register the Widget with WordPrss
+	 * Register the Widget with WordPress
 	 */
 	function __construct() {
 		parent::__construct(
@@ -31,33 +31,41 @@ class SearchWP_Live_Search_Widget extends WP_Widget {
 	public function widget( $args, $instance ) {
 		$title = apply_filters( 'widget_title', $instance['title'] );
 
-		$destination    = empty( $instance['destination'] ) ? '' : esc_url( $instance['destination'] );
-		$placeholder    = empty( $instance['placeholder'] ) ? __( 'Search for...', 'searchwp' ) : esc_attr( $instance['placeholder'] );
-		$engine         = empty( $instance['engine'] ) ? 'default' : esc_attr( $instance['engine'] );
-		$config         = empty( $instance['config'] ) ? 'default' : esc_attr( $instance['config'] );
+		$destination = empty( $instance['destination'] ) ? '' : $instance['destination'];
+		$placeholder = empty( $instance['placeholder'] ) ? __( 'Search for...', 'searchwp' ) : $instance['placeholder'];
+		$engine      = empty( $instance['engine'] ) ? 'default' : $instance['engine'];
+		$config      = empty( $instance['config'] ) ? 'default' : $instance['config'];
 
-		echo $args['before_widget'];
+		echo wp_kses_post( $args['before_widget'] );
+		do_action( 'searchwp_live_search_before_widget' );
 
 		if ( ! empty( $title ) ) {
-			echo $args['before_title'] . $title . $args['after_title'];
+			echo wp_kses_post( $args['before_title'] . $title . $args['after_title'] );
 		}
+
+		do_action( 'searchwp_live_search_widget_title', array(
+			'before_title' => $args['before_title'],
+			'title'        => $title,
+			'after_title'  => $args['after_title'],
+		) );
 
 		?>
 			<?php do_action( 'searchwp_live_search_widget_before_form' ); ?>
-			<form role="search" method="get" class="searchwp-live-search-widget-search-form" action="<?php echo $destination; ?>">
+			<form role="search" method="get" class="searchwp-live-search-widget-search-form" action="<?php echo esc_url( $destination ); ?>">
 				<?php do_action( 'searchwp_live_search_widget_before_field' ); ?>
 				<label>
-					<span class="screen-reader-text"><?php _e( 'Search for:', 'swplas' ); ?></span>
-					<input type="search" class="search-field" placeholder="<?php echo $placeholder; ?>" value="" name="swpquery" data-swplive="true" data-swpengine="<?php echo $engine; ?>" data-swpconfig="<?php echo $config; ?>" title="<?php echo $placeholder; ?>" autocomplete="off">
+					<span class="screen-reader-text"><?php esc_html_e( 'Search for:', 'swplas' ); ?></span>
+					<input type="search" class="search-field" placeholder="<?php echo esc_attr( $placeholder ); ?>" value="" name="swpquery" data-swplive="true" data-swpengine="<?php echo esc_attr( $engine ); ?>" data-swpconfig="<?php echo esc_attr( $config ); ?>" title="<?php echo esc_attr( $placeholder ); ?>" autocomplete="off">
 				</label>
 				<?php do_action( 'searchwp_live_search_widget_after_field' ); ?>
-				<input type="submit" class="search-submit" value="<?php _e( 'Search', 'swplas' ); ?>">
+				<input type="submit" class="search-submit" value="<?php esc_html_e( 'Search', 'swplas' ); ?>">
 				<?php do_action( 'searchwp_live_search_widget_after_submit' ); ?>
 			</form>
 			<?php do_action( 'searchwp_live_search_widget_after_form' ); ?>
 		<?php
 
-		echo $args['after_widget'];
+		echo wp_kses_post( $args['after_widget'] );
+		do_action( 'searchwp_live_search_after_widget' );
 	}
 
 	/**
@@ -75,7 +83,7 @@ class SearchWP_Live_Search_Widget extends WP_Widget {
 		$widget_placeholder = isset( $instance['placeholder'] ) ? $instance['placeholder'] : __( 'Search for...', 'swplas' );
 		$widget_destination = isset( $instance['destination'] ) ? $instance['destination'] : '';
 
-		// we'll piggyback SearchWP itself to pull a list of search engines
+		// We'll piggyback SearchWP itself to pull a list of search engines.
 		$widget_engine = isset( $instance['engine'] ) ? $instance['engine'] : 'default';
 		$engines = array();
 		if ( class_exists( 'SearchWP' ) ) {
@@ -99,13 +107,13 @@ class SearchWP_Live_Search_Widget extends WP_Widget {
 		?>
 
 		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label>
-			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $widget_title ); ?>">
+			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Title:', 'swplas' ); ?></label>
+			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $widget_title ); ?>">
 		</p>
 		<?php if ( ! empty( $engines ) ) : ?>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'engine' ); ?>"><?php _e( 'SearchWP Engine:' ); ?></label>
-			<select name="<?php echo $this->get_field_name( 'engine' ); ?>" id="<?php echo $this->get_field_id( 'engine' ); ?>">
+			<label for="<?php echo esc_attr( $this->get_field_id( 'engine' ) ); ?>"><?php esc_html_e( 'SearchWP Engine:', 'swplas' ); ?></label>
+			<select name="<?php echo esc_attr( $this->get_field_name( 'engine' ) ); ?>" id="<?php echo esc_attr( $this->get_field_id( 'engine' ) ); ?>">
 				<?php foreach ( $engines as $engine_name => $engine_label ) : ?>
 					<option value="<?php echo esc_attr( $engine_name ); ?>" <?php selected( $widget_engine, $engine_name ); ?>><?php echo esc_html( $engine_label ); ?></option>
 				<?php endforeach; ?>
@@ -113,28 +121,28 @@ class SearchWP_Live_Search_Widget extends WP_Widget {
 		</p>
 		<?php endif; ?>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'config' ); ?>"><?php _e( 'Configuration:' ); ?></label>
-			<select name="<?php echo $this->get_field_name( 'config' ); ?>" id="<?php echo $this->get_field_id( 'config' ); ?>">
+			<label for="<?php echo esc_attr( $this->get_field_id( 'config' ) ); ?>"><?php esc_html_e( 'Configuration:', 'swplas' ); ?></label>
+			<select name="<?php echo esc_attr( $this->get_field_name( 'config' ) ); ?>" id="<?php echo esc_attr( $this->get_field_id( 'config' ) ); ?>">
 				<?php foreach ( $form->configs as $config => $val ) : ?>
 					<option value="<?php echo esc_attr( $config ); ?>" <?php selected( $widget_config, $config ); ?>><?php echo esc_html( $config ); ?></option>
 				<?php endforeach; ?>
 			</select>
 		</p>
 		<?php $swpuniqid = uniqid( 'swp' ); ?>
-		<p><a href="#" class="button searchwp-widget-<?php echo $swpuniqid; ?>"><?php _e( 'Advanced', 'searchwp' ); ?></a></p>
+		<p><a href="#" class="button searchwp-widget-<?php echo $swpuniqid; ?>"><?php esc_html_e( 'Advanced', 'swplas' ); ?></a></p>
 		<div class="searchwp-live-search-widget-advanced" style="display:none;">
 			<p>
-				<label for="<?php echo $this->get_field_id( 'placeholder' ); ?>"><?php _e( 'Placeholder:' ); ?></label>
-				<input class="widefat" id="<?php echo $this->get_field_id( 'placeholder' ); ?>" name="<?php echo $this->get_field_name( 'placeholder' ); ?>" type="placeholder" value="<?php echo esc_attr( $widget_placeholder ); ?>">
+				<label for="<?php echo esc_attr( $this->get_field_id( 'placeholder' ) ); ?>"><?php esc_html_e( 'Placeholder:', 'swplas' ); ?></label>
+				<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'placeholder' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'placeholder' ) ); ?>" type="placeholder" value="<?php echo esc_attr( $widget_placeholder ); ?>">
 			</p>
 			<p>
-				<label for="<?php echo $this->get_field_id( 'destination' ); ?>"><?php _e( 'Destination fallback URL (optional):' ); ?></label>
-				<input class="widefat" id="<?php echo $this->get_field_id( 'destination' ); ?>" name="<?php echo $this->get_field_name( 'destination' ); ?>" type="text" value="<?php echo esc_attr( $widget_destination ); ?>">
+				<label for="<?php echo esc_attr( $this->get_field_id( 'destination' ) ); ?>"><?php esc_html_e( 'Destination fallback URL (optional):', 'swplas' ); ?></label>
+				<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'destination' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'destination' ) ); ?>" type="text" value="<?php echo esc_attr( $widget_destination ); ?>">
 			</p>
 		</div>
 		<script type="text/javascript">
 			jQuery(document).ready(function($){
-				$('.searchwp-widget-<?php echo $swpuniqid; ?>').click(function(){
+				$('.searchwp-widget-<?php echo esc_attr( $swpuniqid ); ?>').click(function(){
 					var $advanced = $(this).parents().find('.searchwp-live-search-widget-advanced');
 					if($advanced.is(':visible')){
 						$advanced.hide();
@@ -160,11 +168,11 @@ class SearchWP_Live_Search_Widget extends WP_Widget {
 	 */
 	public function update( $new_instance, $old_instance ) {
 		$instance = array();
-		$instance['title']          = ( ! empty( $new_instance['title'] ) )         ? strip_tags( $new_instance['title'] ) : '';
-		$instance['destination']    = ( ! empty( $new_instance['destination'] ) )   ? strip_tags( $new_instance['destination'] ) : '';
-		$instance['placeholder']    = ( ! empty( $new_instance['placeholder'] ) )   ? strip_tags( $new_instance['placeholder'] ) : '';
-		$instance['engine']         = ( ! empty( $new_instance['engine'] ) )        ? strip_tags( $new_instance['engine'] ) : '';
-		$instance['config']         = ( ! empty( $new_instance['config'] ) )        ? strip_tags( $new_instance['config'] ) : '';
+		$instance['title']       = ( ! empty( $new_instance['title'] ) )       ? strip_tags( $new_instance['title'] ) : '';
+		$instance['destination'] = ( ! empty( $new_instance['destination'] ) ) ? strip_tags( $new_instance['destination'] ) : '';
+		$instance['placeholder'] = ( ! empty( $new_instance['placeholder'] ) ) ? strip_tags( $new_instance['placeholder'] ) : '';
+		$instance['engine']      = ( ! empty( $new_instance['engine'] ) )      ? strip_tags( $new_instance['engine'] ) : '';
+		$instance['config']      = ( ! empty( $new_instance['config'] ) )      ? strip_tags( $new_instance['config'] ) : '';
 
 		return $instance;
 	}
@@ -174,4 +182,5 @@ class SearchWP_Live_Search_Widget extends WP_Widget {
 function searchwp_live_search_register_widget() {
 	register_widget( 'SearchWP_Live_Search_Widget' );
 }
+
 add_action( 'widgets_init', 'searchwp_live_search_register_widget' );
