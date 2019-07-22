@@ -8,7 +8,7 @@ Author: Jonathan Christopher
 Author URI: https://searchwp.com/
 Text Domain: swplas
 
-Copyright 2014-2018 Jonathan Christopher
+Copyright 2014-2019 Jonathan Christopher
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
