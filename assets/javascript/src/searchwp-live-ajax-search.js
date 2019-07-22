@@ -1,26 +1,28 @@
-(function($){
+import {Spinner} from 'spin.js';
+
+(function(){
 	var plugin_name = "searchwp_live_search";
 
 	function SearchwpLiveSearch( element ) {
 		this.config = null;
 
-		// internal properties
-		this.input_el = element;        		// the input element itself
-		this.results_id = null;         		// the id attribute of the results wrapper for this search field
-		this.results_el = null;         		// the results wrapper element itself
-		this.parent_el = null;          		// allows results wrapper element to be injected into a custom parent element
-		this.results_showing = false;   		// whether the results are showing
-		this.form_el = null;            		// the search form element itself
-		this.timer = false;             		// powers the delay check
-		this.last_string = '';          		// the last search string submitted
-		this.spinner = null;            		// the spinner
-		this.spinner_showing = false;   		// whether the spinner is showing
-		this.has_results = false;       		// whether results are showing
-		this.current_request = false;	     	// the current request in progress
-		this.results_destroy_on_blur = true;	// destroy the results
+		// Internal properties.
+		this.input_el = element;                // the input element itself
+		this.results_id = null;                 // the id attribute of the results wrapper for this search field
+		this.results_el = null;                 // the results wrapper element itself
+		this.parent_el = null;                  // allows results wrapper element to be injected into a custom parent element
+		this.results_showing = false;           // whether the results are showing
+		this.form_el = null;                    // the search form element itself
+		this.timer = false;                     // powers the delay check
+		this.last_string = '';                  // the last search string submitted
+		this.spinner = null;                    // the spinner
+		this.spinner_showing = false;           // whether the spinner is showing
+		this.has_results = false;               // whether results are showing
+		this.current_request = false;           // the current request in progress
+		this.results_destroy_on_blur = true;    // destroy the results
 		this.a11y_keys = [ 27, 40, 13, 38, 9 ]; // list of keyCode used for a11y
 
-		// kick it off
+		// Kick it off!
 		this.init();
 	}
 
@@ -28,7 +30,6 @@
 
 		// prep the field and form
 		init: function(){
-
 			var self = this,
 				$input = this.input_el;
 			this.form_el = $input.parents('form:eq(0)');
@@ -87,20 +88,20 @@
 				var swpparentel = $input.data('swpparentel');
 				if (swpparentel) {
 					// specified as a data property on the html input.
-					this.parent_el = $(swpparentel);
+					this.parent_el = jQuery(swpparentel);
 					this.parent_el.html(results_el_html);
 				} else if (this.config.parent_el) {
 					// specified by the config set in php
-					this.parent_el = $(this.config.parent_el);
+					this.parent_el = jQuery(this.config.parent_el);
 					this.parent_el.html(results_el_html);
 				} else {
 					// no parent, just append to the body
-					$('body').append($(results_el_html));
+					jQuery('body').append(jQuery(results_el_html));
 				}
 
-				this.results_el = $('#'+this.results_id);
+				this.results_el = jQuery('#'+this.results_id);
 				this.position_results();
-				$(window).resize(function(){
+				jQuery(window).resize(function(){
 					self.position_results();
 				});
 
@@ -115,14 +116,14 @@
 
 				// bind to keyup
 				$input.keyup(function(e){
-					if ( $.inArray( e.keyCode, self.a11y_keys ) > -1 ) {
+					if ( jQuery.inArray( e.keyCode, self.a11y_keys ) > -1 ) {
 						return;
 					}
 					// is there already a request active?
 					if( self.current_request && ( self.config.abort_on_enter && e.keyCode === 13 ) ){
 						self.current_request.abort();
 					}
-					if(!$.trim(self.input_el.val()).length) {
+					if(!jQuery.trim(self.input_el.val()).length) {
 						self.destroy_results();
 					}
 					// if the user typed, show the results wrapper and spinner
@@ -134,7 +135,7 @@
 					}
 					// if there are already results on display and the user is changing the search string
 					// remove the existing results and show the spinner
-					if(self.has_results && !self.spinner_showing && self.last_string !== $.trim(self.input_el.val())){
+					if(self.has_results && !self.spinner_showing && self.last_string !== jQuery.trim(self.input_el.val())){
 						self.results_el.empty();
 						self.show_spinner();
 					}
@@ -145,11 +146,11 @@
 					} else {
 						self.results_el.addClass('searchwp-live-search-no-min-chars');
 					}
-				}).keyup($.proxy(this.maybe_search, this));
+				}).keyup(jQuery.proxy(this.maybe_search, this));
 
 				// destroy the results when input focus is lost
 				if(this.config.results_destroy_on_blur||typeof this.config.results_destroy_on_blur === 'undefined'){
-					$('html').click(function(){
+					jQuery('html').click(function(){
 						self.destroy_results();
 					});
 				}
@@ -170,16 +171,16 @@
 				item_class = '.searchwp-live-search-result',
 				a11y_keys = this.a11y_keys;
 
-			$(document).off('keyup.searchwp_a11y').on('keyup.searchwp_a11y', function(e){
+			jQuery(document).off('keyup.searchwp_a11y').on('keyup.searchwp_a11y', function(e){
 
 				// If results are not displayed, don't bind keypress.
 				if ( ! $results.hasClass('searchwp-live-search-results-showing') ) {
-					$(document).off('keyup.searchwp_a11y');
+					jQuery(document).off('keyup.searchwp_a11y');
 					return;
 				}
 
 				// If key pressed doesn't match our a11y keys list do nothing.
-				if ( $.inArray( e.keyCode, a11y_keys ) === -1 ) {
+				if ( jQuery.inArray( e.keyCode, a11y_keys ) === -1 ) {
 					return;
 				}
 
@@ -191,20 +192,19 @@
 					self.destroy_results();
 
 					// Unbind keypress
-					$(document).off('keyup.searchwp_a11y');
+					jQuery(document).off('keyup.searchwp_a11y');
 
 					// Get back the focus on input search.
 					$input.focus();
 
-					$(document).trigger("searchwp_live_escape_results");
+					jQuery(document).trigger("searchwp_live_escape_results");
 
 					return;
 				}
 
 				// On `down` arrow keypress
 				if ( e.keyCode === 40 ) {
-					console.log('down!');
-					var $current = $( $results[0] ).find( '.' + focused_class );
+					var $current = jQuery( $results[0] ).find( '.' + focused_class );
 					if ( $current.length === 1 && $current.next().length === 1 ) {
 						$current.removeClass( focused_class ).attr('aria-selected', 'false')
 								.next().addClass( focused_class ).attr('aria-selected', 'true')
@@ -220,12 +220,12 @@
 							self.aria_activedescendant( false );
 						}
 					}
-					$(document).trigger( "searchwp_live_key_arrowdown_pressed" );
+					jQuery(document).trigger( "searchwp_live_key_arrowdown_pressed" );
 				}
 
 				// On `up` arrow keypress
 				if ( e.keyCode === 38 ) {
-					var $currentItem = $( $results[0] ).find( '.' + focused_class );
+					var $currentItem = jQuery( $results[0] ).find( '.' + focused_class );
 					if ( $currentItem.length === 1 && $currentItem.prev().length === 1 ) {
 						$currentItem.removeClass( focused_class ).attr('aria-selected', 'false')
 								.prev().addClass( focused_class ).attr('aria-selected', 'true')
@@ -241,22 +241,22 @@
 							self.aria_activedescendant( false );
 						}
 					}
-					$(document).trigger( "searchwp_live_key_arrowup_pressed" );
+					jQuery(document).trigger( "searchwp_live_key_arrowup_pressed" );
 				}
 
 				// On 'enter' keypress
 				if ( e.keyCode === 13 ) {
-					$(document).trigger( "searchwp_live_key_enter_pressed" );
+					jQuery(document).trigger( "searchwp_live_key_enter_pressed" );
 				}
 
 				// On 'tab' keypress
 				if ( e.keyCode === 9 ) {
-					$(document).trigger( "searchwp_live_key_tab_pressed" );
+					jQuery(document).trigger( "searchwp_live_key_tab_pressed" );
 				}
 
 			});
 
-			$(document).trigger( "searchwp_live_keyboad_navigation" );
+			jQuery(document).trigger( "searchwp_live_keyboad_navigation" );
 		},
 
 		aria_expanded: function( is_expanded ) {
@@ -269,7 +269,7 @@
 				this.aria_activedescendant( false );
 			}
 
-			$(document).trigger( "searchwp_live_aria_expanded" );
+			jQuery(document).trigger( "searchwp_live_aria_expanded" );
 		},
 
 		aria_activedescendant: function( is_selected ) {
@@ -281,7 +281,7 @@
 				$input.attr('aria-activedescendant', '');
 			}
 
-			$(document).trigger( "searchwp_live_aria_activedescendant" );
+			jQuery(document).trigger( "searchwp_live_aria_activedescendant" );
 		},
 
 		position_results: function(){
@@ -315,7 +315,7 @@
 				$results.width($input.outerWidth()-parseInt($results.css('paddingRight').replace('px',''),10)-parseInt($results.css('paddingLeft').replace('px',''),10));
 			}
 
-			$(document).trigger( "searchwp_live_position_results", [ $results.css('left'), $results.css('top'), $results.width() ] );
+			jQuery(document).trigger( "searchwp_live_position_results", [ $results.css('left'), $results.css('top'), $results.width() ] );
 		},
 
 		destroy_results: function(e){
@@ -325,20 +325,20 @@
 			this.results_showing = false;
 			this.has_results = false;
 
-			$(document).trigger( "searchwp_live_destroy_results" );
+			jQuery(document).trigger( "searchwp_live_destroy_results" );
 		},
 
 		// if the search value changed, we've waited long enough, and we have at least the minimum characters: search!
 		maybe_search: function(e){
 			// If key pressed doesn't match our a11y keys list do nothing.
-			if ( $.inArray( e.keyCode, this.a11y_keys ) > -1 ) {
+			if ( jQuery.inArray( e.keyCode, this.a11y_keys ) > -1 ) {
 				return;
 			}
 
 			clearTimeout(this.timer);
 			if(e.currentTarget.value.length >= this.config.input.min_chars){
 				this.timer = setTimeout(
-					$.proxy(this.search, this, e),
+					jQuery.proxy(this.search, this, e),
 					this.config.input.delay
 				);
 			}
@@ -348,7 +348,7 @@
 			if(this.config.spinner&&!this.spinner_showing){
 				this.spinner.spin(document.getElementById(this.results_id));
 				this.spinner_showing = true;
-				$(document).trigger( "searchwp_live_show_spinner" );
+				jQuery(document).trigger( "searchwp_live_show_spinner" );
 			}
 		},
 
@@ -356,7 +356,7 @@
 			if(this.config.spinner){
 				this.spinner.stop();
 				this.spinner_showing = false;
-				$(document).trigger( "searchwp_live_hide_spinner" );
+				jQuery(document).trigger( "searchwp_live_hide_spinner" );
 			}
 		},
 
@@ -369,7 +369,7 @@
 				$input = this.input_el,
 				$results = this.results_el;
 
-			$(document).trigger( "searchwp_live_search_start", [ $input, $results, $form, action, values ] );
+			jQuery(document).trigger( "searchwp_live_search_start", [ $input, $results, $form, action, values ] );
 
 			this.aria_expanded( false );
 
@@ -384,12 +384,12 @@
 			this.last_string = $input.val();
 			this.has_results = true;
 			// put the request into the current_request var
-			this.current_request = $.ajax({
+			this.current_request = jQuery.ajax({
 				url: searchwp_live_search_params.ajaxurl,
 				type: "POST",
 				data: values,
 				complete: function(){
-					$(document).trigger( "searchwp_live_search_complete", [ $input, $results, $form, action, values ] );
+					jQuery(document).trigger( "searchwp_live_search_complete", [ $input, $results, $form, action, values ] );
 					self.spinner_showing = false;
 					self.hide_spinner();
 					this.current_request = false;
@@ -398,7 +398,7 @@
 					if(response === 0){
 						response = "";
 					}
-					$(document).trigger( "searchwp_live_search_success", [ $input, $results, $form, action, values ] );
+					jQuery(document).trigger( "searchwp_live_search_success", [ $input, $results, $form, action, values ] );
 					self.position_results();
 					$results.html(response);
 					self.aria_expanded( true );
@@ -455,19 +455,19 @@
 		}
 	};
 
-	$.fn[plugin_name] = function(options){
+	jQuery.fn[plugin_name] = function(options){
 		this.each(function(){
-			if(!$.data(this, "plugin_" + plugin_name)){
-				$.data(this, "plugin_" + plugin_name, new SearchwpLiveSearch($(this), options));
+			if(!jQuery.data(this, "plugin_" + plugin_name)){
+				jQuery.data(this, "plugin_" + plugin_name, new SearchwpLiveSearch(jQuery(this), options));
 			}
 		});
 
 		// chain jQuery functions
 		return this;
 	};
-})(jQuery);
+})(window.jQuery);
 
 // find all applicable SearchWP Live Search inputs and bind them
 jQuery(document).ready(function($){
-	$('input[data-swplive="true"]').searchwp_live_search();
+	jQuery('input[data-swplive="true"]').searchwp_live_search();
 });
