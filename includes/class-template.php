@@ -46,10 +46,9 @@ class SearchWP_Live_Search_Template extends SearchWP_Live_Search {
 		}
 		$templates[] = $slug . '.php';
 
-		// allow filtration of template parts
+		// Allow filtration of template parts.
 		$templates = apply_filters( 'searchwp_live_search_get_template_part', $templates, $slug, $name );
 
-		// return what was found
 		return $this->locate_template( $templates, $load, false );
 	}
 
@@ -67,19 +66,19 @@ class SearchWP_Live_Search_Template extends SearchWP_Live_Search {
 	 */
 	function locate_template( $template_names, $load = false, $require_once = true ) {
 
-		// default to not found
+		// Default to not found.
 		$located = false;
 
 		$template_dir = apply_filters( 'searchwp_live_search_template_dir', 'searchwp-live-ajax-search' );
 
-		// try to find the template file
+		// Try to find the template file.
 		foreach ( (array) $template_names as $template_name ) {
 			if ( empty( $template_name ) ) {
 				continue;
 			}
 			$template_name = ltrim( $template_name, '/' );
 
-			// check the child theme first
+			// Check the child theme first.
 			$maybe_child_theme = trailingslashit( get_stylesheet_directory() ) . trailingslashit( $template_dir ) . $template_name;
 			if ( file_exists( $maybe_child_theme ) ) {
 				$located = $maybe_child_theme;
@@ -87,7 +86,7 @@ class SearchWP_Live_Search_Template extends SearchWP_Live_Search {
 			}
 
 			if ( ! $located ) {
-				// check parent theme
+				// Check parent theme.
 				$maybe_parent_theme = trailingslashit( get_template_directory() ) . trailingslashit( $template_dir ) . $template_name;
 				if ( file_exists( $maybe_parent_theme ) ) {
 					$located = $maybe_parent_theme;
@@ -96,7 +95,7 @@ class SearchWP_Live_Search_Template extends SearchWP_Live_Search {
 			}
 
 			if ( ! $located ) {
-				// check theme compat
+				// Check theme compat.
 				$maybe_theme_compat = trailingslashit( $this->get_template_directory() ) . $template_name;
 				if ( file_exists( $maybe_theme_compat ) ) {
 					$located = $maybe_theme_compat;
