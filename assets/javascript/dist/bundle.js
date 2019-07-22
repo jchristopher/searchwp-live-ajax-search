@@ -737,6 +737,7 @@ var _spin = require("spin.js");
           self.spinner_showing = false;
           self.hide_spinner();
           this.current_request = false;
+          jQuery(document).trigger("searchwp_live_search_shutdown", [$input, $results, $form, action, values]);
         },
         success: function success(response) {
           if (response === 0) {
@@ -748,6 +749,7 @@ var _spin = require("spin.js");
           $results.html(response);
           self.aria_expanded(true);
           self.keyboard_navigation();
+          jQuery(document).trigger("searchwp_live_search_shutdown", [$input, $results, $form, action, values]);
         }
       });
     },
