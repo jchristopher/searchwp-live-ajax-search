@@ -513,15 +513,15 @@ var _spin = require("spin.js");
         }).keyup(jQuery.proxy(this.maybe_search, this)); // destroy the results when input focus is lost
 
         if (this.config.results_destroy_on_blur || typeof this.config.results_destroy_on_blur === 'undefined') {
-          jQuery('html').click(function () {
-            self.destroy_results();
+          jQuery('html').click(function (e) {
+            // Only destroy the results if the click was placed outside the results element.
+            if (!jQuery(e.target).parents('.searchwp-live-search-results').length) {
+              self.destroy_results();
+            }
           });
         }
 
         $input.click(function (e) {
-          e.stopPropagation();
-        });
-        this.results_el.click(function (e) {
           e.stopPropagation();
         });
       }
@@ -673,6 +673,7 @@ var _spin = require("spin.js");
       this.results_el.empty().removeClass('searchwp-live-search-results-showing');
       this.results_showing = false;
       this.has_results = false;
+      this.input_el.val('');
       jQuery(document).trigger("searchwp_live_destroy_results");
     },
     // if the search value changed, we've waited long enough, and we have at least the minimum characters: search!
