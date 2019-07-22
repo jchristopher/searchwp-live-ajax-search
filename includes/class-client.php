@@ -38,33 +38,39 @@ class SearchWP_Live_Search_Client extends SearchWP_Live_Search {
 	 */
 	function search() {
 		if ( isset( $_REQUEST['swpquery'] ) && ! empty( $_REQUEST['swpquery'] ) ) {
+
 			$query = sanitize_text_field( $_REQUEST['swpquery'] );
+
 			if ( class_exists( 'SearchWP' ) ) {
 				// SearchWP powered search
 				$posts = $this->searchwp( $query );
 				$args = array(
-					'post_type'     => 'any',           // we're limiting to a pre-set array of post IDs
-					'post_status'   => 'any',           // we're limiting to a pre-set array of post IDs
-					'post__in'      => $posts,
-					'orderby'       => 'post__in',
+					'post_type'   => 'any',      // We're limiting to a pre-set array of post IDs.
+					'post_status' => 'any',      // We're limiting to a pre-set array of post IDs.
+					'post__in'    => $posts,
+					'orderby'     => 'post__in',
 				);
 			} else {
 				// native WordPress search
 				$args = array(
-					's'             => $query,
-					'post_status'   => 'publish',
-					'post_type'     => get_post_types( array(
-						'public'   => true,
-						// '_builtin' => true,
+					's'           => $query,
+					'post_status' => 'publish',
+					'post_type'   => get_post_types( array(
+						'public'              => true,
 						'exclude_from_search' => false,
 					) ),
 				);
 			}
+
 			$args['posts_per_page'] = $this->get_posts_per_page();
+
 			$args = apply_filters( 'searchwp_live_search_query_args', $args );
+
 			$this->show_results( $args );
 		}
-		die(); // short circuit to keep the overhead of an admin-ajax.php call to a minimum
+
+		// Short circuit to keep the overhead of an admin-ajax.php call to a minimum.
+		die();
 	}
 
 	/**
@@ -83,26 +89,28 @@ class SearchWP_Live_Search_Client extends SearchWP_Live_Search {
 	 */
 	function searchwp( $query = '' ) {
 		$posts = array( 0 );
+
 		if ( class_exists( 'SearchWP' ) ) {
 			$searchwp = SearchWP::instance();
 
-			// set up custom posts per page
+			// Set up custom posts per page.
 			add_filter( 'searchwp_posts_per_page', array( $this, 'get_posts_per_page' ) );
 
-			// prevent loading Post objects, we only want IDs
+			// Prevent loading Post objects, we only want IDs.
 			add_filter( 'searchwp_load_posts', '__return_false' );
 
 			$engine = isset( $_REQUEST['swpengine'] ) ? sanitize_text_field( $_REQUEST['swpengine'] ) : 'default';
 
-			// grab our post IDs
+			// Grab our post IDs.
 			$results = $searchwp->search( $engine, $query );
 			$this->results = $results;
 
-			// if no results were found we need to force our impossible array
+			// If no results were found we need to force our impossible array.
 			if ( ! empty( $results ) ) {
 				$posts = $results;
 			}
 		}
+
 		return $posts;
 	}
 
@@ -121,23 +129,24 @@ class SearchWP_Live_Search_Client extends SearchWP_Live_Search {
 	function show_results( $args = array() ) {
 		global $wp_query;
 
-		// we're using query_posts() here because we want to prep the entire environment
+		// We're using query_posts() here because we want to prep the entire environment
 		// for our template loader, allowing the developer to utilize everything they
-		// normally would in a theme template (and reducing support requests)
+		// normally would in a theme template (and reducing support requests).
 		query_posts( $args );
 
-		// ensure a proper found_posts count for $wp_query
+		// Ensure a proper found_posts count for $wp_query.
 		if ( class_exists( 'SearchWP' ) && ! empty( $this->results ) ) {
 			$wp_query->found_posts = count( $this->results );
 		}
 
 		do_action( 'searchwp_live_search_alter_results', $args );
 
-		// optionally pass along the SearchWP engine if applicable
+		// Optionally pass along the SearchWP engine if applicable.
 		$engine = isset( $_REQUEST['swpengine'] ) ? sanitize_text_field( $_REQUEST['swpengine'] ) : '';
 
-		// output the results using the results template
+		// Output the results using the results template.
 		$results = new SearchWP_Live_Search_Template();
+
 		$results->get_template_part( 'search-results', $engine );
 	}
 
@@ -152,8 +161,9 @@ class SearchWP_Live_Search_Client extends SearchWP_Live_Search {
 	 * @return int $per_page the number of items to display
 	 */
 	function get_posts_per_page() {
-		// the default is 7 posts, but that can be filtered
+		// The default is 7 posts, but that can be filtered.
 		$per_page = absint( apply_filters( 'searchwp_live_search_posts_per_page', 7 ) );
+
 		return $per_page;
 	}
 
