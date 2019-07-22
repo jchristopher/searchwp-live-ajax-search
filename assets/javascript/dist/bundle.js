@@ -440,12 +440,11 @@ var _spin = require("spin.js");
         var instruction_id = this.results_id + '_instructions';
         $input.attr('aria-describedby', instruction_id);
         $input.attr('aria-owns', this.results_id);
-        $input.attr('aria-expanded', 'false');
         $input.attr('aria-autocomplete', 'both');
         $input.attr('aria-activedescendant', '');
         $input.after('<p class="searchwp-live-search-instructions screen-reader-text" id="' + instruction_id + '">' + searchwp_live_search_params.aria_instructions + '</p>'); // set up and position the results container
 
-        var results_el_html = '<div class="searchwp-live-search-results" id="' + this.results_id + '" role="listbox" tabindex="0"></div>'; // if parent_el was specified, inject the results el into it instead of appending it to the body
+        var results_el_html = '<div aria-expanded="false" aria-activedescendant="" class="searchwp-live-search-results" id="' + this.results_id + '" role="listbox" tabindex="0"></div>'; // if parent_el was specified, inject the results el into it instead of appending it to the body
 
         var swpparentel = $input.data('swpparentel');
 
@@ -612,19 +611,19 @@ var _spin = require("spin.js");
       jQuery(document).trigger("searchwp_live_keyboad_navigation");
     },
     aria_expanded: function aria_expanded(is_expanded) {
-      var $input = this.input_el;
+      var $resultsEl = this.results_el;
 
       if (is_expanded) {
-        $input.attr('aria-expanded', 'true');
+        $resultsEl.attr('aria-expanded', 'true');
       } else {
-        $input.attr('aria-expanded', 'false');
+        $resultsEl.attr('aria-expanded', 'false');
         this.aria_activedescendant(false);
       }
 
       jQuery(document).trigger("searchwp_live_aria_expanded");
     },
     aria_activedescendant: function aria_activedescendant(is_selected) {
-      var $input = this.input_el;
+      var $resultsEl = this.results_el;
 
       if (is_selected) {
         $input.attr('aria-activedescendant', 'selectedOption');
