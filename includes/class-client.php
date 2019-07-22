@@ -131,7 +131,7 @@ class SearchWP_Live_Search_Client extends SearchWP_Live_Search {
 			$wp_query->found_posts = count( $this->results );
 		}
 
-		do_action( 'searchwp_live_search_alter_results', $args['s']);
+		do_action( 'searchwp_live_search_alter_results', $args );
 
 		// optionally pass along the SearchWP engine if applicable
 		$engine = isset( $_REQUEST['swpengine'] ) ? sanitize_text_field( $_REQUEST['swpengine'] ) : '';
