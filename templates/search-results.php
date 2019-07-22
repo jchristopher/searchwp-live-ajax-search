@@ -24,7 +24,7 @@
 		<?php $post_type = get_post_type_object( get_post_type() ); ?>
 		<div class="searchwp-live-search-result" role="option" id="" aria-selected="false">
 			<p><a href="<?php echo esc_url( get_permalink() ); ?>">
-				<?php the_title(); ?> (<?php echo esc_html( $post_type->labels->singular_name ); ?>) &raquo;
+				<?php the_title(); ?> &raquo;
 			</a></p>
 		</div>
 	<?php endwhile; ?>
