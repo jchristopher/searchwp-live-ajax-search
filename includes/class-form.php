@@ -28,37 +28,37 @@ class SearchWP_Live_Search_Form extends SearchWP_Live_Search {
 	 * @var array All configurations available for use at runtime
 	 */
 	public $configs = array(
-		'default' => array(                         // 'default' config
-			'engine' => 'default',                  // search engine to use (if SearchWP is available)
-			'input' => array(
-				'delay'     => 500,                 // wait 500ms before triggering a search
-				'min_chars' => 3,                   // wait for at least 3 characters before triggering a search
+		'default' => array(                // 'default' config
+			'engine' => 'default',         // Search engine to use (if SearchWP is available)
+			'input'  => array(
+				'delay'     => 500,        // Wait 500ms before triggering a search
+				'min_chars' => 3,          // Wait for at least 3 characters before triggering a search
 			),
 			'results' => array(
-				'position'  => 'bottom',            // where to position the results (bottom|top)
-				'width'     => 'auto',              // whether the width should automatically match the input (auto|css)
+				'position'  => 'bottom',   // Where to position the results (bottom|top)
+				'width'     => 'auto',     // Whether the width should automatically match the input (auto|css)
 				'offset'    => array(
-					'x' => 0,                       // x offset (in pixels)
-					'y' => 5,                       // y offset (in pixels)
+					'x' => 0,              // X offset (in pixels)
+					'y' => 5,              // Y offset (in pixels)
 				),
 			),
-			'spinner' => array(                     // powered by http://fgnass.github.io/spin.js/
-				'lines'         => 10,              // number of lines in the spinner
-				'length'        => 8,               // length of each line
-				'width'         => 4,               // line thickness
-				'radius'        => 8,               // radius of inner circle
-				'corners'       => 1,               // corner roundness (0..1)
-				'rotate'        => 0,               // rotation offset
-				'direction'     => 1,               // 1: clockwise, -1: counterclockwise
-				'color'         => '#000',          // #rgb or #rrggbb or array of colors
-				'speed'         => 1,               // rounds per second
-				'trail'         => 60,              // afterglow percentage
-				'shadow'        => false,           // whether to render a shadow
-				'hwaccel'       => false,           // whether to use hardware acceleration
-				'className'     => 'spinner',       // CSS class assigned to spinner
-				'zIndex'        => 2000000000,      // z-index of spinner
-				'top'           => '50%',           // top position (relative to parent)
-				'left'          => '50%',           // left position (relative to parent)
+			'spinner' => array(            // Powered by http://fgnass.github.io/spin.js/
+				'lines'     => 10,         // Number of lines in the spinner
+				'length'    => 8,          // Length of each line
+				'width'     => 4,          // Line thickness
+				'radius'    => 8,          // Radius of inner circle
+				'corners'   => 1,          // Corner roundness (0..1)
+				'rotate'    => 0,          // Rotation offset
+				'direction' => 1,          // 1: clockwise, -1: counterclockwise
+				'color'     => '#000',     // #rgb or #rrggbb or array of colors
+				'speed'     => 1,          // Rounds per second
+				'trail'     => 60,         // Afterglow percentage
+				'shadow'    => false,      // Whether to render a shadow
+				'hwaccel'   => false,      // Whether to use hardware acceleration
+				'className' => 'spinner',  // CSS class assigned to spinner
+				'zIndex'    => 2000000000, // z-index of spinner
+				'top'       => '50%',      // Top position (relative to parent)
+				'left'      => '50%',      // Left position (relative to parent)
 			),
 		),
 	);
@@ -77,7 +77,7 @@ class SearchWP_Live_Search_Form extends SearchWP_Live_Search {
 		add_filter( 'get_search_form', array( $this, 'get_search_form' ), 999, 1 );
 		add_action( 'wp_footer', array( $this, 'base_styles' ) );
 
-		// the configs store all of the various configuration arrays that can be used at runtime
+		// The configs store all of the various configuration arrays that can be used at runtime.
 		$this->configs = apply_filters( 'searchwp_live_search_configs', $this->configs );
 	}
 
@@ -93,44 +93,27 @@ class SearchWP_Live_Search_Form extends SearchWP_Live_Search {
 	 * @uses json_encode() to prepare the (potentially filtered) configs array
 	 */
 	function assets() {
-		// styles
 		wp_enqueue_style( 'searchwp-live-search', $this->url . '/assets/styles/style.css', null, $this->version );
 
-		// scripts
 		wp_enqueue_script( 'jquery' );
 
-		/**
-		 * If WP is in script debug, or we pass ?script_debug in a URL - set debug to true.
-		 */
-		$debug = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true ) || ( isset( $_GET['script_debug'] ) ) ? true : false;
+		// If WP is in script debug, or we pass ?script_debug in a URL - set debug to true.
+		$debug = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true ) || ( isset( $_GET['script_debug'] ) ) ? '.min' : '';
 
-		/**
-		 * Should we load minified files?
-		 */
-		if ( $debug ) {
-			wp_register_script(
-				'swp-live-search-client',
-				$this->url . '/assets/javascript/build/searchwp-live-search.js',
-				array( 'jquery' ),
-				$this->version,
-				true
-			);
-		} else {
-			wp_register_script(
-				'swp-live-search-client',
-				$this->url . '/assets/javascript/build/searchwp-live-search.min.js',
-				array( 'jquery' ),
-				$this->version,
-				true
-			);
-		}
+		wp_register_script(
+			'swp-live-search-client',
+			$this->url . "/assets/javascript/build/searchwp-live-search{$debug}.js",
+			array( 'jquery' ),
+			$this->version,
+			true
+		);
 
 		// set up our parameters
 		$params = array(
-			'ajaxurl'               => admin_url( 'admin-ajax.php' ),
-			'config'                => $this->configs,
-			'msg_no_config_found'   => __( 'No valid SearchWP Live Search configuration found!', 'searchwp' ),
-			'aria_instructions'     => __( 'When autocomplete results are available use up and down arrows to review and enter to go to the desired page. Touch device users, explore by touch or with swipe gestures.' , 'searchwp' ),
+			'ajaxurl'             => admin_url( 'admin-ajax.php' ),
+			'config'              => $this->configs,
+			'msg_no_config_found' => __( 'No valid SearchWP Live Search configuration found!', 'swplas' ),
+			'aria_instructions'   => __( 'When autocomplete results are available use up and down arrows to review and enter to go to the desired page. Touch device users, explore by touch or with swipe gestures.' , 'swplas' ),
 		);
 
 		// we need to JSON encode the configs
@@ -160,12 +143,15 @@ class SearchWP_Live_Search_Form extends SearchWP_Live_Search {
 	 * @return string Markup for the search form
 	 */
 	function get_search_form( $html ) {
-		if ( apply_filters( 'searchwp_live_search_hijack_get_search_form', true ) ) {
-			$engine = apply_filters( 'searchwp_live_search_get_search_form_engine', 'default' );
-			$config = apply_filters( 'searchwp_live_search_get_search_form_config', 'default' );
-			// we're going to use 'name="s"' as our anchor
-			$html = str_replace( 'name="s"', 'name="s" data-swplive="true" data-swpengine="' . esc_attr( $engine ) . '" data-swpconfig="' . esc_attr( $config ) . '"', $html );
+		if ( ! apply_filters( 'searchwp_live_search_hijack_get_search_form', true ) ) {
+			return $html;
 		}
+
+		$engine = apply_filters( 'searchwp_live_search_get_search_form_engine', 'default' );
+		$config = apply_filters( 'searchwp_live_search_get_search_form_config', 'default' );
+		// We're going to use 'name="s"' as our anchor for replacement.
+		$html = str_replace( 'name="s"', 'name="s" data-swplive="true" data-swpengine="' . esc_attr( $engine ) . '" data-swpconfig="' . esc_attr( $config ) . '"', $html );
+
 		return $html;
 	}
 
