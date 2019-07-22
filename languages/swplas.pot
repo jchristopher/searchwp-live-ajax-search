@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: SearchWP Live Ajax Search\n"
-"POT-Creation-Date: 2019-07-22 10:39-0400\n"
+"POT-Creation-Date: 2019-07-22 11:05-0400\n"
 "PO-Revision-Date: 2019-07-22 10:34-0400\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -23,18 +23,18 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 "X-Poedit-SearchPathExcluded-1: node_modules\n"
 
-#: includes/class-form.php:132
+#: includes/class-form.php:115
 msgid "No valid SearchWP Live Search configuration found!"
 msgstr ""
 
-#: includes/class-form.php:133
+#: includes/class-form.php:116
 msgid ""
 "When autocomplete results are available use up and down arrows to review and "
 "enter to go to the desired page. Touch device users, explore by touch or "
 "with swipe gestures."
 msgstr ""
 
-#: includes/class-form.php:208
+#: includes/class-form.php:194
 msgid "Continue typing"
 msgstr ""
 
@@ -42,39 +42,39 @@ msgstr ""
 msgid "SearchWP Live Search"
 msgstr ""
 
-#: includes/class-widget.php:35 includes/class-widget.php:75
+#: includes/class-widget.php:35 includes/class-widget.php:83
 msgid "Search for..."
 msgstr ""
 
-#: includes/class-widget.php:50
+#: includes/class-widget.php:57
 msgid "Search for:"
 msgstr ""
 
-#: includes/class-widget.php:54 includes/class-widget.php:74
+#: includes/class-widget.php:61 includes/class-widget.php:82
 msgid "Search"
 msgstr ""
 
-#: includes/class-widget.php:102
+#: includes/class-widget.php:110
 msgid "Title:"
 msgstr ""
 
-#: includes/class-widget.php:107
+#: includes/class-widget.php:115
 msgid "SearchWP Engine:"
 msgstr ""
 
-#: includes/class-widget.php:116
+#: includes/class-widget.php:124
 msgid "Configuration:"
 msgstr ""
 
-#: includes/class-widget.php:124
+#: includes/class-widget.php:132
 msgid "Advanced"
 msgstr ""
 
-#: includes/class-widget.php:127
+#: includes/class-widget.php:135
 msgid "Placeholder:"
 msgstr ""
 
-#: includes/class-widget.php:131
+#: includes/class-widget.php:139
 msgid "Destination fallback URL (optional):"
 msgstr ""
 

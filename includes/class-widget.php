@@ -32,7 +32,7 @@ class SearchWP_Live_Search_Widget extends WP_Widget {
 		$title = apply_filters( 'widget_title', $instance['title'] );
 
 		$destination = empty( $instance['destination'] ) ? '' : $instance['destination'];
-		$placeholder = empty( $instance['placeholder'] ) ? __( 'Search for...', 'searchwp' ) : $instance['placeholder'];
+		$placeholder = empty( $instance['placeholder'] ) ? __( 'Search for...', 'swplas' ) : $instance['placeholder'];
 		$engine      = empty( $instance['engine'] ) ? 'default' : $instance['engine'];
 		$config      = empty( $instance['config'] ) ? 'default' : $instance['config'];
 
