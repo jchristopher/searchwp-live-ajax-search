@@ -31,7 +31,7 @@ class SearchWP_Live_Search_Form extends SearchWP_Live_Search {
 		'default' => array(                // 'default' config
 			'engine' => 'default',         // Search engine to use (if SearchWP is available)
 			'input'  => array(
-				'delay'     => 500,        // Wait 500ms before triggering a search
+				'delay'     => 0,          // Impose delay before firing a search
 				'min_chars' => 3,          // Wait for at least 3 characters before triggering a search
 			),
 			'results' => array(
@@ -42,23 +42,25 @@ class SearchWP_Live_Search_Form extends SearchWP_Live_Search {
 					'y' => 5,              // Y offset (in pixels)
 				),
 			),
-			'spinner' => array(            // Powered by http://fgnass.github.io/spin.js/
-				'lines'     => 10,         // Number of lines in the spinner
-				'length'    => 8,          // Length of each line
-				'width'     => 4,          // Line thickness
-				'radius'    => 8,          // Radius of inner circle
-				'corners'   => 1,          // Corner roundness (0..1)
-				'rotate'    => 0,          // Rotation offset
-				'direction' => 1,          // 1: clockwise, -1: counterclockwise
-				'color'     => '#000',     // #rgb or #rrggbb or array of colors
-				'speed'     => 1,          // Rounds per second
-				'trail'     => 60,         // Afterglow percentage
-				'shadow'    => false,      // Whether to render a shadow
-				'hwaccel'   => false,      // Whether to use hardware acceleration
-				'className' => 'spinner',  // CSS class assigned to spinner
-				'zIndex'    => 2000000000, // z-index of spinner
-				'top'       => '50%',      // Top position (relative to parent)
-				'left'      => '50%',      // Left position (relative to parent)
+			'spinner' => array( // Powered by https://spin.js.org/
+				'lines' => 12,                                     // The number of lines to draw
+				'length' => 8,                                     // The length of each line
+				'width' => 3,                                      // The line thickness
+				'radius' => 8,                                     // The radius of the inner circle
+				'scale' => 1,                                      // Scales overall size of the spinner
+				'corners' => 1,                                    // Corner roundness (0..1)
+				'color' => '#424242',                              // CSS color or array of colors
+				'fadeColor' => 'transparent',                      // CSS color or array of colors
+				'speed' => 1,                                      // Rounds per second
+				'rotate' => 0,                                     // The rotation offset
+				'animation' => 'searchwp-spinner-line-fade-quick', // The CSS animation name for the lines
+				'direction' => 1,                                  // 1: clockwise, -1: counterclockwise
+				'zIndex' => 2e9,                                   // The z-index (defaults to 2000000000)
+				'className' => 'spinner',                          // The CSS class to assign to the spinner
+				'top' => '50%',                                    // Top position relative to parent
+				'left' => '50%',                                   // Left position relative to parent
+				'shadow' => '0 0 1px transparent',                 // Box-shadow for the lines
+				'position' => 'absolute'                           // Element positioning
 			),
 		),
 	);
@@ -98,11 +100,11 @@ class SearchWP_Live_Search_Form extends SearchWP_Live_Search {
 		wp_enqueue_script( 'jquery' );
 
 		// If WP is in script debug, or we pass ?script_debug in a URL - set debug to true.
-		$debug = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true ) || ( isset( $_GET['script_debug'] ) ) ? '.min' : '';
+		$debug = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true ) || ( isset( $_GET['script_debug'] ) ) ? '' : '.min';
 
 		wp_register_script(
 			'swp-live-search-client',
-			$this->url . "/assets/javascript/build/searchwp-live-search{$debug}.js",
+			$this->url . "/assets/javascript/dist/bundle{$debug}.js",
 			array( 'jquery' ),
 			$this->version,
 			true

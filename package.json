@@ -1,24 +1,28 @@
 {
-  "name": "searchwp_live_search",
-  "version": "1.2.0",
-  "description": "SearchWP Live Ajax Search",
-  "main": "Gruntfile.js",
+  "name": "searchwp-live-ajax-search",
+  "version": "2.0.0",
+  "description": "",
+  "main": "assets/javascript/src/searchwp-live-ajax-search.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "watch": "concurrently \"npm run dev\" \"npm run build\"",
+    "dev": "cross-env NODE_ENV=development node assets/javascript/bundler-dev.js",
+    "build": "cross-env NODE_ENV=production node assets/javascript/bundler-build.js"
   },
-  "repository": "",
-  "author": {
-    "name": "jchristopher"
-  },
+  "author": "",
   "dependencies": {
-    "grunt": "~0.4.0",
-    "grunt-contrib-jshint": "~0.10.0",
-    "grunt-contrib-uglify": "~0.4.0",
-    "grunt-contrib-watch": "~0.6.1",
-    "grunt-import": "^1.0.3"
+    "autoprefixer": "^9.6.1",
+    "babel-preset-env": "^1.7.0",
+    "concurrently": "^4.1.1",
+    "cross-env": "^5.2.0",
+    "cssnano": "^4.1.10",
+    "node-sass": "^4.12.0",
+    "parcel-bundler": "^1.12.3",
+    "postcss-modules": "^1.4.1",
+    "spin.js": "^4.0.0"
   },
   "devDependencies": {
-    "grunt-bower-concat": "^1.0.0",
-    "grunt-contrib-concat": "^1.0.0"
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-es2017": "^6.24.1"
   }
 }
