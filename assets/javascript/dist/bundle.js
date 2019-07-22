@@ -717,7 +717,7 @@ var _spin = require("spin.js");
       jQuery(document).trigger("searchwp_live_search_start", [$input, $results, $form, action, values]);
       this.aria_expanded(false); // append our action, engine, and (redundant) query (so as to save the trouble of finding it again server side)
 
-      values += '&action=searchwp_live_search&swpengine=' + $input.data('swpengine') + '&swpquery=' + encodeURIComponent($input.val());
+      values += '&action=searchwp_live_search&swpengine=' + $input.data('swpengine') + '&swpquery=' + encodeURIComponent($input.val()) + '&origin_id=' + parseInt(searchwp_live_search_params.post_id, 10);
 
       if (action.indexOf('?') !== -1) {
         action = action.split('?');
