@@ -31,7 +31,7 @@ class SearchWP_Live_Search_Form extends SearchWP_Live_Search {
 		'default' => array(                // 'default' config
 			'engine' => 'default',         // Search engine to use (if SearchWP is available)
 			'input'  => array(
-				'delay'     => 0,          // Impose delay before firing a search
+				'delay'     => 100,        // Impose delay (in milliseconds) before firing a search
 				'min_chars' => 3,          // Wait for at least 3 characters before triggering a search
 			),
 			'results' => array(
