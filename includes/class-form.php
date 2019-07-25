@@ -110,9 +110,16 @@ class SearchWP_Live_Search_Form extends SearchWP_Live_Search {
 			true
 		);
 
-		// set up our parameters
+		$ajaxurl = admin_url( 'admin-ajax.php' );
+
+		// Allow a direct search (e.g. avoid admin-ajax.php).
+		if ( apply_filters( 'searchwp_live_search_direct_search', false ) ) {
+			$ajaxurl = trailingslashit( $this->url ) . 'direct.php';
+		}
+
+		// Set up our parameters.
 		$params = array(
-			'ajaxurl'             => admin_url( 'admin-ajax.php' ),
+			'ajaxurl'             => esc_url( $ajaxurl ),
 			'post_id'             => get_queried_object_id(),
 			'config'              => $this->configs,
 			'msg_no_config_found' => __( 'No valid SearchWP Live Search configuration found!', 'swplas' ),

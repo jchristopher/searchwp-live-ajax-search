@@ -3,7 +3,7 @@
 Plugin Name: SearchWP Live Ajax Search
 Plugin URI: https://searchwp.com/
 Description: Enhance your search forms with live search, powered by SearchWP (if installed)
-Version: 1.4b1
+Version: 1.4b2
 Author: Jonathan Christopher
 Author URI: https://searchwp.com/
 Text Domain: swplas
@@ -42,12 +42,24 @@ include_once( dirname( __FILE__ ) . '/includes/class-widget.php' );
 class SearchWP_Live_Search {
 	public $dir;
 	public $url;
-	public $version = '1.4b1';
+	public $version = '1.4b2';
 	public $results = array();
 
 	function __construct() {
 		$this->dir = dirname( __FILE__ );
 		$this->url = plugins_url( 'searchwp-live-ajax-search', $this->dir );
+	}
+}
+
+function searchwp_live_search_request_handler( $execute_search = false ) {
+	include_once dirname( __FILE__ ) . '/includes/class-client.php';
+	include_once dirname( __FILE__ ) . '/includes/class-relevanssi-bridge.php';
+
+	$client = new SearchWP_Live_Search_Client();
+	$client->setup();
+
+	if ( $execute_search ) {
+		$client->search();
 	}
 }
 
@@ -62,15 +74,9 @@ function searchwp_live_search_init() {
 	// if an AJAX request is taking place, it's potentially a search so we'll want to prepare for that
 	// else we'll prep the environment for the search form itself
 	if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-		include_once( dirname( __FILE__ ) . '/includes/class-client.php' );
-
-		// Relevanssi support
-		include_once( dirname( __FILE__ ) . '/includes/class-relevanssi-bridge.php' );
-
-		$client = new SearchWP_Live_Search_Client();
-		$client->setup();
+		searchwp_live_search_request_handler();
 	} else {
-		include_once( dirname( __FILE__ ) . '/includes/class-form.php' );
+		include_once dirname( __FILE__ ) . '/includes/class-form.php';
 		$form = new SearchWP_Live_Search_Form();
 		$form->setup();
 	}
