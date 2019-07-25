@@ -297,7 +297,6 @@ import {Spinner} from 'spin.js';
 			this.results_el.empty().removeClass('searchwp-live-search-results-showing');
 			this.results_showing = false;
 			this.has_results = false;
-			this.input_el.val('');
 
 			jQuery(document).trigger( "searchwp_live_destroy_results" );
 		},
