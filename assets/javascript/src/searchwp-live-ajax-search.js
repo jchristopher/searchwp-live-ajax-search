@@ -308,7 +308,6 @@ import {Spinner} from 'spin.js';
 			if ( jQuery.inArray( e.keyCode, this.a11y_keys ) > -1 ) {
 				return;
 			}
-
 			clearTimeout(this.timer);
 			if(e.currentTarget.value.length >= this.config.input.min_chars){
 				if (this.current_request) {

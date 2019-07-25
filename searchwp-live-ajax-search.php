@@ -40,7 +40,6 @@ include_once( dirname( __FILE__ ) . '/includes/class-widget.php' );
  * @since 1.0
  */
 class SearchWP_Live_Search {
-
 	public $dir;
 	public $url;
 	public $version = '1.4b1';
@@ -50,7 +49,6 @@ class SearchWP_Live_Search {
 		$this->dir = dirname( __FILE__ );
 		$this->url = plugins_url( 'searchwp-live-ajax-search', $this->dir );
 	}
-
 }
 
 /**
