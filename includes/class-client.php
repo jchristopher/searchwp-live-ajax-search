@@ -26,6 +26,34 @@ class SearchWP_Live_Search_Client extends SearchWP_Live_Search {
 	function setup() {
 		add_action( 'wp_ajax_searchwp_live_search', array( $this, 'search' ) );
 		add_action( 'wp_ajax_nopriv_searchwp_live_search', array( $this, 'search' ) );
+
+		add_filter( 'option_active_plugins', array( $this, 'control_active_plugins' ) );
+		add_filter( 'site_option_active_sitewide_plugins', array( $this, 'control_active_plugins' ) );
+	}
+
+	/**
+	 * Potential (opt-in) performance tweak: skip any plugin that's not SearchWP-related.
+	 */
+	function control_active_plugins( $plugins ) {
+		$applicable = apply_filters( 'searchwp_live_search_control_plugins_during_search', false );
+
+		if ( ! $applicable || ! is_array( $plugins ) || empty( $plugins ) ) {
+			return $plugins;
+		}
+
+		if ( ! isset( $_REQUEST['swpquery'] ) || empty( $_REQUEST['swpquery'] ) ) {
+			return $plugins;
+		}
+
+		// The default plugin whitelist is anything SearchWP-related.
+		$plugin_whitelist = array();
+		foreach ( $plugins as $plugin_slug ) {
+			if ( 0 !== strpos( $plugin_slug, 'searchwp') ) {
+				$plugin_whitelist[] = $plugin_slug;
+			}
+		}
+
+		return array_values( (array) apply_filters( 'searchwp_live_search_plugin_whitelist', $plugin_whitelist ) );
 	}
 
 	/**
