@@ -26,9 +26,9 @@ SearchWP Live Ajax Search ships with a Widget allowing you to insert live search
 1. Optionally customize the configuration: [full documentation](https://searchwp.com/docs/extensions/live-search/)
 1. Optionally customize the results template: [full documentation](https://searchwp.com/docs/extensions/live-search/)
 
-### Developer notes
+## Developer notes
 
-Please see the [documentation](https://searchwp.com/extensions/live-search/?utm_source=github&utm_medium=link&utm_content=readme) to read more about available hooks.
+Please see the [documentation](https://searchwp.com/extensions/live-search/?utm_source=github&utm_medium=link&utm_content=readme) to read more about the plugin.
 
 There is a build process for all JavaScript bundles contained within a single command:
 
