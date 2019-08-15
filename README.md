@@ -14,7 +14,7 @@ You can customize the implementation of SearchWP Live Ajax Search to a great deg
 
 *Everything* is powered by adding a single HTML5 data attribute (`data-swplive="true"`) to the input field of your search form. This happens automagically out of the box for any search forms generated from `get_search_form()`.
 
-= Widget support =
+## Widget support
 
 SearchWP Live Ajax Search ships with a Widget allowing you to insert live search forms wherever you'd like.
 
