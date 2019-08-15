@@ -48,12 +48,14 @@ class SearchWP_Live_Search_Client extends SearchWP_Live_Search {
 		// The default plugin whitelist is anything SearchWP-related.
 		$plugin_whitelist = array();
 		foreach ( $plugins as $plugin_slug ) {
-			if ( 0 !== strpos( $plugin_slug, 'searchwp') ) {
+			if ( 0 === strpos( $plugin_slug, 'searchwp') ) {
 				$plugin_whitelist[] = $plugin_slug;
 			}
 		}
 
-		return array_values( (array) apply_filters( 'searchwp_live_search_plugin_whitelist', $plugin_whitelist ) );
+		$active_plugins = array_values( (array) apply_filters( 'searchwp_live_search_plugin_whitelist', $plugin_whitelist ) );
+
+		return $active_plugins;
 	}
 
 	/**
