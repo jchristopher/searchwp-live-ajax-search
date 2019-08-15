@@ -349,7 +349,7 @@ import {Spinner} from 'spin.js';
 			this.aria_expanded(false);
 
 			// append our action, engine, and (redundant) query (so as to save the trouble of finding it again server side)
-			values += '&action=searchwp_live_search&swpengine=' + $input.data('swpengine') + '&swpquery=' + encodeURIComponent($input.val()) + '&origin_id=' + parseInt(searchwp_live_search_params.post_id,10);
+			values += '&action=searchwp_live_search&swpengine=' + $input.data('swpengine') + '&swpquery=' + encodeURIComponent($input.val()) + '&origin_id=' + parseInt(searchwp_live_search_params.origin_id,10);
 
 			if(action.indexOf('?') !== -1){
 				action = action.split('?');
