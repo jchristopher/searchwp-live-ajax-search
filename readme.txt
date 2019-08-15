@@ -76,6 +76,14 @@ SearchWP Live Ajax Search uses a filter — <a href="https://searchwp.com/docs/
 
 == Changelog ==
 
+= 1.4 =
+* Removes post type from default results template
+* Fixes an issue with HTML entities in search string
+* Updates translation source and translations
+* Updates bundler build process
+* Updates a11y where applicable
+* Automatically cancels pending searches when search input is changed
+
 = 1.3.1 =
 * Fixes typo in results template function call
 
