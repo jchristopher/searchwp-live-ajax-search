@@ -103,24 +103,24 @@ import {Spinner} from 'spin.js';
 					self.position_results();
 				});
 
-				// Version 1.4 added some new configuration options that may not be included
-				// if the configuration was configured for an earlier version, so we need
-				// to check for these new values and re-set them if necessary
-				if(typeof this.config.spinner.scale === 'undefined'){
-					this.config.spinner.scale = 1;
-				}
-				if(typeof this.config.spinner.fadeColor === 'undefined'){
-					this.config.spinner.fadeColor = 'transparent';
-				}
-				if(typeof this.config.spinner.animation === 'undefined'){
-					this.config.spinner.animation = 'searchwp-spinner-line-fade-quick';
-				}
-				if(typeof this.config.spinner.position === 'undefined'){
-					this.config.spinner.position = 'absolute';
-				}
-
 				// prep the spinner
 				if(this.config.spinner){
+					// Version 1.4 added some new configuration options that may not be included
+					// if the configuration was configured for an earlier version, so we need
+					// to check for these new values and re-set them if necessary
+					if(typeof this.config.spinner.scale === 'undefined'){
+						this.config.spinner.scale = 1;
+					}
+					if(typeof this.config.spinner.fadeColor === 'undefined'){
+						this.config.spinner.fadeColor = 'transparent';
+					}
+					if(typeof this.config.spinner.animation === 'undefined'){
+						this.config.spinner.animation = 'searchwp-spinner-line-fade-quick';
+					}
+					if(typeof this.config.spinner.position === 'undefined'){
+						this.config.spinner.position = 'absolute';
+					}
+
 					this.spinner = new Spinner(this.config.spinner);
 				}
 
