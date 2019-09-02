@@ -75,10 +75,11 @@ class SearchWP_Live_Search_Client extends SearchWP_Live_Search {
 				// SearchWP powered search
 				$posts = $this->searchwp( $query );
 				$args = array(
-					'post_type'   => 'any',      // We're limiting to a pre-set array of post IDs.
-					'post_status' => 'any',      // We're limiting to a pre-set array of post IDs.
-					'post__in'    => $posts,
-					'orderby'     => 'post__in',
+					'post_type'        => 'any',      // We're limiting to a pre-set array of post IDs.
+					'post_status'      => 'any',      // We're limiting to a pre-set array of post IDs.
+					'post__in'         => $posts,
+					'orderby'          => 'post__in',
+					'suppress_filters' => true,
 				);
 			} else {
 				// native WordPress search
