@@ -183,7 +183,7 @@ class SearchWP_Live_Search_Form extends SearchWP_Live_Search {
 						-webkit-transition: opacity .25s ease-in-out;
 						height: 0;
 						overflow: hidden;
-						z-index: 9999;
+						z-index: 9999995; /* Exceed SearchWP Modal Search Form overlay. */
 						position: absolute;
 						display: none;
 					}
