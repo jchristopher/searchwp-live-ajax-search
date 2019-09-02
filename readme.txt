@@ -3,7 +3,7 @@ Contributors: jchristopher
 Tags: search, live, ajax
 Requires at least: 3.9
 Tested up to: 5.2.2
-Stable tag: 1.4.2
+Stable tag: 1.4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -75,6 +75,10 @@ SearchWP Live Ajax Search uses a filter — <a href="https://searchwp.com/docs/
 4. SearchWP Live Ajax Search Widget Advanced
 
 == Changelog ==
+
+= 1.4.3 =
+* Improves SearchWP compatibility by suppressing filters when SearchWP performs the search
+* Compatibility fix with SearchWP Modal Search Form
 
 = 1.4.2 =
 * Fixes an issue (JavaScript error) when a custom configuration disables the spinner
