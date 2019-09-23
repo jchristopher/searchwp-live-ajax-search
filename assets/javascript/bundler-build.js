@@ -5,7 +5,7 @@
 const Bundler = require('parcel-bundler');
 const Path = require('path');
 
-const file = Path.join(__dirname, './src/searchwp-live-ajax-search.js');
+const file = Path.join(__dirname, './src/script.js');
 
 const options = {
 	outDir: Path.join(__dirname, './dist'),
@@ -13,7 +13,8 @@ const options = {
 	watch: true,
 	cache: false,
 	minify: true,
-	hmr: false
+	hmr: false,
+	sourceMaps: false
 };
 
 const bundler = new Bundler(file, options);

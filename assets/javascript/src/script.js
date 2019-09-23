@@ -461,6 +461,8 @@ import {Spinner} from 'spin.js';
 })(window.jQuery);
 
 // find all applicable SearchWP Live Search inputs and bind them
-jQuery(document).ready(function($){
-	jQuery('input[data-swplive="true"]').searchwp_live_search();
+jQuery(document).ready(function(){
+	if (typeof jQuery().searchwp_live_search == 'function') {
+		jQuery('input[data-swplive="true"]').searchwp_live_search();
+	}
 });

@@ -350,7 +350,7 @@ function convertOffset(x, y, degrees) {
   var cos = Math.cos(radians);
   return [Math.round((x * cos + y * sin) * 1000) / 1000, Math.round((-x * sin + y * cos) * 1000) / 1000];
 }
-},{}],"searchwp-live-ajax-search.js":[function(require,module,exports) {
+},{}],"script.js":[function(require,module,exports) {
 "use strict";
 
 var _spin = require("spin.js");
@@ -813,8 +813,9 @@ var _spin = require("spin.js");
 })(window.jQuery); // find all applicable SearchWP Live Search inputs and bind them
 
 
-jQuery(document).ready(function ($) {
-  jQuery('input[data-swplive="true"]').searchwp_live_search();
+jQuery(document).ready(function () {
+  if (typeof jQuery().searchwp_live_search == 'function') {
+    jQuery('input[data-swplive="true"]').searchwp_live_search();
+  }
 });
-},{"spin.js":"../../../node_modules/spin.js/spin.js"}]},{},["searchwp-live-ajax-search.js"], null)
-//# sourceMappingURL=/bundle.js.map
+},{"spin.js":"../../../node_modules/spin.js/spin.js"}]},{},["script.js"], null)
