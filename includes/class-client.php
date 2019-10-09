@@ -74,9 +74,16 @@ class SearchWP_Live_Search_Client extends SearchWP_Live_Search {
 			if ( class_exists( 'SearchWP' ) ) {
 				// SearchWP powered search
 				$posts = $this->searchwp( $query );
+
+				// Normally we could use 'any' post type because we've already found our IDs
+				// but if you use 'any' WP_Query will still take into consideration exclude_from_search
+				// when we eventually run our query_posts() in $this->show_results() so we're
+				// going to rebuild our array from the engine configuration post types and use that.
+				$post_types = SWP()->get_enabled_post_types_across_all_engines();
+
 				$args = array(
-					'post_type'        => 'any',      // We're limiting to a pre-set array of post IDs.
-					'post_status'      => 'any',      // We're limiting to a pre-set array of post IDs.
+					'post_type'        => $post_types,
+					'post_status'      => 'any', // We're limiting to a pre-set array of post IDs.
 					'post__in'         => $posts,
 					'orderby'          => 'post__in',
 					'suppress_filters' => true,
