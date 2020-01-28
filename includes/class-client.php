@@ -69,7 +69,7 @@ class SearchWP_Live_Search_Client extends SearchWP_Live_Search {
 	function search() {
 		if ( isset( $_REQUEST['swpquery'] ) && ! empty( $_REQUEST['swpquery'] ) ) {
 
-			$query = sanitize_text_field( $_REQUEST['swpquery'] );
+			$query = sanitize_text_field( stripslashes( $_REQUEST['swpquery'] ) );
 
 			if ( class_exists( 'SearchWP' ) ) {
 				// SearchWP powered search
