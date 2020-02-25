@@ -79,7 +79,20 @@ class SearchWP_Live_Search_Client extends SearchWP_Live_Search {
 				// but if you use 'any' WP_Query will still take into consideration exclude_from_search
 				// when we eventually run our query_posts() in $this->show_results() so we're
 				// going to rebuild our array from the engine configuration post types and use that.
-				$post_types = SWP()->get_enabled_post_types_across_all_engines();
+				if ( function_exists( 'SWP' ) ) {
+					$post_types = SWP()->get_enabled_post_types_across_all_engines();
+				} else {
+					// SearchWP 4.0+.
+					$global_engine_sources = \SearchWP\Utils::get_global_engine_source_names();
+					$post_types = [];
+
+					foreach ( $global_engine_sources as $global_engine_source ) {
+						$indicator = 'post' . SEARCHWP_SEPARATOR;
+						if ( $indicator === substr( $global_engine_source, 0, strlen( $indicator ) ) ) {
+							$post_types[] = substr( $global_engine_source, strlen( $indicator ) );
+						}
+					}
+				}
 
 				$args = array(
 					'post_type'        => $post_types,
@@ -115,20 +128,13 @@ class SearchWP_Live_Search_Client extends SearchWP_Live_Search {
 	 * Perform a search via SearchWP
 	 *
 	 * @since 1.0
-	 *
 	 * @param string $query The search query
-	 *
-	 * @uses sanitize_text_field() to sanitize input
-	 * @uses add_filter() to hook into SearchWP (if applicable) to allow custom pagination and prevent full Post object loading
-	 * @uses SearchWP::instance() to retrieve the SearchWP singleton (if applicable)
-	 * @uses SearchWP::search() to perform a SearchWP-powered search (if applicable)
-	 *
 	 * @return array Search results comprised of Post IDs
 	 */
 	function searchwp( $query = '' ) {
 		$posts = array( 0 );
 
-		if ( class_exists( 'SearchWP' ) ) {
+		if ( class_exists( 'SearchWP' ) && method_exists( 'SearchWP', 'instance' ) ) {
 			$searchwp = SearchWP::instance();
 
 			// Set up custom posts per page.
@@ -146,6 +152,20 @@ class SearchWP_Live_Search_Client extends SearchWP_Live_Search {
 			// If no results were found we need to force our impossible array.
 			if ( ! empty( $results ) ) {
 				$posts = $results;
+			}
+		} else if ( defined( 'SEARCHWP_VERSION' ) && version_compare( SEARCHWP_VERSION, '4.0.0', '>=' ) ) {
+			// SearchWP 4.0 compatibility.
+			$results = new \SWP_Query( array(
+				's'              => $query,
+				'engine'         => isset( $_REQUEST['swpengine'] ) ? sanitize_text_field( $_REQUEST['swpengine'] ) : 'default',
+				'fields'         => 'ids',
+				'posts_per_page' => $this->get_posts_per_page(),
+			) );
+
+			$this->results = $results->posts;
+
+			if ( ! empty( $results->posts ) ) {
+				$posts = $results->posts;
 			}
 		}
 

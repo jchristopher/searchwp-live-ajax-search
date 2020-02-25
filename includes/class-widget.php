@@ -87,12 +87,19 @@ class SearchWP_Live_Search_Widget extends WP_Widget {
 		$widget_engine = isset( $instance['engine'] ) ? $instance['engine'] : 'default';
 		$engines = array();
 		if ( class_exists( 'SearchWP' ) ) {
-			$engines['default'] = 'Default';
-			$searchwp = SearchWP::instance();
-			$searchwp_engines = $searchwp->settings['engines'];
-			foreach ( $searchwp_engines as $engine => $engine_settings ) {
-				if ( isset( $engine_settings['searchwp_engine_label'] ) ) {
-					$engines[ $engine ] = $engine_settings['searchwp_engine_label'];
+			if ( class_exists( 'SearchWP' ) && method_exists( 'SearchWP', 'instance' ) ) {
+				$engines['default'] = 'Default';
+				$searchwp = SearchWP::instance();
+				$searchwp_engines = $searchwp->settings['engines'];
+				foreach ( $searchwp_engines as $engine => $engine_settings ) {
+					if ( isset( $engine_settings['searchwp_engine_label'] ) ) {
+						$engines[ $engine ] = $engine_settings['searchwp_engine_label'];
+					}
+				}
+			} else {
+				$searchwp_engines = \SearchWP\Settings::get_engines();
+				foreach ( $searchwp_engines as $engine => $engine_settings ) {
+					$engines[ $engine ] = $engine_settings->get_label();
 				}
 			}
 		}
