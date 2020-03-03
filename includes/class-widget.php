@@ -96,7 +96,7 @@ class SearchWP_Live_Search_Widget extends WP_Widget {
 						$engines[ $engine ] = $engine_settings['searchwp_engine_label'];
 					}
 				}
-			} else {
+			} else if ( class_exists( '\\SearchWP\\Settings' ) ) {
 				$searchwp_engines = \SearchWP\Settings::get_engines();
 				foreach ( $searchwp_engines as $engine => $engine_settings ) {
 					$engines[ $engine ] = $engine_settings->get_label();

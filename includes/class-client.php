@@ -81,7 +81,7 @@ class SearchWP_Live_Search_Client extends SearchWP_Live_Search {
 				// going to rebuild our array from the engine configuration post types and use that.
 				if ( function_exists( 'SWP' ) ) {
 					$post_types = SWP()->get_enabled_post_types_across_all_engines();
-				} else {
+				} else if ( class_exists( '\\SearchWP\\Utils' ) ) {
 					// SearchWP 4.0+.
 					$global_engine_sources = \SearchWP\Utils::get_global_engine_source_names();
 					$post_types = [];
