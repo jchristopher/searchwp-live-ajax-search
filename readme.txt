@@ -3,7 +3,7 @@ Contributors: jchristopher
 Tags: search, live, ajax
 Requires at least: 3.9
 Tested up to: 5.3.2
-Stable tag: 1.4.5
+Stable tag: 1.4.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -75,6 +75,9 @@ SearchWP Live Ajax Search uses a filter — <a href="https://searchwp.com/docs/
 4. SearchWP Live Ajax Search Widget Advanced
 
 == Changelog ==
+
+= 1.4.6 =
+* Adds compatibility for SearchWP 4
 
 = 1.4.5 =
 * Fixes an issue with quoted phrase support
