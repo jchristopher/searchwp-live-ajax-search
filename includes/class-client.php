@@ -153,7 +153,7 @@ class SearchWP_Live_Search_Client extends SearchWP_Live_Search {
 			if ( ! empty( $results ) ) {
 				$posts = $results;
 			}
-		} else if ( defined( 'SEARCHWP_VERSION' ) && version_compare( SEARCHWP_VERSION, '4.0.0', '>=' ) ) {
+		} else if ( defined( 'SEARCHWP_VERSION' ) && version_compare( SEARCHWP_VERSION, '3.99.0', '>=' ) ) {
 			// SearchWP 4.0 compatibility.
 			$results = new \SWP_Query( array(
 				's'              => $query,
