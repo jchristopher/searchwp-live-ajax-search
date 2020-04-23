@@ -134,7 +134,21 @@ class SearchWP_Live_Search_Client extends SearchWP_Live_Search {
 	function searchwp( $query = '' ) {
 		$posts = array( 0 );
 
-		if ( class_exists( 'SearchWP' ) && method_exists( 'SearchWP', 'instance' ) ) {
+		if ( defined( 'SEARCHWP_VERSION' ) && version_compare( SEARCHWP_VERSION, '3.99.0', '>=' ) ) {
+			// SearchWP 4.0 compatibility.
+			$results = new \SWP_Query( array(
+				's'              => $query,
+				'engine'         => isset( $_REQUEST['swpengine'] ) ? sanitize_text_field( $_REQUEST['swpengine'] ) : 'default',
+				'fields'         => 'ids',
+				'posts_per_page' => $this->get_posts_per_page(),
+			) );
+
+			$this->results = $results->posts;
+
+			if ( ! empty( $results->posts ) ) {
+				$posts = $results->posts;
+			}
+		} else if ( class_exists( 'SearchWP' ) && method_exists( 'SearchWP', 'instance' ) ) {
 			$searchwp = SearchWP::instance();
 
 			// Set up custom posts per page.
@@ -152,20 +166,6 @@ class SearchWP_Live_Search_Client extends SearchWP_Live_Search {
 			// If no results were found we need to force our impossible array.
 			if ( ! empty( $results ) ) {
 				$posts = $results;
-			}
-		} else if ( defined( 'SEARCHWP_VERSION' ) && version_compare( SEARCHWP_VERSION, '3.99.0', '>=' ) ) {
-			// SearchWP 4.0 compatibility.
-			$results = new \SWP_Query( array(
-				's'              => $query,
-				'engine'         => isset( $_REQUEST['swpengine'] ) ? sanitize_text_field( $_REQUEST['swpengine'] ) : 'default',
-				'fields'         => 'ids',
-				'posts_per_page' => $this->get_posts_per_page(),
-			) );
-
-			$this->results = $results->posts;
-
-			if ( ! empty( $results->posts ) ) {
-				$posts = $results->posts;
 			}
 		}
 
