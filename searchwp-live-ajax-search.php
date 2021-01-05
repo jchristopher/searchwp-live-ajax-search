@@ -7,7 +7,7 @@ Version: 1.4.6.1
 Requires PHP: 5.6
 Author: SearchWP, LLC
 Author URI: https://searchwp.com/
-Text Domain: swplas
+Text Domain: searchwp-live-ajax-search
 
 Copyright 2014-2020 SearchWP, LLC
 
@@ -70,7 +70,7 @@ function searchwp_live_search_request_handler( $execute_search = false ) {
  * @since 1.0
  */
 function searchwp_live_search_init() {
-	load_plugin_textdomain( 'swplas', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+	load_plugin_textdomain( 'searchwp-live-ajax-search', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
 	// if an AJAX request is taking place, it's potentially a search so we'll want to prepare for that
 	// else we'll prep the environment for the search form itself

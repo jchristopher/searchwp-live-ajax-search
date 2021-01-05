@@ -122,8 +122,8 @@ class SearchWP_Live_Search_Form extends SearchWP_Live_Search {
 			'ajaxurl'             => esc_url( $ajaxurl ),
 			'origin_id'           => get_queried_object_id(),
 			'config'              => $this->configs,
-			'msg_no_config_found' => __( 'No valid SearchWP Live Search configuration found!', 'swplas' ),
-			'aria_instructions'   => __( 'When autocomplete results are available use up and down arrows to review and enter to go to the desired page. Touch device users, explore by touch or with swipe gestures.' , 'swplas' ),
+			'msg_no_config_found' => __( 'No valid SearchWP Live Search configuration found!', 'searchwp-live-ajax-search' ),
+			'aria_instructions'   => __( 'When autocomplete results are available use up and down arrows to review and enter to go to the desired page. Touch device users, explore by touch or with swipe gestures.' , 'searchwp-live-ajax-search' ),
 		);
 
 		// we need to JSON encode the configs
@@ -201,7 +201,7 @@ class SearchWP_Live_Search_Form extends SearchWP_Live_Search {
 					}
 
 					.searchwp-live-search-no-min-chars:after {
-						content: "<?php echo esc_attr_e( 'Continue typing', 'swplas' ); ?>";
+						content: "<?php echo esc_attr_e( 'Continue typing', 'searchwp-live-ajax-search' ); ?>";
 						display: block;
 						text-align: center;
 						padding: 2em 2em 0;

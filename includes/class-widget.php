@@ -15,8 +15,8 @@ class SearchWP_Live_Search_Widget extends WP_Widget {
 	function __construct() {
 		parent::__construct(
 			'searchwp_live_search',
-			__( 'SearchWP Live Search', 'swplas' ),
-			array( 'description' => __( 'SearchWP Live Search', 'swplas' ), )
+			__( 'SearchWP Live Search', 'searchwp-live-ajax-search' ),
+			array( 'description' => __( 'SearchWP Live Search', 'searchwp-live-ajax-search' ), )
 		);
 	}
 
@@ -32,7 +32,7 @@ class SearchWP_Live_Search_Widget extends WP_Widget {
 		$title = apply_filters( 'widget_title', $instance['title'] );
 
 		$destination = empty( $instance['destination'] ) ? '' : $instance['destination'];
-		$placeholder = empty( $instance['placeholder'] ) ? __( 'Search for...', 'swplas' ) : $instance['placeholder'];
+		$placeholder = empty( $instance['placeholder'] ) ? __( 'Search for...', 'searchwp-live-ajax-search' ) : $instance['placeholder'];
 		$engine      = empty( $instance['engine'] ) ? 'default' : $instance['engine'];
 		$config      = empty( $instance['config'] ) ? 'default' : $instance['config'];
 
@@ -54,11 +54,11 @@ class SearchWP_Live_Search_Widget extends WP_Widget {
 			<form role="search" method="get" class="searchwp-live-search-widget-search-form" action="<?php echo esc_url( $destination ); ?>">
 				<?php do_action( 'searchwp_live_search_widget_before_field' ); ?>
 				<label>
-					<span class="screen-reader-text"><?php esc_html_e( 'Search for:', 'swplas' ); ?></span>
+					<span class="screen-reader-text"><?php esc_html_e( 'Search for:', 'searchwp-live-ajax-search' ); ?></span>
 					<input type="search" class="search-field" placeholder="<?php echo esc_attr( $placeholder ); ?>" value="" name="swpquery" data-swplive="true" data-swpengine="<?php echo esc_attr( $engine ); ?>" data-swpconfig="<?php echo esc_attr( $config ); ?>" title="<?php echo esc_attr( $placeholder ); ?>" autocomplete="off">
 				</label>
 				<?php do_action( 'searchwp_live_search_widget_after_field' ); ?>
-				<input type="submit" class="search-submit" value="<?php esc_html_e( 'Search', 'swplas' ); ?>">
+				<input type="submit" class="search-submit" value="<?php esc_html_e( 'Search', 'searchwp-live-ajax-search' ); ?>">
 				<?php do_action( 'searchwp_live_search_widget_after_submit' ); ?>
 			</form>
 			<?php do_action( 'searchwp_live_search_widget_after_form' ); ?>
@@ -79,8 +79,8 @@ class SearchWP_Live_Search_Widget extends WP_Widget {
 	 */
 	public function form( $instance ) {
 
-		$widget_title       = isset( $instance['title'] ) ? $instance['title'] : __( 'Search', 'swplas' );
-		$widget_placeholder = isset( $instance['placeholder'] ) ? $instance['placeholder'] : __( 'Search for...', 'swplas' );
+		$widget_title       = isset( $instance['title'] ) ? $instance['title'] : __( 'Search', 'searchwp-live-ajax-search' );
+		$widget_placeholder = isset( $instance['placeholder'] ) ? $instance['placeholder'] : __( 'Search for...', 'searchwp-live-ajax-search' );
 		$widget_destination = isset( $instance['destination'] ) ? $instance['destination'] : '';
 
 		// We'll piggyback SearchWP itself to pull a list of search engines.
@@ -114,12 +114,12 @@ class SearchWP_Live_Search_Widget extends WP_Widget {
 		?>
 
 		<p>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Title:', 'swplas' ); ?></label>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Title:', 'searchwp-live-ajax-search' ); ?></label>
 			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $widget_title ); ?>">
 		</p>
 		<?php if ( ! empty( $engines ) ) : ?>
 		<p>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'engine' ) ); ?>"><?php esc_html_e( 'SearchWP Engine:', 'swplas' ); ?></label>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'engine' ) ); ?>"><?php esc_html_e( 'SearchWP Engine:', 'searchwp-live-ajax-search' ); ?></label>
 			<select name="<?php echo esc_attr( $this->get_field_name( 'engine' ) ); ?>" id="<?php echo esc_attr( $this->get_field_id( 'engine' ) ); ?>">
 				<?php foreach ( $engines as $engine_name => $engine_label ) : ?>
 					<option value="<?php echo esc_attr( $engine_name ); ?>" <?php selected( $widget_engine, $engine_name ); ?>><?php echo esc_html( $engine_label ); ?></option>
@@ -128,7 +128,7 @@ class SearchWP_Live_Search_Widget extends WP_Widget {
 		</p>
 		<?php endif; ?>
 		<p>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'config' ) ); ?>"><?php esc_html_e( 'Configuration:', 'swplas' ); ?></label>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'config' ) ); ?>"><?php esc_html_e( 'Configuration:', 'searchwp-live-ajax-search' ); ?></label>
 			<select name="<?php echo esc_attr( $this->get_field_name( 'config' ) ); ?>" id="<?php echo esc_attr( $this->get_field_id( 'config' ) ); ?>">
 				<?php foreach ( $form->configs as $config => $val ) : ?>
 					<option value="<?php echo esc_attr( $config ); ?>" <?php selected( $widget_config, $config ); ?>><?php echo esc_html( $config ); ?></option>
@@ -136,14 +136,14 @@ class SearchWP_Live_Search_Widget extends WP_Widget {
 			</select>
 		</p>
 		<?php $swpuniqid = uniqid( 'swp' ); ?>
-		<p><a href="#" class="button searchwp-widget-<?php echo $swpuniqid; ?>"><?php esc_html_e( 'Advanced', 'swplas' ); ?></a></p>
+		<p><a href="#" class="button searchwp-widget-<?php echo $swpuniqid; ?>"><?php esc_html_e( 'Advanced', 'searchwp-live-ajax-search' ); ?></a></p>
 		<div class="searchwp-live-search-widget-advanced" style="display:none;">
 			<p>
-				<label for="<?php echo esc_attr( $this->get_field_id( 'placeholder' ) ); ?>"><?php esc_html_e( 'Placeholder:', 'swplas' ); ?></label>
+				<label for="<?php echo esc_attr( $this->get_field_id( 'placeholder' ) ); ?>"><?php esc_html_e( 'Placeholder:', 'searchwp-live-ajax-search' ); ?></label>
 				<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'placeholder' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'placeholder' ) ); ?>" type="placeholder" value="<?php echo esc_attr( $widget_placeholder ); ?>">
 			</p>
 			<p>
-				<label for="<?php echo esc_attr( $this->get_field_id( 'destination' ) ); ?>"><?php esc_html_e( 'Destination fallback URL (optional):', 'swplas' ); ?></label>
+				<label for="<?php echo esc_attr( $this->get_field_id( 'destination' ) ); ?>"><?php esc_html_e( 'Destination fallback URL (optional):', 'searchwp-live-ajax-search' ); ?></label>
 				<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'destination' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'destination' ) ); ?>" type="text" value="<?php echo esc_attr( $widget_destination ); ?>">
 			</p>
 		</div>
