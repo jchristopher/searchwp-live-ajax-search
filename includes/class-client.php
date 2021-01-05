@@ -103,17 +103,22 @@ class SearchWP_Live_Search_Client extends SearchWP_Live_Search {
 				);
 			} else {
 				// native WordPress search
-				$args = array(
-					's'           => $query,
-					'post_status' => 'publish',
-					'post_type'   => get_post_types( array(
+				$args = $_POST;
+				$args['s'] = $query;
+				if ( ! isset( $_REQUEST['post_status'] ) ) {
+					$args['post_status'] = 'publish';
+				}
+				if ( ! isset( $_REQUEST['post_type'] ) ) {
+					$args['post_type'] = get_post_types( array(
 						'public'              => true,
 						'exclude_from_search' => false,
-					) ),
-				);
+					) );
+				}
 			}
 
-			$args['posts_per_page'] = $this->get_posts_per_page();
+			$args['posts_per_page'] = ( isset( $_REQUEST['posts_per_page'] )
+				? intval( $_REQUEST['posts_per_page'] )
+				: $this->get_posts_per_page() ); 
 
 			$args = apply_filters( 'searchwp_live_search_query_args', $args );
 
