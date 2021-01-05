@@ -104,7 +104,7 @@ class SearchWP_Live_Search_Form extends SearchWP_Live_Search {
 
 		wp_register_script(
 			'swp-live-search-client',
-			$this->url . "/assets/javascript/dist/bundle{$debug}.js",
+			$this->url . "/assets/javascript/dist/script{$debug}.js",
 			array( 'jquery' ),
 			$this->version,
 			true
