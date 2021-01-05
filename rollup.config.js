@@ -1,7 +1,5 @@
-import commonjs from '@rollup/plugin-commonjs';
 import replace from '@rollup/plugin-replace';
 import resolve from '@rollup/plugin-node-resolve';
-import css from 'rollup-plugin-css-only';
 import { terser } from 'rollup-plugin-terser';
 
 let getConfig = function(handle, output, replace, terser) {
@@ -12,16 +10,8 @@ let getConfig = function(handle, output, replace, terser) {
 			format: 'iife'
 		},
 		plugins: [
-			commonjs({
-				include: /node_modules/,
-				// namedExports: {
-				// 	'node_modules/lodash.clonedeep/index.js': ['cloneDeep'],
-				// 	'node_modules/lodash.isequal/index.js': ['isEqual']
-				// }
-			}),
 			resolve(),
 			replace,
-			css(),
 			terser
 		]
 	};
