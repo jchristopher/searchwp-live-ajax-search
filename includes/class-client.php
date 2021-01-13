@@ -118,7 +118,7 @@ class SearchWP_Live_Search_Client extends SearchWP_Live_Search {
 
 			$args['posts_per_page'] = ( isset( $_REQUEST['posts_per_page'] )
 				? intval( $_REQUEST['posts_per_page'] )
-				: $this->get_posts_per_page() ); 
+				: $this->get_posts_per_page() );
 
 			$args = apply_filters( 'searchwp_live_search_query_args', $args );
 
