@@ -464,13 +464,15 @@ jQuery(document).ready(function(){
 
 		// Gutenberg integration is based on a body class addition because we don't have the
 		// ability to manipulate the markup as we do with get_search_form().
-		jQuery('body.searchwp-live-search-blocks input.wp-block-search__input').each(function() {
-			// Append data vars.
-			jQuery(this).attr('data-swpengine', _SEARCHWP_LIVE_AJAX_SEARCH_ENGINE);
-			jQuery(this).attr('data-swpconfig', _SEARCHWP_LIVE_AJAX_SEARCH_CONFIG);
+		if(typeof _SEARCHWP_LIVE_AJAX_SEARCH_BLOCKS !== 'undefined' && _SEARCHWP_LIVE_AJAX_SEARCH_BLOCKS) {
+			jQuery('input.wp-block-search__input').each(function() {
+				// Append data vars.
+				jQuery(this).attr('data-swpengine', _SEARCHWP_LIVE_AJAX_SEARCH_ENGINE);
+				jQuery(this).attr('data-swpconfig', _SEARCHWP_LIVE_AJAX_SEARCH_CONFIG);
 
-			// Init live search.
-			jQuery(this).searchwp_live_search();
-		});
+				// Init live search.
+				jQuery(this).searchwp_live_search();
+			});
+		}
 	}
 });

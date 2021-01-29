@@ -80,7 +80,7 @@ class SearchWP_Live_Search_Form extends SearchWP_Live_Search {
 		add_action( 'wp_footer', array( $this, 'base_styles' ) );
 
 		// Gutenberg integration.
-		add_filter( 'body_class', array( $this, 'gutenberg_integration' ) );
+		add_filter( 'wp_footer', array( $this, 'gutenberg_integration' ) );
 
 		// The configs store all of the various configuration arrays that can be used at runtime.
 		$this->configs = apply_filters( 'searchwp_live_search_configs', $this->configs );
@@ -93,26 +93,20 @@ class SearchWP_Live_Search_Form extends SearchWP_Live_Search {
 	 * @return array
 	 */
 	function gutenberg_integration( $classes ) {
-		if ( apply_filters( 'searchwp_live_search_hijack_search_form_block', true ) ) {
-			$classes = array_merge( $classes, array( 'searchwp-live-search-blocks' ) );
+		if ( apply_filters( 'searchwp_live_search_hijack_search_form_block', false ) ) {
+			$engine = apply_filters( 'searchwp_live_search_get_search_form_engine', 'default' );
+			$config = apply_filters( 'searchwp_live_search_get_search_form_config', 'default' );
 
-			// We can't append the other data attributes we depend on, so we've got to set them up as vars.
-			add_action( 'wp_footer', array( $this, 'output_gutenberg_vars' ) );
+			?>
+			<script>
+			var _SEARCHWP_LIVE_AJAX_SEARCH_BLOCKS = true;
+			var _SEARCHWP_LIVE_AJAX_SEARCH_ENGINE = '<?php echo esc_js( $engine ); ?>';
+			var _SEARCHWP_LIVE_AJAX_SEARCH_CONFIG = '<?php echo esc_js( $config ); ?>';
+			</script>
+			<?php
 		}
 
 		return $classes;
-	}
-
-	function output_gutenberg_vars() {
-		$engine = apply_filters( 'searchwp_live_search_get_search_form_engine', 'default' );
-		$config = apply_filters( 'searchwp_live_search_get_search_form_config', 'default' );
-
-		?>
-		<script>
-		var _SEARCHWP_LIVE_AJAX_SEARCH_ENGINE = '<?php echo esc_js( $engine ); ?>';
-		var _SEARCHWP_LIVE_AJAX_SEARCH_CONFIG = '<?php echo esc_js( $config ); ?>';
-		</script>
-		<?php
 	}
 
 	/**
