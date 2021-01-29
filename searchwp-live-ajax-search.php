@@ -49,6 +49,26 @@ class SearchWP_Live_Search {
 	function __construct() {
 		$this->dir = dirname( __FILE__ );
 		$this->url = plugins_url( 'searchwp-live-ajax-search', $this->dir );
+
+		$this->upgrade();
+	}
+
+	function upgrade() {
+		global $wpdb;
+
+		$last_version = get_option( 'searchwp_live_search_version' );
+
+		if ( false === $last_version ) {
+			$last_version = 0;
+		}
+
+		if ( ! version_compare( $last_version, $this->version, '<' ) ) {
+			return;
+		}
+
+		update_option( 'searchwp_live_search_last_update', current_time( 'timestamp' ), 'no' );
+
+		update_option( 'searchwp_live_search_version', $this->version, 'no' );
 	}
 }
 
@@ -72,8 +92,8 @@ function searchwp_live_search_request_handler( $execute_search = false ) {
 function searchwp_live_search_init() {
 	load_plugin_textdomain( 'searchwp-live-ajax-search', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
-	// if an AJAX request is taking place, it's potentially a search so we'll want to prepare for that
-	// else we'll prep the environment for the search form itself
+	// if an AJAX request is taking place, it's potentially a search so we'll want to
+	// prepare for that else we'll prep the environment for the search form itself
 	if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 		searchwp_live_search_request_handler();
 	} else {
@@ -84,3 +104,72 @@ function searchwp_live_search_init() {
 }
 
 add_action( 'init', 'searchwp_live_search_init' );
+
+function searchwp_live_search_admin_scripts() {
+	if ( ! searchwp_live_search_notice_applicable() ) {
+		return;
+	}
+
+	wp_enqueue_script( 'jquery' );
+}
+
+add_action( 'admin_enqueue_scripts', 'searchwp_live_search_admin_scripts' );
+
+function searchwp_live_search_notice_dismissed() {
+	check_ajax_referer( 'searchwp_live_search_notice_dismiss_nonce' );
+
+	update_user_meta( get_current_user_id(), 'searchwp_live_search_notice_dismissed', true );
+
+	wp_send_json_success();
+}
+
+add_action( 'wp_ajax_searchwp_live_search_notice_dismiss', 'searchwp_live_search_notice_dismissed' );
+
+function searchwp_live_search_notice_applicable() {
+	// If SearchWP is installed, bail out.
+	if ( is_plugin_active( 'searchwp/searchwp.php' ) || is_plugin_active( 'searchwp/index.php' ) ) {
+		return false;
+	}
+
+	// If it's been less than 3 days since the last update, bail out.
+	$last_update = get_option( 'searchwp_live_search_last_update' );
+	if ( empty( $last_update ) || ( current_time( 'timestamp') < absint( $last_update ) + ( DAY_IN_SECONDS * 3 ) ) ) {
+		return false;
+	}
+
+	// If notice was dismissed, bail out.
+	$dismissed = get_user_meta( get_current_user_id(), 'searchwp_live_search_notice_dismissed', true );
+	if ( $dismissed ) {
+		return false;
+	}
+
+	return true;
+}
+
+function searchwp_live_search_notice() {
+	if ( ! searchwp_live_search_notice_applicable() ) {
+		return;
+	}
+
+	?>
+	<div class="notice notice-info is-dismissible searchwp-live-search-notice-dismiss">
+		<p><strong>SearchWP Live Ajax Search</strong><br><a href="https://searchwp.com/?utm_source=wordpressorg&utm_medium=link&utm_content=notice&utm_campaign=liveajaxsearch" target="_blank">Improve your search results</a> and find out <a href="https://searchwp.com/extensions/metrics/?utm_source=wordpressorg&utm_medium=link&utm_content=notice&utm_campaign=liveajaxsearch" target="_blank">what your visitors are searching for</a> at the same time with <a href="https://searchwp.com/?utm_source=wordpressorg&utm_medium=link&utm_content=notice&utm_campaign=liveajaxsearch" target="_blank">SearchWP!</a></p>
+		<script>
+		(function( $ ) {
+			'use strict';
+			$( function() {
+				$('.searchwp-live-search-notice-dismiss').on( 'click', '.notice-dismiss', function( event, el ) {
+					var $notice = $(this).parent('.notice.is-dismissible');
+					$.post(ajaxurl, {
+						action: 'searchwp_live_search_notice_dismiss',
+						_ajax_nonce: '<?php echo esc_js( wp_create_nonce( 'searchwp_live_search_notice_dismiss_nonce' ) ); ?>'
+					});
+				});
+			} );
+		})( jQuery );
+		</script>
+	</div>
+	<?php
+}
+
+add_action( 'admin_notices', 'searchwp_live_search_notice' );
