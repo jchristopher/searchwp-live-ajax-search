@@ -92,7 +92,7 @@ class SearchWP_Live_Search_Form extends SearchWP_Live_Search {
 	 * @param array $classes
 	 * @return array
 	 */
-	function gutenberg_integration( $classes ) {
+	function gutenberg_integration() {
 		if ( apply_filters( 'searchwp_live_search_hijack_search_form_block', true ) ) {
 			$engine = apply_filters( 'searchwp_live_search_get_search_form_engine', 'default' );
 			$config = apply_filters( 'searchwp_live_search_get_search_form_config', 'default' );
