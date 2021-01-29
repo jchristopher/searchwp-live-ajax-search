@@ -97,6 +97,10 @@ class SearchWP_Live_Search_Form extends SearchWP_Live_Search {
 			$engine = apply_filters( 'searchwp_live_search_get_search_form_engine', 'default' );
 			$config = apply_filters( 'searchwp_live_search_get_search_form_config', 'default' );
 
+			// Allow for block-specific.
+			$engine = apply_filters( 'searchwp_live_search_get_search_form_engine_blocks', $engine );
+			$config = apply_filters( 'searchwp_live_search_get_search_form_config_blocks', $config );
+
 			?>
 			<script>
 			var _SEARCHWP_LIVE_AJAX_SEARCH_BLOCKS = true;
