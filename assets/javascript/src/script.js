@@ -461,5 +461,16 @@ import {Spinner} from 'spin.js';
 jQuery(document).ready(function(){
 	if (typeof jQuery().searchwp_live_search == 'function') {
 		jQuery('input[data-swplive="true"]').searchwp_live_search();
+
+		// Gutenberg integration is based on a body class addition because we don't have the
+		// ability to manipulate the markup as we do with get_search_form().
+		jQuery('body.searchwp-live-search-blocks input.wp-block-search__input').each(function() {
+			// Append data vars.
+			jQuery(this).attr('data-swpengine', _SEARCHWP_LIVE_AJAX_SEARCH_ENGINE);
+			jQuery(this).attr('data-swpconfig', _SEARCHWP_LIVE_AJAX_SEARCH_CONFIG);
+
+			// Init live search.
+			jQuery(this).searchwp_live_search();
+		});
 	}
 });
