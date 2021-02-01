@@ -109,8 +109,6 @@ class SearchWP_Live_Search_Form extends SearchWP_Live_Search {
 			</script>
 			<?php
 		}
-
-		return $classes;
 	}
 
 	/**

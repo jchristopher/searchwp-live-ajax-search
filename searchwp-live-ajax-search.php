@@ -3,7 +3,7 @@
 Plugin Name: SearchWP Live Ajax Search
 Plugin URI: https://searchwp.com/
 Description: Enhance your search forms with live search, powered by SearchWP (if installed)
-Version: 1.6.0
+Version: 1.6.1
 Requires PHP: 5.6
 Author: SearchWP, LLC
 Author URI: https://searchwp.com/
@@ -43,7 +43,7 @@ include_once( dirname( __FILE__ ) . '/includes/class-widget.php' );
 class SearchWP_Live_Search {
 	public $dir;
 	public $url;
-	public $version = '1.6.0';
+	public $version = '1.6.1';
 	public $results = array();
 
 	function __construct() {
@@ -54,8 +54,6 @@ class SearchWP_Live_Search {
 	}
 
 	function upgrade() {
-		global $wpdb;
-
 		$last_version = get_option( 'searchwp_live_search_version' );
 
 		if ( false === $last_version ) {
@@ -66,8 +64,13 @@ class SearchWP_Live_Search {
 			return;
 		}
 
-		update_option( 'searchwp_live_search_last_update', current_time( 'timestamp' ), 'no' );
+		if ( version_compare( $this->last_version, '1.6.1', '<' ) ) {
+			update_option( 'searchwp_live_search_last_update', current_time( 'timestamp' ), 'no' );
+			$this->after_upgrade();
+		}
+	}
 
+	function after_upgrade() {
 		update_option( 'searchwp_live_search_version', $this->version, 'no' );
 	}
 }
