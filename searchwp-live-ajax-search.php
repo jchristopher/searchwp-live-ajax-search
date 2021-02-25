@@ -64,7 +64,7 @@ class SearchWP_Live_Search {
 			return;
 		}
 
-		if ( version_compare( $this->last_version, '1.6.1', '<' ) ) {
+		if ( version_compare( $last_version, '1.6.1', '<' ) ) {
 			update_option( 'searchwp_live_search_last_update', current_time( 'timestamp' ), 'no' );
 			$this->after_upgrade();
 		}
