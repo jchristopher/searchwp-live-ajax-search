@@ -55,7 +55,7 @@ class SearchWP_Live_Search_Widget extends WP_Widget {
 				<?php do_action( 'searchwp_live_search_widget_before_field' ); ?>
 				<label>
 					<span class="screen-reader-text"><?php esc_html_e( 'Search for:', 'searchwp-live-ajax-search' ); ?></span>
-					<input type="search" class="search-field" placeholder="<?php echo esc_attr( $placeholder ); ?>" value="" name="swpquery" data-swplive="true" data-swpengine="<?php echo esc_attr( $engine ); ?>" data-swpconfig="<?php echo esc_attr( $config ); ?>" title="<?php echo esc_attr( $placeholder ); ?>" autocomplete="off">
+					<input type="search" class="search-field" placeholder="<?php echo esc_attr( $placeholder ); ?>" value="" name="<?php echo apply_filters( 'searchwp_live_search_query_name', 'swpquery' ); ?>" data-swplive="true" data-swpengine="<?php echo esc_attr( $engine ); ?>" data-swpconfig="<?php echo esc_attr( $config ); ?>" title="<?php echo esc_attr( $placeholder ); ?>" autocomplete="off">
 				</label>
 				<?php do_action( 'searchwp_live_search_widget_after_field' ); ?>
 				<input type="submit" class="search-submit" value="<?php esc_html_e( 'Search', 'searchwp-live-ajax-search' ); ?>">
