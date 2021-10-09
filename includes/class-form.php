@@ -79,6 +79,11 @@ class SearchWP_Live_Search_Form extends SearchWP_Live_Search {
 		add_filter( 'get_search_form', array( $this, 'get_search_form' ), 999, 1 );
 		add_action( 'wp_footer', array( $this, 'base_styles' ) );
 
+		// WooCommerce widget search integration.
+		if ( class_exists( 'woocommerce' ) ) {
+			add_filter( 'get_product_search_form', array( $this, 'get_search_form' ), 999, 1 );
+		}
+		
 		// Gutenberg integration.
 		add_filter( 'wp_footer', array( $this, 'gutenberg_integration' ) );
 
